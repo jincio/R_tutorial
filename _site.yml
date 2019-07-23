@@ -1,4 +1,14 @@
 name: cars
-output: 
-  html_document: ~
-output_dir: "docs"
+navbar: 
+  left: 
+    - 
+      href: index.html
+      icon: fa-home
+      text: Home
+    - 
+      href: Descriptives.html
+      icon: fa-newspaper-o
+      text: Descriptives
+  title: "Your Site's Title"
+output: html_document
+output_dir: docs
