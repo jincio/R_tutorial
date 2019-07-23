@@ -9,6 +9,10 @@ navbar:
       href: Descriptives.html
       icon: fa-newspaper-o
       text: Descriptives
+    - 
+      href: Curso1.html
+      icon: fa-newspaper-o
+      text: ALACIP
   title: "R Tutorials"
 output: html_document
 output_dir: docs
