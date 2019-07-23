@@ -9,6 +9,6 @@ navbar:
       href: Descriptives.html
       icon: fa-newspaper-o
       text: Descriptives
-  title: "Your Site's Title"
+  title: "R Tutorials"
 output: html_document
 output_dir: docs

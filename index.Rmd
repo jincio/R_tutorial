@@ -1,12 +1,22 @@
 ---
-title: "Untitled"
+title: "R Tutorials"
 author: "José Incio"
 output: html_document
 ---
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Welcome page
+# R
+
+**Spanish**
+Esta página está dedicada a todos los que quieren aprender R. Aquí
+encontraran páginas de tutoriales que he preparado para
+presentaciones/workshops, así como otros temas que en algún momento me
+han costado trabajo. 
+
+Algunas páginas estarán en ingles, disculparán eso.
+
+Pronto abriré la página para colaboración.
+
