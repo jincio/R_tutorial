@@ -88,7 +88,7 @@ Segundo, llamamos a nuestra base de datos.
 **IMPORTANTE** antes de interactura con folders (subir data, grabar resultados, gráficos, etc) tienes que establecer tu directorio de trabajo. La forma más rápida es con la rueda con la etiqueta "more" en el panel derecho. 
 
 ```{r echo=FALSE, out.width='80%'}
-knitr::include_graphics('./data_examples/Rstudio_setwd.png')
+knitr::include_graphics('./data_examples/Rstudio_swd.png')
 ```
 
 La base de datos debe estar en nuestro espacio de trabajo. 
