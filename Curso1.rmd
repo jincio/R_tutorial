@@ -58,10 +58,7 @@ Parte IV: Analisis y Graficos
 - Efectos fijos
 - Probit/logit -- odss ratio y marginal efects
 
-
-## Parte I: Basicos del R
-
-### Basicos. 
+# Basicos. 
 
 Cuando inicias **R** se activan un grupo básicos de paquetes. Los paquetes tienen funciones y las funciones argumentos. 
 
@@ -71,7 +68,7 @@ Cada vez que necesitas un paquete lo puedes llamar con: ```library(paquete)```.
 
 Por ejemplo si corres un código y el resultado es un error con un mensaje que dice: **could not find function "xxx"**. Entonces no has llamado el paquete (usando library) y si llamas al paqute y te resulta un error con el siguiente mensaje: **Error in library(paquete) : there is no package called ‘paquete’** significa que necesitas instalarlo. 
 
-### Subiendo una base de datos <a name="T3"></a>
+## Subiendo una base de datos <a name="T3"></a>
 
 Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. Existen varios paquetes que nos pueden ayudar con eso. En este tutorial trabajaremos con ```rio```. Rio nos permite abrir distintos tipos de base de datos con facilidad. 
 
@@ -79,77 +76,126 @@ Para subir una base de datos (BD), debes antes haber instalado una serie de paqu
 install.packages("rio")
 ```
 
+
 ```{r, message=FALSE}
 library(rio)
 ```
 
 Segundo, llamamos a nuestra base de datos.
 
-**IMPORTANTE** antes de interactura con folders (subir data, grabar resultados, gráficos, etc) tienes que establecer tu directorio de trabajo. La forma más rápida es con la rueda con la etiqueta "more" en el panel derecho. 
+**IMPORTANTE** antes de interacturar con folders (subir data, grabar resultados, gráficos, etc) tienes que establecer tu directorio de trabajo. La forma más rápida es con la rueda con la etiqueta "more" en el panel derecho. 
 
 ```{r echo=FALSE, out.width='80%'}
 knitr::include_graphics('./data_examples/Rstudio_swd.png')
 ```
 
 La base de datos debe estar en nuestro espacio de trabajo. 
-La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. Para facilidad del ejercicio, hemos tomado solo a los jefes de hogar de Lima Metropolitana. Tenemos informacion sobre su etnicidad, nivel educativo, ingresos y empleo.
+La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. La base **sumaria-2018.dta**. Aquí esta el link de donde pueden descargarla ![link](http://iinei.inei.gob.pe/iinei/srienaho/descarga/STATA/634-Modulo34.zip). Tenemos informacion sobre ingresos, y gastos de los hogares en Perú. 
+
+En esta página estoy trabajando con una selección aleatoria de 1000 casos. La base original tiene más de 30 mil casos. 
 
 Dado que tenemos el paquete rio, no necesitamos decirle a R que nuestra base de datos esta en STATA, R lo entiende. 
 
-Vamos a usar el comando import y asignarle un nombre a nuestra base de datos como hicimos al inicio. Lo llamaremos Ej_Enaho. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.
+Vamos a usar el comando import y asignarle un nombre a nuestra base de datos. Lo llamaremos **S2018**. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.
 
-```{r}
-Ej_Enaho<-import("./data_examples/Ejercicio_Enaho2017.dta")
-head(Ej_Enaho[,1:5],10)
+```{r, echo=FALSE}
+set.seed(100)
+s2018<-import("./data_examples/sumaria-2018.dta")%>%
+  sample_n(1000)
 ```
 
-Siempre es bueno mirar la base de datos con la cual estamos trabajando para darnos una idea mas concreta de que estamos haciendo. Para hacer ello, usamos el comando View y llamamos nuestra base de datos. Tenemos  una base de datos manejable, pero si es que tuvieramos una de 50 000 observaciones o mas? Podriamos mirar una muestra de nuestra base de datos con la opcion head. Abajo, le pedimos que nos puestre las 300 primeras observaciones. Arriba le pedimos que nos muestre de las variables 1 a 5, las 10 primeras observaciones. 
+```{r, eval=FALSE, message=FALSE}
+s2018<-import("./data_examples/summaria-2018.dta")
+```
+
 
 ```{r, eval=FALSE}
-View(Ej_Enaho)
-View(head(Ej_Enaho,300))
+head(s2018) #Give us the first six cases. 
 ```
 
+Siempre es bueno mirar la base de datos con la cual estamos trabajando para darnos una idea mas concreta de que estamos haciendo. Primero debemos saber con que tipo de objeto estamos lidiando. 
+
+```{r , eval=FALSE}
+str(s2018) ## Te da el tipo de objeto y el tipo de cada variable. 
+```
+
+```{r}
+is.data.frame(s2018) ## Es otra forma de comprobarlo.
+```
+
+En este caso **Ej_Enaho** es un objeto de tipo data frame, por lo que tiene dos dimensiones, saber esto es importante por que así podemos manipularlas. 
+
+En el código debajo estamos seleccionando los 20 primeros casos (1:20), y las tres primeras variables (1:3). Conocer las dimensiones es útil para luego filtrar la base de datos. 
+
+```{r}
+s2018[1:20,1:3]
+```
+
+Si eres ansioso y quieres ver toda la base de datos puedes usar el siguiente código:
+
+```{r, eval=FALSE}
+View(s2018)
+```
+
+Podriamos mirar una muestra de nuestra base de datos con la opcion head. Abajo, le pedimos que nos puestre las 300 primeras observaciones. 
+
+```{r, eval=FALSE}
+View(head(s2018,300))
+```
+
+La función **import** de rio permite subir archivos en distintos formatos. Existen otros paquetes como **foreign** que también hacen lo mismo. Pero **rio** me parece más conveniente.
 
 ## Parte II: Manipular y limpiar base de datos
 
-En esta secciones aprenderemos algunas de los pasos mas frecuentes que hacemos al encontrarnos con una nueva base de datos: limpiar y manipular algunas variables para que pueda analizarse. Debemos limpiar nuestra base de datos por muchas razones; quizas para calcular las variables que queremos, para desacernos de grupos de observaciones que no nos interesan o para hacer mas facil el juntar nuestra base de datos con otras.
-
-Vamos a utilizar el paquete "Hmisc" y el paquete "ipumsr" que nos facilitan renombrar y etiquetar variables. 
-
-```{r, message=FALSE}
-#install.packages("Hmisc")
-library(Hmisc)
-#install.packages("ipumsr")
-library(ipumsr)
-```
+En esta secciones aprenderemos algunas de los pasos mas frecuentes que hacemos al encontrarnos con una nueva base de datos: limpiar y manipular algunas variables para que pueda analizarse. Debemos limpiar nuestra base de datos por muchas razones; quizas para calcular las variables que queremos, para desacernos de grupos de observaciones que no nos interesan o para hacer mas fácil el juntar nuestra base de datos con otras.
 
 ### Re-nombrar y etiquetar variables
 
-Vamos a empezar cambiando el nombre de algunas de nuestras variables. Vemos nuestras variables en la BD con el comando List (ls).
+Podemos llamar nuestras variables en la BD con la función ```names``` o también ```ls```
 
 ```{r, message=FALSE}
-ls(Ej_Enaho)
+ls(s2018) ## Este comando te las da en nombre alfabetico
 ```
 
-Describamos la variable "ocupinf". Vemos su etiqueta, los valores que toma (1/2) y su media.
-
 ```{r}
-#describe(Ej_Enaho$ocupinf)
+names(s2018)## Te los da en el orden en que estan en la base de datos. 
 ```
 
-Digamos que queremos cambiar el nombre de la variable "ocupinf" a "emp_formal". Para ello usamos la funcion names. Le decimos a R que en donde encuentre el nombre "ocupinf" lo reemplaze por "emp_formal". Ahora miramos la lista de variables de nuevo y vemos que cambio a "emp_formal".
+Por ejemplo la variable **inghog1d** (posición 141) es el ingreso bruto anual queremos cambiar el nombre a "ingreso_bruto".  
+
+La forma más rápida es: 
 
 ```{r}
-names(Ej_Enaho)[names(Ej_Enaho) == "ocupinf"] <- "empl_formal"
-ls(Ej_Enaho)
+names(s2018)[141]<-"ingreso_bruto"
 ```
 
-Queremos cambiar la etiqueta de esta variable para que no tenga typos y este mejor explicada:
+Si no tenemos la ubicación, quizás son miles de variables, podemos también usar 
+
+```{r, eval=FALSE}
+names(s2018)[names(s2018) == "inghog1d"] <-"ingreso_bruto"
+## Si ya corriste el código anterior este te va a dar error, ya que está buscando un nombre que no existe ;)
+```
+
+Pedimos el nombre de variables denuevo 
+```{r}
+names(s2018)[140:145] #Exacto! podemos indexar para no ver todas las variables nuevamente 
+```
+
+**etiquetas**
+
+Si subimos la base de datos desde STATA, estas pueden tener etiquetas. 
+
+Por ejemplo, veamos la etiqueta de nuestra variables "ingreso_bruto" 
 
 ```{r}
-label(Ej_Enaho$empl_formal) <- "Situacion de informalidad en la ocup.principal"
-describe(Ej_Enaho$empl_formal)
+label(s2018$ingreso_bruto)
+```
+
+Queremos cambiarla a "ingreso monetario (bruto) anual"
+
+```{r}
+label(s2018$ingreso_bruto)<-"ingreso monetario (bruto) anual"
+label(s2018$ingreso_bruto) #Veamos el cambio!.
 ```
 
 ### Recodificar variables
@@ -157,68 +203,76 @@ describe(Ej_Enaho$empl_formal)
 Ahora recodificaremos los valores de la variable con que estamos trabajando.
 
 Usamos la funcion abajo para ver los valores y las etiquetas de la variable que creamos.
-```{r}
-ipums_val_labels(Ej_Enaho$empl_formal)
-```
-
-Vemos que 1=empleo informal y 2=empleo formal. Como nuestra variable se llama empl_formal, queremos que tome valor de 1 si la persona tiene empleo formal y 0 de otro modo.
-```{r}
-Ej_Enaho$empl_formal[Ej_Enaho$empl_formal==1] <- 0 #Si la variable tiene valor de 1, reemplazalo por 0
-Ej_Enaho$empl_formal[Ej_Enaho$empl_formal==2] <- 1 #Si la variable tiene valor de 2, reemplazalo por 1
-```
-
-Ahora podemos usar esta variable con mucha mas facilidad. Por ejemplo, podemos tomar el promedio e interpretarlo. Vemos que alrededor del 50% de nuestros informantes tiene empleo formal.
-```{r}
-describe(Ej_Enaho$empl_formal)
-```
- 
-## Generar variables (categorica, dicotomica, average de grupo)
-
-Ahora vamos a generar distintos tipos de variables. Empecemos con una variable dicotomica. Vamos a usar informacion sobre la etnicidad reportada de los informantes.
 
 ```{r}
-#describe(Ej_Enaho$p558c)
-ipums_val_labels(Ej_Enaho$p558c)
+attributes(s2018$estrsocial)$labels
 ```
 
-## Variable binaria
-
-Generemos una variable que toma el valor de 1 si es que el informante pertenece a un pueblo indigena y 0 si es que no. Creamos una variable vacia y le incluimos los argumentos:
+Queremos recodificar los valores de **rural** de 6 a 0. 
 
 ```{r}
-Ej_Enaho$indigena<- NA
-Ej_Enaho[Ej_Enaho$p558c%in%c(1:3,9), ]$indigena <- 1 #Si le pregunta p558c es 1,2,3 o 9, toma valor de 1
-Ej_Enaho[Ej_Enaho$p558c%in%c(4,5,6,7,8), ]$indigena<-0 #Si le pregunta p558c es 4,5,6,7 o 8, toma valor de 0
+s2018[s2018$estrsocial==6,]$estrsocial<-0
 ```
 
-Otra opcion es usar el comando ifelse:
+Si pedimos una tabla vemos que el cambio se realizo:
+
 ```{r}
-#Ej_Enaho$indigena<-ifelse(Ej_Enaho$p558c%in%c(1:3,9),1,0)
+table(s2018$estrsocial)
 ```
 
-Ahora miramos nuestra variable Indigena:
+Pero las etiquetas siguen mostrando el orden anterior
+
 ```{r}
-table(Ej_Enaho$indigena)
-summary(Ej_Enaho$indigena)
+attributes(s2018$estrsocial)$labels
 ```
 
-## Variable categorica
-
-Ahora crearemos una variable que incluya varios valores de etnicidad, pero menos que la pregunta original:
 ```{r}
-Ej_Enaho$etnicidad<- NA
-Ej_Enaho[Ej_Enaho$p558c%in%c(6), ]$etnicidad <- 1 #Si le pregunta p558c es 6 (mestizo), toma valor de 1
-Ej_Enaho[Ej_Enaho$p558c%in%c(1:3,9), ]$etnicidad <- 2 #Si le pregunta p558c es 1,2,3 o 9 (indigena), toma valor de 2
-Ej_Enaho[Ej_Enaho$p558c%in%c(5), ]$indigena<-3 #Si le pregunta p558c es 5 (blanco), toma valor de 3
-Ej_Enaho[Ej_Enaho$p558c%in%c(4), ]$indigena<-4 #Si le pregunta p558c es 4 (afroperuano), toma valor de 4
-Ej_Enaho[Ej_Enaho$p558c%in%c(7,8), ]$indigena<-5 #Si le pregunta p558c es 7,8 (NS/Otro), toma valor de 5
+attributes(s2018$estrsocial)$labels[[1]]<-0
 ```
 
-Ahora miramos nuestra variable Indigena:
+### Generar variables (categorica, dicotomica, average de grupo)
+
+
+
+Ahora vamos a generar distintos tipos de variables. Empecemos con una variable dicotomica. Vamos a usar informacion sobre el ingreso reportado
+
+### Variable categóricas
+
+Generemos una variable que toma el valor de 1 si es que el informante gana más de 800 soles y 0 si es menos o igual. Creamos una variable vacia y le incluimos los argumentos:
+
+Forma 1:
+
 ```{r}
-table(Ej_Enaho$etnicidad)
-summary(Ej_Enaho$etnicidad)
+s2018$minimo<-NA
+s2018[s2018$ingreso_bruto<=800,]$minimo<-0
+s2018[s2018$ingreso_bruto>800,]$minimo<-1
+table(s2018$minimo)
 ```
+
+Forma 2:
+
+```{r}
+s2018$minimo<-NA
+s2018$minimo<-ifelse(s2018$ingreso_bruto<=800,0,1)
+table(s2018$minimo)
+```
+
+Forma 3: **USANDO DPLYR para crear nuevas variables**
+
+Dplyr es un paquete que es muy útil para manipular data, es relativamente nuevo y cada vez está siendo más usado. 
+
+Dplyr y Tydir son muy populares, así que es bueno ir familiarizandose con ellos. 
+
+Lo especial de Dplyr es que tiene sus propias funciones y además que conecta funciones usando **%>%**. De esa manera puede ser más eficiente con el espacio de trabajo, evitando crear muchos objetos. 
+
+En este caso la función es **mutate** 
+
+```{r}
+s2018<-s2018%>%mutate(minimo=ifelse(s2018$ingreso_bruto<=800,0,1))
+table(s2018$minimo)
+```
+
+## Merge y append bases de datos
 
 
 ## ADD INCIO: Missing -- finding them (no sean en 0s si se grabo asi -- a missing )
@@ -232,26 +286,23 @@ Ahora haremos un poco de estadistica descriptiva basica. Hemos estado usando el 
 
 Usemos la ingresos_mensual (expresada en nuevos soles -- 1$=~3.3 soles):
 
-```{r}
-describe(Ej_Enaho$ingresos_mens_indv)
-```
 
 Tambien podemos pedir la informacion de forma independiente:
-```{r}
+```{r, eval=FALSE}
 mean(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE) #Usamos el argumento na.rm=TRUE para decir que nos de el resultado aunque haya missing values. Si no ponemos el argumento no sale.
 sd(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
 median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
 ```
 
 Podemos guardar la informacion de las medidas de tendencia central en una nueva variable: 
-```{r}
+```{r, eval=FALSE}
 mean_ingresos<-mean(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
 sd_ingresos<-sd(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
 median_ingresos<-median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
 ```
 
 Podemos tambien sacar los percentiles de nuestra distribucion:
-```{r}
+```{r, eval=FALSE}
 quantile(Ej_Enaho$ingresos_mens_indv, na.rm = TRUE)
 ```
 

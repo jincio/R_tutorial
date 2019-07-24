@@ -362,182 +362,209 @@ true
 <li>Efectos fijos</li>
 <li>Probit/logit – odss ratio y marginal efects</li>
 </ul>
-<div id="parte-i-basicos-del-r" class="section level2">
-<h2>Parte I: Basicos del R</h2>
-<div id="basicos." class="section level3">
-<h3>Basicos.</h3>
+</div>
+<div id="basicos." class="section level1">
+<h1>Basicos.</h1>
 <p>Cuando inicias <strong>R</strong> se activan un grupo básicos de paquetes. Los paquetes tienen funciones y las funciones argumentos.</p>
 <p>Puedes instalar paquetes usando <code>install.packages("nombre del paquete")</code>. Los paquetes se instalan una sola vez. Luego de eso ya estan en la memoria de tu computadora.</p>
 <p>Cada vez que necesitas un paquete lo puedes llamar con: <code>library(paquete)</code>.</p>
 <p>Por ejemplo si corres un código y el resultado es un error con un mensaje que dice: <strong>could not find function “xxx”</strong>. Entonces no has llamado el paquete (usando library) y si llamas al paqute y te resulta un error con el siguiente mensaje: <strong>Error in library(paquete) : there is no package called ‘paquete’</strong> significa que necesitas instalarlo.</p>
-</div>
-<div id="subiendo-una-base-de-datos" class="section level3">
-<h3>Subiendo una base de datos <a name="T3"></a></h3>
+<div id="subiendo-una-base-de-datos" class="section level2">
+<h2>Subiendo una base de datos <a name="T3"></a></h2>
 <p>Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. Existen varios paquetes que nos pueden ayudar con eso. En este tutorial trabajaremos con <code>rio</code>. Rio nos permite abrir distintos tipos de base de datos con facilidad.</p>
 <pre class="r"><code>install.packages(&quot;rio&quot;)</code></pre>
 <pre class="r"><code>library(rio)</code></pre>
 <p>Segundo, llamamos a nuestra base de datos.</p>
-<p><strong>IMPORTANTE</strong> antes de interactura con folders (subir data, grabar resultados, gráficos, etc) tienes que establecer tu directorio de trabajo. La forma más rápida es con la rueda con la etiqueta “more” en el panel derecho.</p>
+<p><strong>IMPORTANTE</strong> antes de interacturar con folders (subir data, grabar resultados, gráficos, etc) tienes que establecer tu directorio de trabajo. La forma más rápida es con la rueda con la etiqueta “more” en el panel derecho.</p>
 <p><img src="data_examples/Rstudio_swd.png" width="80%" /></p>
-<p>La base de datos debe estar en nuestro espacio de trabajo. La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. Para facilidad del ejercicio, hemos tomado solo a los jefes de hogar de Lima Metropolitana. Tenemos informacion sobre su etnicidad, nivel educativo, ingresos y empleo.</p>
+<p>La base de datos debe estar en nuestro espacio de trabajo. La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. La base <strong>sumaria-2018.dta</strong>. Aquí esta el link de donde pueden descargarla <embed src="http://iinei.inei.gob.pe/iinei/srienaho/descarga/STATA/634-Modulo34.zip" />. Tenemos informacion sobre ingresos, y gastos de los hogares en Perú.</p>
+<p>En esta página estoy trabajando con una selección aleatoria de 1000 casos. La base original tiene más de 30 mil casos.</p>
 <p>Dado que tenemos el paquete rio, no necesitamos decirle a R que nuestra base de datos esta en STATA, R lo entiende.</p>
-<p>Vamos a usar el comando import y asignarle un nombre a nuestra base de datos como hicimos al inicio. Lo llamaremos Ej_Enaho. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.</p>
-<pre class="r"><code>Ej_Enaho&lt;-import(&quot;./data_examples/Ejercicio_Enaho2017.dta&quot;)
-head(Ej_Enaho[,1:5],10)</code></pre>
-<pre><code>##    ubigeo percepho mieperho totmieho  ingmo1hd
-## 1  050406        4        5        5  5435.000
-## 2  230108        4        4        4 38651.000
-## 3  050901        2        4        6  6921.333
-## 4  040102        2        3        3 97990.000
-## 5  110305        2        5        5 23876.000
-## 6  120303        2        2        2 17663.000
-## 7  200701        2        2        2 31599.000
-## 8  022001        5        6        6  9459.000
-## 9  060601        1        2        2  5084.000
-## 10 190113        2        3        3 18920.000</code></pre>
-<p>Siempre es bueno mirar la base de datos con la cual estamos trabajando para darnos una idea mas concreta de que estamos haciendo. Para hacer ello, usamos el comando View y llamamos nuestra base de datos. Tenemos una base de datos manejable, pero si es que tuvieramos una de 50 000 observaciones o mas? Podriamos mirar una muestra de nuestra base de datos con la opcion head. Abajo, le pedimos que nos puestre las 300 primeras observaciones. Arriba le pedimos que nos muestre de las variables 1 a 5, las 10 primeras observaciones.</p>
-<pre class="r"><code>View(Ej_Enaho)
-View(head(Ej_Enaho,300))</code></pre>
-</div>
+<p>Vamos a usar el comando import y asignarle un nombre a nuestra base de datos. Lo llamaremos <strong>S2018</strong>. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.</p>
+<pre class="r"><code>s2018&lt;-import(&quot;./data_examples/summaria-2018.dta&quot;)</code></pre>
+<pre class="r"><code>head(s2018) #Give us the first six cases. </code></pre>
+<p>Siempre es bueno mirar la base de datos con la cual estamos trabajando para darnos una idea mas concreta de que estamos haciendo. Primero debemos saber con que tipo de objeto estamos lidiando.</p>
+<pre class="r"><code>str(s2018) ## Te da el tipo de objeto y el tipo de cada variable. </code></pre>
+<pre class="r"><code>is.data.frame(s2018) ## Es otra forma de comprobarlo.</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>En este caso <strong>Ej_Enaho</strong> es un objeto de tipo data frame, por lo que tiene dos dimensiones, saber esto es importante por que así podemos manipularlas.</p>
+<p>En el código debajo estamos seleccionando los 20 primeros casos (1:20), y las tres primeras variables (1:3). Conocer las dimensiones es útil para luego filtrar la base de datos.</p>
+<pre class="r"><code>s2018[1:20,1:3]</code></pre>
+<pre><code>##     aÑo mes nconglome
+## 1  2018  06    021521
+## 2  2018  02    033493
+## 3  2018  10    039710
+## 4  2018  08    000909
+## 5  2018  04    015685
+## 6  2018  09    018285
+## 7  2018  08    011964
+## 8  2018  04    030180
+## 9  2018  06    009642
+## 10 2018  03    032546
+## 11 2018  11    035275
+## 12 2018  07    004174
+## 13 2018  05    014759
+## 14 2018  06    044238
+## 15 2018  06    032325
+## 16 2018  05    013461
+## 17 2018  05    007615
+## 18 2018  08    011434
+## 19 2018  10    042844
+## 20 2018  07    014755</code></pre>
+<p>Si eres ansioso y quieres ver toda la base de datos puedes usar el siguiente código:</p>
+<pre class="r"><code>View(s2018)</code></pre>
+<p>Podriamos mirar una muestra de nuestra base de datos con la opcion head. Abajo, le pedimos que nos puestre las 300 primeras observaciones.</p>
+<pre class="r"><code>View(head(s2018,300))</code></pre>
+<p>La función <strong>import</strong> de rio permite subir archivos en distintos formatos. Existen otros paquetes como <strong>foreign</strong> que también hacen lo mismo. Pero <strong>rio</strong> me parece más conveniente.</p>
 </div>
 <div id="parte-ii-manipular-y-limpiar-base-de-datos" class="section level2">
 <h2>Parte II: Manipular y limpiar base de datos</h2>
-<p>En esta secciones aprenderemos algunas de los pasos mas frecuentes que hacemos al encontrarnos con una nueva base de datos: limpiar y manipular algunas variables para que pueda analizarse. Debemos limpiar nuestra base de datos por muchas razones; quizas para calcular las variables que queremos, para desacernos de grupos de observaciones que no nos interesan o para hacer mas facil el juntar nuestra base de datos con otras.</p>
-<p>Vamos a utilizar el paquete “Hmisc” y el paquete “ipumsr” que nos facilitan renombrar y etiquetar variables.</p>
-<pre class="r"><code>#install.packages(&quot;Hmisc&quot;)
-library(Hmisc)
-#install.packages(&quot;ipumsr&quot;)
-library(ipumsr)</code></pre>
+<p>En esta secciones aprenderemos algunas de los pasos mas frecuentes que hacemos al encontrarnos con una nueva base de datos: limpiar y manipular algunas variables para que pueda analizarse. Debemos limpiar nuestra base de datos por muchas razones; quizas para calcular las variables que queremos, para desacernos de grupos de observaciones que no nos interesan o para hacer mas fácil el juntar nuestra base de datos con otras.</p>
 <div id="re-nombrar-y-etiquetar-variables" class="section level3">
 <h3>Re-nombrar y etiquetar variables</h3>
-<p>Vamos a empezar cambiando el nombre de algunas de nuestras variables. Vemos nuestras variables en la BD con el comando List (ls).</p>
-<pre class="r"><code>ls(Ej_Enaho)</code></pre>
-<pre><code>##  [1] &quot;age&quot;                &quot;age_bra&quot;            &quot;anos_educ&quot;         
-##  [4] &quot;educ_ano&quot;           &quot;educ_estatal&quot;       &quot;educ_grado&quot;        
-##  [7] &quot;educ_nivel&quot;         &quot;emplpsec&quot;           &quot;estrsocial&quot;        
-## [10] &quot;Ethnicity&quot;          &quot;fac500a&quot;            &quot;factor07&quot;          
-## [13] &quot;Female&quot;             &quot;gashog1d&quot;           &quot;gashog2d&quot;          
-## [16] &quot;inghog1d&quot;           &quot;inghog2d&quot;           &quot;ingmo1hd&quot;          
-## [19] &quot;ingmo2hd&quot;           &quot;ingresos_mens_indv&quot; &quot;ingresos_mensual&quot;  
-## [22] &quot;ld&quot;                 &quot;lengua_mat&quot;         &quot;mieperho&quot;          
-## [25] &quot;ocupinf&quot;            &quot;p207&quot;               &quot;p208a&quot;             
-## [28] &quot;p209&quot;               &quot;p314d&quot;              &quot;p501&quot;              
-## [31] &quot;p502&quot;               &quot;p503&quot;               &quot;p507&quot;              
-## [34] &quot;p510&quot;               &quot;p511a&quot;              &quot;p545&quot;              
-## [37] &quot;p549&quot;               &quot;p558c&quot;              &quot;p558d&quot;             
-## [40] &quot;p558d1&quot;             &quot;p558e1&quot;             &quot;p558e2&quot;            
-## [43] &quot;p558e3&quot;             &quot;p558e4&quot;             &quot;p558e5&quot;            
-## [46] &quot;p558e6&quot;             &quot;p558f&quot;              &quot;percepho&quot;          
-## [49] &quot;pobreza&quot;            &quot;t546&quot;               &quot;t549&quot;              
-## [52] &quot;t556&quot;               &quot;t5587a&quot;             &quot;t558c&quot;             
-## [55] &quot;totmieho&quot;           &quot;ubigeo&quot;</code></pre>
-<p>Describamos la variable “ocupinf”. Vemos su etiqueta, los valores que toma (1/2) y su media.</p>
-<pre class="r"><code>#describe(Ej_Enaho$ocupinf)</code></pre>
-<p>Digamos que queremos cambiar el nombre de la variable “ocupinf” a “emp_formal”. Para ello usamos la funcion names. Le decimos a R que en donde encuentre el nombre “ocupinf” lo reemplaze por “emp_formal”. Ahora miramos la lista de variables de nuevo y vemos que cambio a “emp_formal”.</p>
-<pre class="r"><code>names(Ej_Enaho)[names(Ej_Enaho) == &quot;ocupinf&quot;] &lt;- &quot;empl_formal&quot;
-ls(Ej_Enaho)</code></pre>
-<pre><code>##  [1] &quot;age&quot;                &quot;age_bra&quot;            &quot;anos_educ&quot;         
-##  [4] &quot;educ_ano&quot;           &quot;educ_estatal&quot;       &quot;educ_grado&quot;        
-##  [7] &quot;educ_nivel&quot;         &quot;empl_formal&quot;        &quot;emplpsec&quot;          
-## [10] &quot;estrsocial&quot;         &quot;Ethnicity&quot;          &quot;fac500a&quot;           
-## [13] &quot;factor07&quot;           &quot;Female&quot;             &quot;gashog1d&quot;          
-## [16] &quot;gashog2d&quot;           &quot;inghog1d&quot;           &quot;inghog2d&quot;          
-## [19] &quot;ingmo1hd&quot;           &quot;ingmo2hd&quot;           &quot;ingresos_mens_indv&quot;
-## [22] &quot;ingresos_mensual&quot;   &quot;ld&quot;                 &quot;lengua_mat&quot;        
-## [25] &quot;mieperho&quot;           &quot;p207&quot;               &quot;p208a&quot;             
-## [28] &quot;p209&quot;               &quot;p314d&quot;              &quot;p501&quot;              
-## [31] &quot;p502&quot;               &quot;p503&quot;               &quot;p507&quot;              
-## [34] &quot;p510&quot;               &quot;p511a&quot;              &quot;p545&quot;              
-## [37] &quot;p549&quot;               &quot;p558c&quot;              &quot;p558d&quot;             
-## [40] &quot;p558d1&quot;             &quot;p558e1&quot;             &quot;p558e2&quot;            
-## [43] &quot;p558e3&quot;             &quot;p558e4&quot;             &quot;p558e5&quot;            
-## [46] &quot;p558e6&quot;             &quot;p558f&quot;              &quot;percepho&quot;          
-## [49] &quot;pobreza&quot;            &quot;t546&quot;               &quot;t549&quot;              
-## [52] &quot;t556&quot;               &quot;t5587a&quot;             &quot;t558c&quot;             
-## [55] &quot;totmieho&quot;           &quot;ubigeo&quot;</code></pre>
-<p>Queremos cambiar la etiqueta de esta variable para que no tenga typos y este mejor explicada:</p>
-<pre class="r"><code>label(Ej_Enaho$empl_formal) &lt;- &quot;Situacion de informalidad en la ocup.principal&quot;
-describe(Ej_Enaho$empl_formal)</code></pre>
-<pre><code>## Ej_Enaho$empl_formal : Situacion de informalidad en la ocup.principal  Format:%8.0g 
-##        n  missing distinct     Info     Mean      Gmd 
-##      839      161        2    0.575    1.259   0.3839 
-##                       
-## Value          1     2
-## Frequency    622   217
-## Proportion 0.741 0.259</code></pre>
+<p>Podemos llamar nuestras variables en la BD con la función <code>names</code> o también <code>ls</code></p>
+<pre class="r"><code>ls(s2018) ## Este comando te las da en nombre alfabetico</code></pre>
+<pre><code>##   [1] &quot;aÑo&quot;        &quot;conglome&quot;   &quot;dominio&quot;    &quot;estrato&quot;    &quot;estrsocial&quot;
+##   [6] &quot;factor07&quot;   &quot;g05hd&quot;      &quot;g05hd1&quot;     &quot;g05hd2&quot;     &quot;g05hd3&quot;    
+##  [11] &quot;g05hd4&quot;     &quot;g05hd5&quot;     &quot;g05hd6&quot;     &quot;g07hd&quot;      &quot;ga03hd&quot;    
+##  [16] &quot;ga04hd&quot;     &quot;gashog1d&quot;   &quot;gashog21&quot;   &quot;gashog22&quot;   &quot;gashog23&quot;  
+##  [21] &quot;gashog24&quot;   &quot;gashog25&quot;   &quot;gashog26&quot;   &quot;gashog2d&quot;   &quot;gru11hd&quot;   
+##  [26] &quot;gru12hd1&quot;   &quot;gru12hd2&quot;   &quot;gru13hd1&quot;   &quot;gru13hd2&quot;   &quot;gru13hd3&quot;  
+##  [31] &quot;gru13hd4&quot;   &quot;gru14hd&quot;    &quot;gru14hd1&quot;   &quot;gru14hd2&quot;   &quot;gru14hd3&quot;  
+##  [36] &quot;gru14hd4&quot;   &quot;gru14hd5&quot;   &quot;gru14hd6&quot;   &quot;gru21hd&quot;    &quot;gru22hd1&quot;  
+##  [41] &quot;gru22hd2&quot;   &quot;gru23hd1&quot;   &quot;gru23hd2&quot;   &quot;gru23hd3&quot;   &quot;gru24hd&quot;   
+##  [46] &quot;gru31hd&quot;    &quot;gru32hd1&quot;   &quot;gru32hd2&quot;   &quot;gru33hd1&quot;   &quot;gru33hd2&quot;  
+##  [51] &quot;gru33hd3&quot;   &quot;gru34hd&quot;    &quot;gru41hd&quot;    &quot;gru42hd1&quot;   &quot;gru42hd2&quot;  
+##  [56] &quot;gru43hd1&quot;   &quot;gru43hd2&quot;   &quot;gru43hd3&quot;   &quot;gru44hd&quot;    &quot;gru51hd&quot;   
+##  [61] &quot;gru52hd1&quot;   &quot;gru53hd1&quot;   &quot;gru53hd2&quot;   &quot;gru53hd3&quot;   &quot;gru53hd4&quot;  
+##  [66] &quot;gru54hd&quot;    &quot;gru61hd&quot;    &quot;gru62hd1&quot;   &quot;gru62hd2&quot;   &quot;gru63hd1&quot;  
+##  [71] &quot;gru63hd2&quot;   &quot;gru63hd3&quot;   &quot;gru64hd&quot;    &quot;gru71hd&quot;    &quot;gru72hd1&quot;  
+##  [76] &quot;gru72hd2&quot;   &quot;gru73hd1&quot;   &quot;gru73hd2&quot;   &quot;gru73hd3&quot;   &quot;gru74hd&quot;   
+##  [81] &quot;gru81hd&quot;    &quot;gru82hd1&quot;   &quot;gru82hd2&quot;   &quot;gru83hd1&quot;   &quot;gru83hd2&quot;  
+##  [86] &quot;gru83hd3&quot;   &quot;gru83hd4&quot;   &quot;gru84hd&quot;    &quot;gru84hd1&quot;   &quot;gru85hd1&quot;  
+##  [91] &quot;gru86hd1&quot;   &quot;gru86hd2&quot;   &quot;gru87hd&quot;    &quot;hogar&quot;      &quot;ia01hd&quot;    
+##  [96] &quot;ia02hd&quot;     &quot;ig03hd1&quot;    &quot;ig03hd2&quot;    &quot;ig03hd3&quot;    &quot;ig03hd4&quot;   
+## [101] &quot;ig06hd&quot;     &quot;ig06hd1&quot;    &quot;ig06hd2&quot;    &quot;ig06hd3&quot;    &quot;ig06hd4&quot;   
+## [106] &quot;ig06hd5&quot;    &quot;ig06hd6&quot;    &quot;ig08hd&quot;     &quot;ingauthd&quot;   &quot;ingbruhd&quot;  
+## [111] &quot;ingexthd&quot;   &quot;inghog1d&quot;   &quot;inghog2d&quot;   &quot;ingindhd&quot;   &quot;ingmo1hd&quot;  
+## [116] &quot;ingmo2hd&quot;   &quot;ingnethd&quot;   &quot;ingoexhd&quot;   &quot;ingotrhd&quot;   &quot;ingrenhd&quot;  
+## [121] &quot;ingseihd&quot;   &quot;ingtexhd&quot;   &quot;ingtprhd&quot;   &quot;ingtpu01&quot;   &quot;ingtpu02&quot;  
+## [126] &quot;ingtpu03&quot;   &quot;ingtpu04&quot;   &quot;ingtpu05&quot;   &quot;ingtpuhd&quot;   &quot;ingtrahd&quot;  
+## [131] &quot;insedlhd&quot;   &quot;insedthd&quot;   &quot;isecauhd&quot;   &quot;ld&quot;         &quot;linea&quot;     
+## [136] &quot;linpe&quot;      &quot;mes&quot;        &quot;mieperho&quot;   &quot;nconglome&quot;  &quot;paesechd&quot;  
+## [141] &quot;pagesphd&quot;   &quot;percepho&quot;   &quot;pobreza&quot;    &quot;sg23&quot;       &quot;sg25&quot;      
+## [146] &quot;sg42&quot;       &quot;sg421&quot;      &quot;sg422&quot;      &quot;sg423&quot;      &quot;sg42d&quot;     
+## [151] &quot;sg42d1&quot;     &quot;sg42d2&quot;     &quot;sg42d3&quot;     &quot;sig24&quot;      &quot;sig26&quot;     
+## [156] &quot;totmieho&quot;   &quot;ubigeo&quot;     &quot;vivienda&quot;</code></pre>
+<pre class="r"><code>names(s2018)## Te los da en el orden en que estan en la base de datos. </code></pre>
+<pre><code>##   [1] &quot;aÑo&quot;        &quot;mes&quot;        &quot;nconglome&quot;  &quot;conglome&quot;   &quot;vivienda&quot;  
+##   [6] &quot;hogar&quot;      &quot;ubigeo&quot;     &quot;dominio&quot;    &quot;estrato&quot;    &quot;percepho&quot;  
+##  [11] &quot;mieperho&quot;   &quot;totmieho&quot;   &quot;ia01hd&quot;     &quot;ia02hd&quot;     &quot;ig03hd1&quot;   
+##  [16] &quot;ig03hd2&quot;    &quot;ig03hd3&quot;    &quot;ig03hd4&quot;    &quot;ga03hd&quot;     &quot;ga04hd&quot;    
+##  [21] &quot;sg23&quot;       &quot;sig24&quot;      &quot;sg25&quot;       &quot;sig26&quot;      &quot;sg42&quot;      
+##  [26] &quot;sg421&quot;      &quot;sg422&quot;      &quot;sg423&quot;      &quot;sg42d&quot;      &quot;sg42d1&quot;    
+##  [31] &quot;sg42d2&quot;     &quot;sg42d3&quot;     &quot;ingbruhd&quot;   &quot;ingnethd&quot;   &quot;pagesphd&quot;  
+##  [36] &quot;ingindhd&quot;   &quot;ingauthd&quot;   &quot;insedthd&quot;   &quot;insedlhd&quot;   &quot;paesechd&quot;  
+##  [41] &quot;ingseihd&quot;   &quot;isecauhd&quot;   &quot;ingexthd&quot;   &quot;ingtrahd&quot;   &quot;ingtexhd&quot;  
+##  [46] &quot;ingrenhd&quot;   &quot;ingoexhd&quot;   &quot;g05hd&quot;      &quot;ig06hd&quot;     &quot;g05hd1&quot;    
+##  [51] &quot;ig06hd1&quot;    &quot;g05hd2&quot;     &quot;ig06hd2&quot;    &quot;g05hd3&quot;     &quot;ig06hd3&quot;   
+##  [56] &quot;g05hd4&quot;     &quot;ig06hd4&quot;    &quot;g05hd5&quot;     &quot;ig06hd5&quot;    &quot;g05hd6&quot;    
+##  [61] &quot;ig06hd6&quot;    &quot;g07hd&quot;      &quot;ig08hd&quot;     &quot;ingtprhd&quot;   &quot;ingtpuhd&quot;  
+##  [66] &quot;ingtpu01&quot;   &quot;ingtpu02&quot;   &quot;ingtpu03&quot;   &quot;ingtpu04&quot;   &quot;ingtpu05&quot;  
+##  [71] &quot;gru11hd&quot;    &quot;gru12hd1&quot;   &quot;gru12hd2&quot;   &quot;gru13hd1&quot;   &quot;gru13hd2&quot;  
+##  [76] &quot;gru13hd3&quot;   &quot;gru13hd4&quot;   &quot;gru14hd&quot;    &quot;gru14hd1&quot;   &quot;gru14hd2&quot;  
+##  [81] &quot;gru14hd3&quot;   &quot;gru14hd4&quot;   &quot;gru14hd5&quot;   &quot;gru14hd6&quot;   &quot;gru21hd&quot;   
+##  [86] &quot;gru22hd1&quot;   &quot;gru22hd2&quot;   &quot;gru23hd1&quot;   &quot;gru23hd2&quot;   &quot;gru23hd3&quot;  
+##  [91] &quot;gru24hd&quot;    &quot;gru31hd&quot;    &quot;gru32hd1&quot;   &quot;gru32hd2&quot;   &quot;gru33hd1&quot;  
+##  [96] &quot;gru33hd2&quot;   &quot;gru33hd3&quot;   &quot;gru34hd&quot;    &quot;gru41hd&quot;    &quot;gru42hd1&quot;  
+## [101] &quot;gru42hd2&quot;   &quot;gru43hd1&quot;   &quot;gru43hd2&quot;   &quot;gru43hd3&quot;   &quot;gru44hd&quot;   
+## [106] &quot;gru51hd&quot;    &quot;gru52hd1&quot;   &quot;gru53hd1&quot;   &quot;gru53hd2&quot;   &quot;gru53hd3&quot;  
+## [111] &quot;gru53hd4&quot;   &quot;gru54hd&quot;    &quot;gru61hd&quot;    &quot;gru62hd1&quot;   &quot;gru62hd2&quot;  
+## [116] &quot;gru63hd1&quot;   &quot;gru63hd2&quot;   &quot;gru63hd3&quot;   &quot;gru64hd&quot;    &quot;gru71hd&quot;   
+## [121] &quot;gru72hd1&quot;   &quot;gru72hd2&quot;   &quot;gru73hd1&quot;   &quot;gru73hd2&quot;   &quot;gru73hd3&quot;  
+## [126] &quot;gru74hd&quot;    &quot;gru81hd&quot;    &quot;gru82hd1&quot;   &quot;gru82hd2&quot;   &quot;gru83hd1&quot;  
+## [131] &quot;gru83hd2&quot;   &quot;gru83hd3&quot;   &quot;gru83hd4&quot;   &quot;gru84hd&quot;    &quot;gru84hd1&quot;  
+## [136] &quot;gru85hd1&quot;   &quot;gru86hd1&quot;   &quot;gru86hd2&quot;   &quot;gru87hd&quot;    &quot;ingotrhd&quot;  
+## [141] &quot;ingmo1hd&quot;   &quot;ingmo2hd&quot;   &quot;inghog1d&quot;   &quot;inghog2d&quot;   &quot;gashog1d&quot;  
+## [146] &quot;gashog21&quot;   &quot;gashog22&quot;   &quot;gashog23&quot;   &quot;gashog24&quot;   &quot;gashog26&quot;  
+## [151] &quot;gashog25&quot;   &quot;gashog2d&quot;   &quot;ld&quot;         &quot;estrsocial&quot; &quot;linpe&quot;     
+## [156] &quot;linea&quot;      &quot;pobreza&quot;    &quot;factor07&quot;</code></pre>
+<p>Por ejemplo la variable <strong>inghog1d</strong> (posición 141) es el ingreso bruto anual queremos cambiar el nombre a “ingreso_bruto”.</p>
+<p>La forma más rápida es:</p>
+<pre class="r"><code>names(s2018)[141]&lt;-&quot;ingreso_bruto&quot;</code></pre>
+<p>Si no tenemos la ubicación, quizás son miles de variables, podemos también usar</p>
+<pre class="r"><code>names(s2018)[names(s2018) == &quot;inghog1d&quot;] &lt;-&quot;ingreso_bruto&quot;
+## Si ya corriste el código anterior este te va a dar error, ya que está buscando un nombre que no existe ;)</code></pre>
+<p>Pedimos el nombre de variables denuevo</p>
+<pre class="r"><code>names(s2018)[140:145] #Exacto! podemos indexar para no ver todas las variables nuevamente </code></pre>
+<pre><code>## [1] &quot;ingotrhd&quot;      &quot;ingreso_bruto&quot; &quot;ingmo2hd&quot;      &quot;inghog1d&quot;     
+## [5] &quot;inghog2d&quot;      &quot;gashog1d&quot;</code></pre>
+<p><strong>etiquetas</strong></p>
+<p>Si subimos la base de datos desde STATA, estas pueden tener etiquetas.</p>
+<p>Por ejemplo, veamos la etiqueta de nuestra variables “ingreso_bruto”</p>
+<pre class="r"><code>label(s2018$ingreso_bruto)</code></pre>
+<pre><code>## [1] &quot;ingreso monetario (bruto)&quot;</code></pre>
+<p>Queremos cambiarla a “ingreso monetario (bruto) anual”</p>
+<pre class="r"><code>label(s2018$ingreso_bruto)&lt;-&quot;ingreso monetario (bruto) anual&quot;
+label(s2018$ingreso_bruto) #Veamos el cambio!.</code></pre>
+<pre><code>## [1] &quot;ingreso monetario (bruto) anual&quot;</code></pre>
 </div>
 <div id="recodificar-variables" class="section level3">
 <h3>Recodificar variables</h3>
 <p>Ahora recodificaremos los valores de la variable con que estamos trabajando.</p>
 <p>Usamos la funcion abajo para ver los valores y las etiquetas de la variable que creamos.</p>
-<pre class="r"><code>ipums_val_labels(Ej_Enaho$empl_formal)</code></pre>
-<pre><code>## # A tibble: 2 x 2
-##     val lbl            
-##   &lt;dbl&gt; &lt;chr&gt;          
-## 1     1 empleo informal
-## 2     2 empleo formal</code></pre>
-<p>Vemos que 1=empleo informal y 2=empleo formal. Como nuestra variable se llama empl_formal, queremos que tome valor de 1 si la persona tiene empleo formal y 0 de otro modo.</p>
-<pre class="r"><code>Ej_Enaho$empl_formal[Ej_Enaho$empl_formal==1] &lt;- 0 #Si la variable tiene valor de 1, reemplazalo por 0
-Ej_Enaho$empl_formal[Ej_Enaho$empl_formal==2] &lt;- 1 #Si la variable tiene valor de 2, reemplazalo por 1</code></pre>
-<p>Ahora podemos usar esta variable con mucha mas facilidad. Por ejemplo, podemos tomar el promedio e interpretarlo. Vemos que alrededor del 50% de nuestros informantes tiene empleo formal.</p>
-<pre class="r"><code>describe(Ej_Enaho$empl_formal)</code></pre>
-<pre><code>## Ej_Enaho$empl_formal : Situacion de informalidad en la ocup.principal  Format:%8.0g 
-##        n  missing distinct     Info      Sum     Mean      Gmd 
-##      839      161        2    0.575      217   0.2586   0.3839</code></pre>
+<pre class="r"><code>attributes(s2018$estrsocial)$labels</code></pre>
+<pre><code>##     a     b     c     d     e rural 
+##     1     2     3     4     5     6</code></pre>
+<p>Queremos recodificar los valores de <strong>rural</strong> de 6 a 0.</p>
+<pre class="r"><code>s2018[s2018$estrsocial==6,]$estrsocial&lt;-0</code></pre>
+<p>Si pedimos una tabla vemos que el cambio se realizo:</p>
+<pre class="r"><code>table(s2018$estrsocial)</code></pre>
+<pre><code>## 
+##   0   1   2   3   4   5 
+## 383  17  34  81 226 259</code></pre>
+<p>Pero las etiquetas siguen mostrando el orden anterior</p>
+<pre class="r"><code>attributes(s2018$estrsocial)$labels</code></pre>
+<pre><code>##     a     b     c     d     e rural 
+##     1     2     3     4     5     6</code></pre>
+<pre class="r"><code>attributes(s2018$estrsocial)$labels[[1]]&lt;-0</code></pre>
 </div>
+<div id="generar-variables-categorica-dicotomica-average-de-grupo" class="section level3">
+<h3>Generar variables (categorica, dicotomica, average de grupo)</h3>
+<p>Ahora vamos a generar distintos tipos de variables. Empecemos con una variable dicotomica. Vamos a usar informacion sobre el ingreso reportado</p>
 </div>
-<div id="generar-variables-categorica-dicotomica-average-de-grupo" class="section level2">
-<h2>Generar variables (categorica, dicotomica, average de grupo)</h2>
-<p>Ahora vamos a generar distintos tipos de variables. Empecemos con una variable dicotomica. Vamos a usar informacion sobre la etnicidad reportada de los informantes.</p>
-<pre class="r"><code>#describe(Ej_Enaho$p558c)
-ipums_val_labels(Ej_Enaho$p558c)</code></pre>
-<pre><code>## # A tibble: 9 x 2
-##     val lbl                                                            
-##   &lt;dbl&gt; &lt;chr&gt;                                                          
-## 1     1 quechua                                                        
-## 2     2 aymara                                                         
-## 3     3 &quot;nativo o ind\xedgena de la amazon\xeda&quot;                       
-## 4     4 negro/moreno/zambo/mulato/afroperuano                          
-## 5     5 blanco                                                         
-## 6     6 mestizo                                                        
-## 7     7 otro                                                           
-## 8     8 no sabe                                                        
-## 9     9 &quot;perteneciente o parte de otro pueblo ind\xedgena u originario&quot;</code></pre>
-</div>
-<div id="variable-binaria" class="section level2">
-<h2>Variable binaria</h2>
-<p>Generemos una variable que toma el valor de 1 si es que el informante pertenece a un pueblo indigena y 0 si es que no. Creamos una variable vacia y le incluimos los argumentos:</p>
-<pre class="r"><code>Ej_Enaho$indigena&lt;- NA
-Ej_Enaho[Ej_Enaho$p558c%in%c(1:3,9), ]$indigena &lt;- 1 #Si le pregunta p558c es 1,2,3 o 9, toma valor de 1
-Ej_Enaho[Ej_Enaho$p558c%in%c(4,5,6,7,8), ]$indigena&lt;-0 #Si le pregunta p558c es 4,5,6,7 o 8, toma valor de 0</code></pre>
-<p>Otra opcion es usar el comando ifelse:</p>
-<pre class="r"><code>#Ej_Enaho$indigena&lt;-ifelse(Ej_Enaho$p558c%in%c(1:3,9),1,0)</code></pre>
-<p>Ahora miramos nuestra variable Indigena:</p>
-<pre class="r"><code>table(Ej_Enaho$indigena)</code></pre>
+<div id="variable-categoricas" class="section level3">
+<h3>Variable categóricas</h3>
+<p>Generemos una variable que toma el valor de 1 si es que el informante gana más de 800 soles y 0 si es menos o igual. Creamos una variable vacia y le incluimos los argumentos:</p>
+<p>Forma 1:</p>
+<pre class="r"><code>s2018$minimo&lt;-NA
+s2018[s2018$ingreso_bruto&lt;=800,]$minimo&lt;-0
+s2018[s2018$ingreso_bruto&gt;800,]$minimo&lt;-1
+table(s2018$minimo)</code></pre>
 <pre><code>## 
 ##   0   1 
-## 683 317</code></pre>
-<pre class="r"><code>summary(Ej_Enaho$indigena)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.000   0.000   0.000   0.317   1.000   1.000</code></pre>
-</div>
-<div id="variable-categorica" class="section level2">
-<h2>Variable categorica</h2>
-<p>Ahora crearemos una variable que incluya varios valores de etnicidad, pero menos que la pregunta original:</p>
-<pre class="r"><code>Ej_Enaho$etnicidad&lt;- NA
-Ej_Enaho[Ej_Enaho$p558c%in%c(6), ]$etnicidad &lt;- 1 #Si le pregunta p558c es 6 (mestizo), toma valor de 1
-Ej_Enaho[Ej_Enaho$p558c%in%c(1:3,9), ]$etnicidad &lt;- 2 #Si le pregunta p558c es 1,2,3 o 9 (indigena), toma valor de 2
-Ej_Enaho[Ej_Enaho$p558c%in%c(5), ]$indigena&lt;-3 #Si le pregunta p558c es 5 (blanco), toma valor de 3
-Ej_Enaho[Ej_Enaho$p558c%in%c(4), ]$indigena&lt;-4 #Si le pregunta p558c es 4 (afroperuano), toma valor de 4
-Ej_Enaho[Ej_Enaho$p558c%in%c(7,8), ]$indigena&lt;-5 #Si le pregunta p558c es 7,8 (NS/Otro), toma valor de 5</code></pre>
-<p>Ahora miramos nuestra variable Indigena:</p>
-<pre class="r"><code>table(Ej_Enaho$etnicidad)</code></pre>
+##  16 984</code></pre>
+<p>Forma 2:</p>
+<pre class="r"><code>s2018$minimo&lt;-NA
+s2018$minimo&lt;-ifelse(s2018$ingreso_bruto&lt;=800,0,1)
+table(s2018$minimo)</code></pre>
 <pre><code>## 
-##   1   2 
-## 469 317</code></pre>
-<pre class="r"><code>summary(Ej_Enaho$etnicidad)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-##   1.000   1.000   1.000   1.403   2.000   2.000     214</code></pre>
+##   0   1 
+##  16 984</code></pre>
+<p>Forma 3: <strong>USANDO DPLYR para crear nuevas variables</strong></p>
+<p>Dplyr es un paquete que es muy útil para manipular data, es relativamente nuevo y cada vez está siendo más usado.</p>
+<p>Dplyr y Tydir son muy populares, así que es bueno ir familiarizandose con ellos.</p>
+<p>Lo especial de Dplyr es que tiene sus propias funciones y además que conecta funciones usando <strong>%&gt;%</strong>. De esa manera puede ser más eficiente con el espacio de trabajo, evitando crear muchos objetos.</p>
+<p>En este caso la función es <strong>mutate</strong></p>
+<pre class="r"><code>s2018&lt;-s2018%&gt;%mutate(minimo=ifelse(s2018$ingreso_bruto&lt;=800,0,1))
+table(s2018$minimo)</code></pre>
+<pre><code>## 
+##   0   1 
+##  16 984</code></pre>
+</div>
+</div>
+<div id="merge-y-append-bases-de-datos" class="section level2">
+<h2>Merge y append bases de datos</h2>
 </div>
 <div id="add-incio-missing-finding-them-no-sean-en-0s-si-se-grabo-asi-a-missing" class="section level2">
 <h2>ADD INCIO: Missing – finding them (no sean en 0s si se grabo asi – a missing )</h2>
@@ -548,30 +575,16 @@ Ej_Enaho[Ej_Enaho$p558c%in%c(7,8), ]$indigena&lt;-5 #Si le pregunta p558c es 7,8
 <h3>Descripcion de una variable</h3>
 <p>Ahora haremos un poco de estadistica descriptiva basica. Hemos estado usando el comando describe bastate, es porque este comando nos da la informacion descriptiva basica de cada variable.</p>
 <p>Usemos la ingresos_mensual (expresada en nuevos soles – 1$=~3.3 soles):</p>
-<pre class="r"><code>describe(Ej_Enaho$ingresos_mens_indv)</code></pre>
-<pre><code>## Ej_Enaho$ingresos_mens_indv  Format:%9.0g 
-##        n  missing distinct     Info     Mean      Gmd      .05      .10 
-##      999        1      999        1     1344     1217    231.8    294.8 
-##      .25      .50      .75      .90      .95 
-##    520.5    934.4   1633.6   2863.4   3865.1 
-## 
-## lowest :   106.1102   108.3003   111.2335   114.3772   115.8035
-## highest:  7528.4268  9519.0254  9576.0771 11550.4170 13951.2227</code></pre>
 <p>Tambien podemos pedir la informacion de forma independiente:</p>
-<pre class="r"><code>mean(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE) #Usamos el argumento na.rm=TRUE para decir que nos de el resultado aunque haya missing values. Si no ponemos el argumento no sale.</code></pre>
-<pre><code>## [1] 1344.345</code></pre>
-<pre class="r"><code>sd(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)</code></pre>
-<pre><code>## [1] 1327.231</code></pre>
-<pre class="r"><code>median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)</code></pre>
-<pre><code>## [1] 934.373</code></pre>
+<pre class="r"><code>mean(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE) #Usamos el argumento na.rm=TRUE para decir que nos de el resultado aunque haya missing values. Si no ponemos el argumento no sale.
+sd(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
+median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)</code></pre>
 <p>Podemos guardar la informacion de las medidas de tendencia central en una nueva variable:</p>
 <pre class="r"><code>mean_ingresos&lt;-mean(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
 sd_ingresos&lt;-sd(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
 median_ingresos&lt;-median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)</code></pre>
 <p>Podemos tambien sacar los percentiles de nuestra distribucion:</p>
 <pre class="r"><code>quantile(Ej_Enaho$ingresos_mens_indv, na.rm = TRUE)</code></pre>
-<pre><code>##         0%        25%        50%        75%       100% 
-##   106.1102   520.5331   934.3730  1633.5743 13951.2227</code></pre>
 </div>
 </div>
 <div id="add-incio-crear-variable-que-tome-1-si-es-que-estan-en-el-25-superior-de-riqueza" class="section level2">
@@ -581,10 +594,10 @@ median_ingresos&lt;-median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)</code></pre>
 library(ggplot2)</code></pre>
 <p>Empecemos con el grafico mas basico:</p>
 <pre class="r"><code>plot(Ej_Enaho$ingresos_mens_indv)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="Curso1_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
 <p>Ahora haremos un histograma:</p>
 <pre class="r"><code>hist(Ej_Enaho$ingresos_mens_indv)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="Curso1_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
 <p>Es dificil visualizar la distribucion de la data porque esta muy dispersa, podemos seleccionar solo mirar los valores del 75% inferior hacia abajo:</p>
 </div>
 <div id="add-grafico-limitado-y-mas-opciones-de-grafico" class="section level2">
@@ -622,7 +635,7 @@ library(ggplot2)</code></pre>
 <p>ADD :Ahora hacemos una diferencia de medias</p>
 <p>Ahora hacemos un grafico de distribucion bivariado:</p>
 <pre class="r"><code>plot(Ej_Enaho$ingresos_mens_indv,Ej_Enaho$educ_nivel)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<p><img src="Curso1_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
 </div>
 </div>
 <div id="parte-iv-analisis" class="section level2">
