@@ -378,7 +378,7 @@ true
 <pre class="r"><code>library(rio)</code></pre>
 <p>Segundo, llamamos a nuestra base de datos.</p>
 <p><strong>IMPORTANTE</strong> antes de interactura con folders (subir data, grabar resultados, gráficos, etc) tienes que establecer tu directorio de trabajo. La forma más rápida es con la rueda con la etiqueta “more” en el panel derecho.</p>
-<p><img src="./data_examples/Rstudio_setwd.png" width="80%" /></p>
+<p><img src="data_examples/Rstudio_swd.png" width="80%" /></p>
 <p>La base de datos debe estar en nuestro espacio de trabajo. La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. Para facilidad del ejercicio, hemos tomado solo a los jefes de hogar de Lima Metropolitana. Tenemos informacion sobre su etnicidad, nivel educativo, ingresos y empleo.</p>
 <p>Dado que tenemos el paquete rio, no necesitamos decirle a R que nuestra base de datos esta en STATA, R lo entiende.</p>
 <p>Vamos a usar el comando import y asignarle un nombre a nuestra base de datos como hicimos al inicio. Lo llamaremos Ej_Enaho. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.</p>
@@ -581,10 +581,10 @@ median_ingresos&lt;-median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)</code></pre>
 library(ggplot2)</code></pre>
 <p>Empecemos con el grafico mas basico:</p>
 <pre class="r"><code>plot(Ej_Enaho$ingresos_mens_indv)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
+<p><img src="Curso1_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>Ahora haremos un histograma:</p>
 <pre class="r"><code>hist(Ej_Enaho$ingresos_mens_indv)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><img src="Curso1_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 <p>Es dificil visualizar la distribucion de la data porque esta muy dispersa, podemos seleccionar solo mirar los valores del 75% inferior hacia abajo:</p>
 </div>
 <div id="add-grafico-limitado-y-mas-opciones-de-grafico" class="section level2">
@@ -622,7 +622,7 @@ library(ggplot2)</code></pre>
 <p>ADD :Ahora hacemos una diferencia de medias</p>
 <p>Ahora hacemos un grafico de distribucion bivariado:</p>
 <pre class="r"><code>plot(Ej_Enaho$ingresos_mens_indv,Ej_Enaho$educ_nivel)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p><img src="Curso1_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
 </div>
 </div>
 <div id="parte-iv-analisis" class="section level2">
