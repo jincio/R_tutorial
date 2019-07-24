@@ -318,7 +318,19 @@ $(document).ready(function () {
 
 </div>
 
+<div id="TOC">
+true
+</div>
 
+<style>
+#TOC {
+  top: 1%;
+  opacity: 0.5;
+}
+#TOC:hover {
+  opacity: 1;
+}
+</style>
 <div id="tabla-de-contenidos" class="section level1">
 <h1>Tabla de Contenidos</h1>
 <p>Parte I:</p>
@@ -352,13 +364,22 @@ $(document).ready(function () {
 </ul>
 <div id="parte-i-basicos-del-r" class="section level2">
 <h2>Parte I: Basicos del R</h2>
+<div id="basicos." class="section level3">
+<h3>Basicos.</h3>
+<p>Cuando inicias <strong>R</strong> se activan un grupo básicos de paquetes. Los paquetes tienen funciones y las funciones argumentos.</p>
+<p>Puedes instalar paquetes usando <code>install.packages("nombre del paquete")</code>. Los paquetes se instalan una sola vez. Luego de eso ya estan en la memoria de tu computadora.</p>
+<p>Cada vez que necesitas un paquete lo puedes llamar con: <code>library(paquete)</code>.</p>
+<p>Por ejemplo si corres un código y el resultado es un error con un mensaje que dice: <strong>could not find function “xxx”</strong>. Entonces no has llamado el paquete (usando library) y si llamas al paqute y te resulta un error con el siguiente mensaje: <strong>Error in library(paquete) : there is no package called ‘paquete’</strong> significa que necesitas instalarlo.</p>
+</div>
 <div id="subiendo-una-base-de-datos" class="section level3">
 <h3>Subiendo una base de datos <a name="T3"></a></h3>
-<p>Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. R puede leer BD de STATA, SPSS, Excel, R, etc.</p>
-<p>El primer paquete que debemos instalar es Rio. Rio nos permite abrir distintos tipos de base de datos con facilidad.</p>
+<p>Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. Existen varios paquetes que nos pueden ayudar con eso. En este tutorial trabajaremos con <code>rio</code>. Rio nos permite abrir distintos tipos de base de datos con facilidad.</p>
 <pre class="r"><code>install.packages(&quot;rio&quot;)</code></pre>
 <pre class="r"><code>library(rio)</code></pre>
-<p>Segundo, llamamos a nuestra base de datos. Procuramos tener la base de datos en nuestro espacio de trabajo. La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. Para facilidad del ejercicio, hemos tomado solo a los jefes de hogar de Lima Metropolitana. Tenemos informacion sobre su etnicidad, nivel educativo, ingresos y empleo.</p>
+<p>Segundo, llamamos a nuestra base de datos.</p>
+<p><strong>IMPORTANTE</strong> antes de interactura con folders (subir data, grabar resultados, gráficos, etc) tienes que establecer tu directorio de trabajo. La forma más rápida es con la rueda con la etiqueta “more” en el panel derecho.</p>
+<p><img src="./data_examples/Rstudio_setwd.png" width="80%" /></p>
+<p>La base de datos debe estar en nuestro espacio de trabajo. La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. Para facilidad del ejercicio, hemos tomado solo a los jefes de hogar de Lima Metropolitana. Tenemos informacion sobre su etnicidad, nivel educativo, ingresos y empleo.</p>
 <p>Dado que tenemos el paquete rio, no necesitamos decirle a R que nuestra base de datos esta en STATA, R lo entiende.</p>
 <p>Vamos a usar el comando import y asignarle un nombre a nuestra base de datos como hicimos al inicio. Lo llamaremos Ej_Enaho. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.</p>
 <pre class="r"><code>Ej_Enaho&lt;-import(&quot;./data_examples/Ejercicio_Enaho2017.dta&quot;)
@@ -560,10 +581,10 @@ median_ingresos&lt;-median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)</code></pre>
 library(ggplot2)</code></pre>
 <p>Empecemos con el grafico mas basico:</p>
 <pre class="r"><code>plot(Ej_Enaho$ingresos_mens_indv)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="Curso1_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 <p>Ahora haremos un histograma:</p>
 <pre class="r"><code>hist(Ej_Enaho$ingresos_mens_indv)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="Curso1_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>Es dificil visualizar la distribucion de la data porque esta muy dispersa, podemos seleccionar solo mirar los valores del 75% inferior hacia abajo:</p>
 </div>
 <div id="add-grafico-limitado-y-mas-opciones-de-grafico" class="section level2">
@@ -601,7 +622,7 @@ library(ggplot2)</code></pre>
 <p>ADD :Ahora hacemos una diferencia de medias</p>
 <p>Ahora hacemos un grafico de distribucion bivariado:</p>
 <pre class="r"><code>plot(Ej_Enaho$ingresos_mens_indv,Ej_Enaho$educ_nivel)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<p><img src="Curso1_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 </div>
 </div>
 <div id="parte-iv-analisis" class="section level2">

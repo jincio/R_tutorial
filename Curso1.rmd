@@ -1,5 +1,6 @@
 ---
 title: "Basicos_R"
+toc: true
 #knit: (function(input_file, encoding) {
 #  out_dir <- 'docs';
 #  rmarkdown::render(input_file,
@@ -11,6 +12,15 @@ title: "Basicos_R"
 #    css: test.css
 #  pdf_document: default
 ---
+<style>
+#TOC {
+  top: 1%;
+  opacity: 0.5;
+}
+#TOC:hover {
+  opacity: 1;
+}
+</style>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -48,13 +58,22 @@ Parte IV: Analisis y Graficos
 - Efectos fijos
 - Probit/logit -- odss ratio y marginal efects
 
+
 ## Parte I: Basicos del R
+
+### Basicos. 
+
+Cuando inicias **R** se activan un grupo básicos de paquetes. Los paquetes tienen funciones y las funciones argumentos. 
+
+Puedes instalar paquetes usando ```install.packages("nombre del paquete")```.  Los paquetes se instalan una sola vez. Luego de eso ya estan en la memoria de tu computadora.
+
+Cada vez que necesitas un paquete lo puedes llamar con: ```library(paquete)```. 
+
+Por ejemplo si corres un código y el resultado es un error con un mensaje que dice: **could not find function "xxx"**. Entonces no has llamado el paquete (usando library) y si llamas al paqute y te resulta un error con el siguiente mensaje: **Error in library(paquete) : there is no package called ‘paquete’** significa que necesitas instalarlo. 
 
 ### Subiendo una base de datos <a name="T3"></a>
 
-Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. R puede leer BD de STATA, SPSS, Excel, R, etc.
-
-El primer paquete que debemos instalar es Rio. Rio nos permite abrir distintos tipos de base de datos con facilidad. 
+Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. Existen varios paquetes que nos pueden ayudar con eso. En este tutorial trabajaremos con ```rio```. Rio nos permite abrir distintos tipos de base de datos con facilidad. 
 
 ```{r eval=FALSE}
 install.packages("rio")
@@ -64,7 +83,16 @@ install.packages("rio")
 library(rio)
 ```
 
-Segundo, llamamos a nuestra base de datos. Procuramos tener la base de datos en nuestro espacio de trabajo. La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. Para facilidad del ejercicio, hemos tomado solo a los jefes de hogar de Lima Metropolitana. Tenemos informacion sobre su etnicidad, nivel educativo, ingresos y empleo.
+Segundo, llamamos a nuestra base de datos.
+
+**IMPORTANTE** antes de interactura con folders (subir data, grabar resultados, gráficos, etc) tienes que establecer tu directorio de trabajo. La forma más rápida es con la rueda con la etiqueta "more" en el panel derecho. 
+
+```{r echo=FALSE, out.width='80%'}
+knitr::include_graphics('./data_examples/Rstudio_setwd.png')
+```
+
+La base de datos debe estar en nuestro espacio de trabajo. 
+La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. Para facilidad del ejercicio, hemos tomado solo a los jefes de hogar de Lima Metropolitana. Tenemos informacion sobre su etnicidad, nivel educativo, ingresos y empleo.
 
 Dado que tenemos el paquete rio, no necesitamos decirle a R que nuestra base de datos esta en STATA, R lo entiende. 
 
