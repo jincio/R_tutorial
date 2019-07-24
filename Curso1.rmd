@@ -26,6 +26,13 @@ toc: true
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+**ULTIMA ACTUALIZACIÓN:**
+
+```{r}
+print(Sys.time())
+```
+
+
 # Tabla de Contenidos
 
 Parte I: 
@@ -228,6 +235,7 @@ attributes(s2018$estrsocial)$labels
 
 ```{r}
 attributes(s2018$estrsocial)$labels[[1]]<-0
+attributes(s2018$estrsocial)$labels
 ```
 
 ### Generar variables (categorica, dicotomica, average de grupo)
@@ -240,7 +248,7 @@ Ahora vamos a generar distintos tipos de variables. Empecemos con una variable d
 
 Generemos una variable que toma el valor de 1 si es que el informante gana más de 800 soles y 0 si es menos o igual. Creamos una variable vacia y le incluimos los argumentos:
 
-Forma 1:
+- Forma 1:
 
 ```{r}
 s2018$minimo<-NA
@@ -249,7 +257,7 @@ s2018[s2018$ingreso_bruto>800,]$minimo<-1
 table(s2018$minimo)
 ```
 
-Forma 2:
+- Forma 2:
 
 ```{r}
 s2018$minimo<-NA
@@ -257,7 +265,7 @@ s2018$minimo<-ifelse(s2018$ingreso_bruto<=800,0,1)
 table(s2018$minimo)
 ```
 
-Forma 3: **USANDO DPLYR para crear nuevas variables**
+- Forma 3: **USANDO DPLYR para crear nuevas variables**
 
 Dplyr es un paquete que es muy útil para manipular data, es relativamente nuevo y cada vez está siendo más usado. 
 
@@ -312,18 +320,18 @@ quantile(Ej_Enaho$ingresos_mens_indv, na.rm = TRUE)
 
 Ahora haremos unos graficos simples de distribucion. Para ellos instalaremos el paquete ggplot2. Recomendamos usar esta cartilla de referencia: https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf
 
-```{r}
+```{r, eval=FALSE}
 #install.packages("ggplot2")
 library(ggplot2)
 ```
 
 Empecemos con el grafico mas basico:
-```{r}
+```{r, eval=FALSE}
 plot(Ej_Enaho$ingresos_mens_indv)
 ```
 
 Ahora haremos un histograma:
-```{r}
+```{r, eval=FALSE}
 hist(Ej_Enaho$ingresos_mens_indv)
 ```
 
@@ -336,21 +344,21 @@ Es dificil visualizar la distribucion de la data porque esta muy dispersa, podem
 Ahora haremos estadistica descriptiva de dos variables.
 
 Veamos la relacion entre nivel educativo e ingresos mensuales. Primero miremos la variable nivel educativo:
-```{r}
+```{r, eval=FALSE}
 summary(Ej_Enaho$educ_nivel)
 ipums_val_labels(Ej_Enaho$educ_nivel) # Vemos que tiene una escala ordina (12 no tiene valores)
 table(Ej_Enaho$educ_nivel)
 ```
 
 A continuacion, cruzamos ambas variables. Emplezamos con correlaciones:
-```{r}
+```{r, eval=FALSE}
 cor(Ej_Enaho$ingresos_mens_indv,Ej_Enaho$educ_nivel)
 ```
 
 ADD :Ahora hacemos una diferencia de medias
 
 Ahora hacemos un grafico de distribucion bivariado:
-```{r}
+```{r, eval=FALSE}
 plot(Ej_Enaho$ingresos_mens_indv,Ej_Enaho$educ_nivel)
 ```
 

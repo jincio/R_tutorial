@@ -331,6 +331,9 @@ true
   opacity: 1;
 }
 </style>
+<p><strong>ULTIMA ACTUALIZACIÓN:</strong></p>
+<pre class="r"><code>print(Sys.time())</code></pre>
+<pre><code>## [1] &quot;2019-07-24 15:06:57 EDT&quot;</code></pre>
 <div id="tabla-de-contenidos" class="section level1">
 <h1>Tabla de Contenidos</h1>
 <p>Parte I:</p>
@@ -527,7 +530,10 @@ label(s2018$ingreso_bruto) #Veamos el cambio!.</code></pre>
 <pre class="r"><code>attributes(s2018$estrsocial)$labels</code></pre>
 <pre><code>##     a     b     c     d     e rural 
 ##     1     2     3     4     5     6</code></pre>
-<pre class="r"><code>attributes(s2018$estrsocial)$labels[[1]]&lt;-0</code></pre>
+<pre class="r"><code>attributes(s2018$estrsocial)$labels[[1]]&lt;-0
+attributes(s2018$estrsocial)$labels</code></pre>
+<pre><code>##     a     b     c     d     e rural 
+##     0     2     3     4     5     6</code></pre>
 </div>
 <div id="generar-variables-categorica-dicotomica-average-de-grupo" class="section level3">
 <h3>Generar variables (categorica, dicotomica, average de grupo)</h3>
@@ -536,7 +542,9 @@ label(s2018$ingreso_bruto) #Veamos el cambio!.</code></pre>
 <div id="variable-categoricas" class="section level3">
 <h3>Variable categóricas</h3>
 <p>Generemos una variable que toma el valor de 1 si es que el informante gana más de 800 soles y 0 si es menos o igual. Creamos una variable vacia y le incluimos los argumentos:</p>
-<p>Forma 1:</p>
+<ul>
+<li>Forma 1:</li>
+</ul>
 <pre class="r"><code>s2018$minimo&lt;-NA
 s2018[s2018$ingreso_bruto&lt;=800,]$minimo&lt;-0
 s2018[s2018$ingreso_bruto&gt;800,]$minimo&lt;-1
@@ -544,14 +552,18 @@ table(s2018$minimo)</code></pre>
 <pre><code>## 
 ##   0   1 
 ##  16 984</code></pre>
-<p>Forma 2:</p>
+<ul>
+<li>Forma 2:</li>
+</ul>
 <pre class="r"><code>s2018$minimo&lt;-NA
 s2018$minimo&lt;-ifelse(s2018$ingreso_bruto&lt;=800,0,1)
 table(s2018$minimo)</code></pre>
 <pre><code>## 
 ##   0   1 
 ##  16 984</code></pre>
-<p>Forma 3: <strong>USANDO DPLYR para crear nuevas variables</strong></p>
+<ul>
+<li>Forma 3: <strong>USANDO DPLYR para crear nuevas variables</strong></li>
+</ul>
 <p>Dplyr es un paquete que es muy útil para manipular data, es relativamente nuevo y cada vez está siendo más usado.</p>
 <p>Dplyr y Tydir son muy populares, así que es bueno ir familiarizandose con ellos.</p>
 <p>Lo especial de Dplyr es que tiene sus propias funciones y además que conecta funciones usando <strong>%&gt;%</strong>. De esa manera puede ser más eficiente con el espacio de trabajo, evitando crear muchos objetos.</p>
@@ -594,10 +606,8 @@ median_ingresos&lt;-median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)</code></pre>
 library(ggplot2)</code></pre>
 <p>Empecemos con el grafico mas basico:</p>
 <pre class="r"><code>plot(Ej_Enaho$ingresos_mens_indv)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
 <p>Ahora haremos un histograma:</p>
 <pre class="r"><code>hist(Ej_Enaho$ingresos_mens_indv)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
 <p>Es dificil visualizar la distribucion de la data porque esta muy dispersa, podemos seleccionar solo mirar los valores del 75% inferior hacia abajo:</p>
 </div>
 <div id="add-grafico-limitado-y-mas-opciones-de-grafico" class="section level2">
@@ -606,36 +616,14 @@ library(ggplot2)</code></pre>
 <h3>Descripcion de dos variables</h3>
 <p>Ahora haremos estadistica descriptiva de dos variables.</p>
 <p>Veamos la relacion entre nivel educativo e ingresos mensuales. Primero miremos la variable nivel educativo:</p>
-<pre class="r"><code>summary(Ej_Enaho$educ_nivel)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-##   1.000   4.000   5.000   5.299   6.000  11.000       1</code></pre>
-<pre class="r"><code>ipums_val_labels(Ej_Enaho$educ_nivel) # Vemos que tiene una escala ordina (12 no tiene valores)</code></pre>
-<pre><code>## # A tibble: 12 x 2
-##      val lbl                                 
-##    &lt;dbl&gt; &lt;chr&gt;                               
-##  1     1 sin nivel                           
-##  2     2 &quot;educaci\xf3n inicial&quot;              
-##  3     3 primaria incompleta                 
-##  4     4 primaria completa                   
-##  5     5 secundaria incompleta               
-##  6     6 secundaria completa                 
-##  7     7 superior no universitaria incompleta
-##  8     8 superior no universitaria completa  
-##  9     9 superior universitaria incompleta   
-## 10    10 superior universitaria completa     
-## 11    11 postgrado universitario             
-## 12    12 &quot;b\xe1sica especial&quot;</code></pre>
-<pre class="r"><code>table(Ej_Enaho$educ_nivel)</code></pre>
-<pre><code>## 
-##   1   3   4   5   6   7   8   9  10  11 
-##  60 188 185 110 232  28  76  31  74  15</code></pre>
+<pre class="r"><code>summary(Ej_Enaho$educ_nivel)
+ipums_val_labels(Ej_Enaho$educ_nivel) # Vemos que tiene una escala ordina (12 no tiene valores)
+table(Ej_Enaho$educ_nivel)</code></pre>
 <p>A continuacion, cruzamos ambas variables. Emplezamos con correlaciones:</p>
 <pre class="r"><code>cor(Ej_Enaho$ingresos_mens_indv,Ej_Enaho$educ_nivel)</code></pre>
-<pre><code>## [1] NA</code></pre>
 <p>ADD :Ahora hacemos una diferencia de medias</p>
 <p>Ahora hacemos un grafico de distribucion bivariado:</p>
 <pre class="r"><code>plot(Ej_Enaho$ingresos_mens_indv,Ej_Enaho$educ_nivel)</code></pre>
-<p><img src="Curso1_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
 </div>
 </div>
 <div id="parte-iv-analisis" class="section level2">
