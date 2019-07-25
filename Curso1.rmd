@@ -240,8 +240,6 @@ attributes(s2018$estrsocial)$labels
 
 ### Generar variables (categorica, dicotomica, average de grupo)
 
-
-
 Ahora vamos a generar distintos tipos de variables. Empecemos con una variable dicotomica. Vamos a usar informacion sobre el ingreso reportado
 
 ### Variable categóricas
@@ -280,147 +278,64 @@ s2018<-s2018%>%mutate(minimo=ifelse(s2018$ingreso_bruto<=800,0,1))
 table(s2018$minimo)
 ```
 
+### Medidas por grupo. 
+
+Por ejemplo queremos calcular el promedio de cada grupo. 
+Usaremos **dplyr** para calcular el promedio de ingreso y la desviación estandar por cada ubigeo (municipalidad)
+
+- Podemos concatenar funciones. Primero hemos "agrupado" la base de datos, luego hemos calculado el promedio, y la desviación estandard en base a la variable de agrupación.
+- ```arrange``` es para ordernar los ubigeos
+- ```select`` para quedarnos con algunas variables (son más de 150)
+- ```head`` para pedir los 6 primeros casos.
+
+
+```{r}
+s2018%>%group_by(ubigeo)%>%
+  mutate(promedio=mean(ingreso_bruto),
+         desv=sd(ingreso_bruto))%>%
+  arrange(ubigeo)%>%
+  select(c(1:3,160,161))%>%head()
+```
+
+Ahora bien los cambios no se han guardado en la base de datos para hacerlo debemos remplazar el objeto o crear uno nuevo. 
+
+```{r, eval=FALSE}
+s2018<-s2018%>%group_by(ubigeo)%>%
+  mutate(promedio=mean(ingreso_bruto),
+         desv=sd(ingreso_bruto))%>%
+  arrange(ubigeo)### Aquí nuestra base ha cambiado ya que tiene dos variables más
+```
+
+
 ## Merge y append bases de datos
 
-
-## ADD INCIO: Missing -- finding them (no sean en 0s si se grabo asi -- a missing )
-
-
-## Parte III: Descripcion y  graficos basicos
-
-### Descripcion de una variable
-
-Ahora haremos un poco de estadistica descriptiva basica. Hemos estado usando el comando describe bastate, es porque este comando nos da la informacion descriptiva basica de cada variable. 
-
-Usemos la ingresos_mensual (expresada en nuevos soles -- 1$=~3.3 soles):
-
-
-Tambien podemos pedir la informacion de forma independiente:
-```{r, eval=FALSE}
-mean(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE) #Usamos el argumento na.rm=TRUE para decir que nos de el resultado aunque haya missing values. Si no ponemos el argumento no sale.
-sd(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
-median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
-```
-
-Podemos guardar la informacion de las medidas de tendencia central en una nueva variable: 
-```{r, eval=FALSE}
-mean_ingresos<-mean(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
-sd_ingresos<-sd(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
-median_ingresos<-median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
-```
-
-Podemos tambien sacar los percentiles de nuestra distribucion:
-```{r, eval=FALSE}
-quantile(Ej_Enaho$ingresos_mens_indv, na.rm = TRUE)
-```
-
-
-## ADD INCIO: crear variable que tome 1 si es que estan en el 25% superior de riqueza
-
-
-Ahora haremos unos graficos simples de distribucion. Para ellos instalaremos el paquete ggplot2. Recomendamos usar esta cartilla de referencia: https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf
-
-```{r, eval=FALSE}
-#install.packages("ggplot2")
-library(ggplot2)
-```
-
-Empecemos con el grafico mas basico:
-```{r, eval=FALSE}
-plot(Ej_Enaho$ingresos_mens_indv)
-```
-
-Ahora haremos un histograma:
-```{r, eval=FALSE}
-hist(Ej_Enaho$ingresos_mens_indv)
-```
-
-Es dificil visualizar la distribucion de la data porque esta muy dispersa, podemos seleccionar solo mirar los valores del 75% inferior hacia abajo:
-
-## ADD : GRAFICO LIMITADO y mas opciones de grafico
-
-### Descripcion de dos variables
-
-Ahora haremos estadistica descriptiva de dos variables.
-
-Veamos la relacion entre nivel educativo e ingresos mensuales. Primero miremos la variable nivel educativo:
-```{r, eval=FALSE}
-summary(Ej_Enaho$educ_nivel)
-ipums_val_labels(Ej_Enaho$educ_nivel) # Vemos que tiene una escala ordina (12 no tiene valores)
-table(Ej_Enaho$educ_nivel)
-```
-
-A continuacion, cruzamos ambas variables. Emplezamos con correlaciones:
-```{r, eval=FALSE}
-cor(Ej_Enaho$ingresos_mens_indv,Ej_Enaho$educ_nivel)
-```
-
-ADD :Ahora hacemos una diferencia de medias
-
-Ahora hacemos un grafico de distribucion bivariado:
-```{r, eval=FALSE}
-plot(Ej_Enaho$ingresos_mens_indv,Ej_Enaho$educ_nivel)
-```
-
-## Parte IV: Analisis
-
-Para el analisis, usaremos la variable ingresos como la variable dependiente y educacion como la variable independiente.
-
-- Regresion simple y diagnostico
-```{r}
-OLS_1 <- lm(ingresos_mens_indv ~ educ_nivel, data=Ej_Enaho)
-summary(OLS_1)
-```
-```{r}
-coefficients(OLS_1) # model coefficients
-confint(OLS_1, level=0.95) # CIs for model parameters 
-#fitted(OLS_1) # predicted values
-#residuals(OLS_1) # residuals
-anova(OLS_1) # anova table 
-vcov(OLS_1) # covariance matrix for model parameters 
-#influence(OLS_1) # regression diagnostics
-```
-
-- Graficos de ajustes de regresion
-
-- Controlando por otras variables
-
-
-- Cluster SE
-OLS_3 <- lm(ingresos_mens_indv ~ educ_nivel, data=Ej_Enaho)
-
-- Efectos fijos
-
-- Probit/logit -- odss ratio y marginal efects
-
-
-
-
-(regresiones de paper mody)
+- Creemos una base de datos que contenga el ingreso promedio por distrito. Similar a nuestro ejercicio anterior pero ahora la base será un objeto aparte. 
 
 
 ```{r}
-
+resumen<-s2018%>%group_by(ubigeo)%>%
+  summarise(promedio=mean(ingreso_bruto),
+            desv=sd(ingreso_bruto))
+head(resumen)
 ```
+
+La diferencia aquí es que hemos usado ```summarise``` en lugar de ```mutate```. Ya que no estamos agregando una variable a la base. Estamos creando una nueva base. 
 
 ```{r}
-
+nrow(resumen)
 ```
 
+Ahora juntemos las bases de datos. El proceso es más conocido como "merge" o "join" 
 
 
-
-
-## Tema2 <a name="T2"></a>
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r }
-summary(cars)
+```{r}
+s2018<-s2018%>%left_join(resumen, by="ubigeo")
+head(s2018[,c(6,159,160)])
 ```
-## Tema3 <a name="T3"></a>
-##
-##
-##
-##
+
+Existen diferentes tipos de "join" 
+
+  - left_join()
+  - rigth_join()
+  - inner_join()
+

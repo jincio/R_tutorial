@@ -6,17 +6,21 @@ navbar:
       icon: fa-home
       text: Home
     - 
-      href: Descriptives.html
+      href: Curso1.html
+      icon: fa-newspaper-o
+      text: Basicos
+    - 
+      href: Curso1.html
       icon: fa-newspaper-o
       text: Descriptives
     - 
       href: Curso1.html
       icon: fa-newspaper-o
-      text: ALACIP
+      text: Gráficos
     - 
-      href: hw.html
+      href: Curso1.html
       icon: fa-newspaper-o
-      text: Hello
+      text: Modelos
   title: "R Tutorials"
 output: html_document
 output_dir: docs

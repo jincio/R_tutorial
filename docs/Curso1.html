@@ -282,7 +282,14 @@ $(document).ready(function () {
   </a>
 </li>
 <li>
-  <a href="Descriptives.html">
+  <a href="Curso1.html">
+    <span class="fa fa-newspaper-o"></span>
+     
+    Basicos
+  </a>
+</li>
+<li>
+  <a href="Curso1.html">
     <span class="fa fa-newspaper-o"></span>
      
     Descriptives
@@ -292,14 +299,14 @@ $(document).ready(function () {
   <a href="Curso1.html">
     <span class="fa fa-newspaper-o"></span>
      
-    ALACIP
+    Gráficos
   </a>
 </li>
 <li>
-  <a href="hw.html">
+  <a href="Curso1.html">
     <span class="fa fa-newspaper-o"></span>
      
-    Hello
+    Modelos
   </a>
 </li>
       </ul>
@@ -333,7 +340,7 @@ true
 </style>
 <p><strong>ULTIMA ACTUALIZACIÓN:</strong></p>
 <pre class="r"><code>print(Sys.time())</code></pre>
-<pre><code>## [1] &quot;2019-07-24 15:06:57 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2019-07-25 14:35:30 EDT&quot;</code></pre>
 <div id="tabla-de-contenidos" class="section level1">
 <h1>Tabla de Contenidos</h1>
 <p>Parte I:</p>
@@ -574,144 +581,75 @@ table(s2018$minimo)</code></pre>
 ##   0   1 
 ##  16 984</code></pre>
 </div>
+<div id="medidas-por-grupo." class="section level3">
+<h3>Medidas por grupo.</h3>
+<p>Por ejemplo queremos calcular el promedio de cada grupo. Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desviación estandar por cada ubigeo (municipalidad)</p>
+<ul>
+<li>Podemos concatenar funciones. Primero hemos “agrupado” la base de datos, luego hemos calculado el promedio, y la desviación estandard en base a la variable de agrupación.</li>
+<li><code>arrange</code> es para ordernar los ubigeos</li>
+<li>`<code>select</code> para quedarnos con algunas variables (son más de 150)</li>
+<li>`<code>head</code> para pedir los 6 primeros casos.</li>
+</ul>
+<pre class="r"><code>s2018%&gt;%group_by(ubigeo)%&gt;%
+  mutate(promedio=mean(ingreso_bruto),
+         desv=sd(ingreso_bruto))%&gt;%
+  arrange(ubigeo)%&gt;%
+  select(c(1:3,160,161))%&gt;%head()</code></pre>
+<pre><code>## Adding missing grouping variables: `ubigeo`</code></pre>
+<pre><code>## # A tibble: 6 x 6
+## # Groups:   ubigeo [3]
+##   ubigeo aÑo   mes   nconglome promedio   desv
+##   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;        &lt;dbl&gt;  &lt;dbl&gt;
+## 1 010101 2018  10    007100      80756. 43287.
+## 2 010101 2018  06    007066      80756. 43287.
+## 3 010112 2018  12    007151      22392     NA 
+## 4 010201 2018  08    006599      10520.  4929.
+## 5 010201 2018  04    006618      10520.  4929.
+## 6 010201 2018  08    006641      10520.  4929.</code></pre>
+<p>Ahora bien los cambios no se han guardado en la base de datos para hacerlo debemos remplazar el objeto o crear uno nuevo.</p>
+<pre class="r"><code>s2018&lt;-s2018%&gt;%group_by(ubigeo)%&gt;%
+  mutate(promedio=mean(ingreso_bruto),
+         desv=sd(ingreso_bruto))%&gt;%
+  arrange(ubigeo)### Aquí nuestra base ha cambiado ya que tiene dos variables más</code></pre>
+</div>
 </div>
 <div id="merge-y-append-bases-de-datos" class="section level2">
 <h2>Merge y append bases de datos</h2>
-</div>
-<div id="add-incio-missing-finding-them-no-sean-en-0s-si-se-grabo-asi-a-missing" class="section level2">
-<h2>ADD INCIO: Missing – finding them (no sean en 0s si se grabo asi – a missing )</h2>
-</div>
-<div id="parte-iii-descripcion-y-graficos-basicos" class="section level2">
-<h2>Parte III: Descripcion y graficos basicos</h2>
-<div id="descripcion-de-una-variable" class="section level3">
-<h3>Descripcion de una variable</h3>
-<p>Ahora haremos un poco de estadistica descriptiva basica. Hemos estado usando el comando describe bastate, es porque este comando nos da la informacion descriptiva basica de cada variable.</p>
-<p>Usemos la ingresos_mensual (expresada en nuevos soles – 1$=~3.3 soles):</p>
-<p>Tambien podemos pedir la informacion de forma independiente:</p>
-<pre class="r"><code>mean(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE) #Usamos el argumento na.rm=TRUE para decir que nos de el resultado aunque haya missing values. Si no ponemos el argumento no sale.
-sd(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
-median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)</code></pre>
-<p>Podemos guardar la informacion de las medidas de tendencia central en una nueva variable:</p>
-<pre class="r"><code>mean_ingresos&lt;-mean(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
-sd_ingresos&lt;-sd(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)
-median_ingresos&lt;-median(Ej_Enaho$ingresos_mens_indv,na.rm=TRUE)</code></pre>
-<p>Podemos tambien sacar los percentiles de nuestra distribucion:</p>
-<pre class="r"><code>quantile(Ej_Enaho$ingresos_mens_indv, na.rm = TRUE)</code></pre>
-</div>
-</div>
-<div id="add-incio-crear-variable-que-tome-1-si-es-que-estan-en-el-25-superior-de-riqueza" class="section level2">
-<h2>ADD INCIO: crear variable que tome 1 si es que estan en el 25% superior de riqueza</h2>
-<p>Ahora haremos unos graficos simples de distribucion. Para ellos instalaremos el paquete ggplot2. Recomendamos usar esta cartilla de referencia: <a href="https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf" class="uri">https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf</a></p>
-<pre class="r"><code>#install.packages(&quot;ggplot2&quot;)
-library(ggplot2)</code></pre>
-<p>Empecemos con el grafico mas basico:</p>
-<pre class="r"><code>plot(Ej_Enaho$ingresos_mens_indv)</code></pre>
-<p>Ahora haremos un histograma:</p>
-<pre class="r"><code>hist(Ej_Enaho$ingresos_mens_indv)</code></pre>
-<p>Es dificil visualizar la distribucion de la data porque esta muy dispersa, podemos seleccionar solo mirar los valores del 75% inferior hacia abajo:</p>
-</div>
-<div id="add-grafico-limitado-y-mas-opciones-de-grafico" class="section level2">
-<h2>ADD : GRAFICO LIMITADO y mas opciones de grafico</h2>
-<div id="descripcion-de-dos-variables" class="section level3">
-<h3>Descripcion de dos variables</h3>
-<p>Ahora haremos estadistica descriptiva de dos variables.</p>
-<p>Veamos la relacion entre nivel educativo e ingresos mensuales. Primero miremos la variable nivel educativo:</p>
-<pre class="r"><code>summary(Ej_Enaho$educ_nivel)
-ipums_val_labels(Ej_Enaho$educ_nivel) # Vemos que tiene una escala ordina (12 no tiene valores)
-table(Ej_Enaho$educ_nivel)</code></pre>
-<p>A continuacion, cruzamos ambas variables. Emplezamos con correlaciones:</p>
-<pre class="r"><code>cor(Ej_Enaho$ingresos_mens_indv,Ej_Enaho$educ_nivel)</code></pre>
-<p>ADD :Ahora hacemos una diferencia de medias</p>
-<p>Ahora hacemos un grafico de distribucion bivariado:</p>
-<pre class="r"><code>plot(Ej_Enaho$ingresos_mens_indv,Ej_Enaho$educ_nivel)</code></pre>
-</div>
-</div>
-<div id="parte-iv-analisis" class="section level2">
-<h2>Parte IV: Analisis</h2>
-<p>Para el analisis, usaremos la variable ingresos como la variable dependiente y educacion como la variable independiente.</p>
 <ul>
-<li>Regresion simple y diagnostico</li>
+<li>Creemos una base de datos que contenga el ingreso promedio por distrito. Similar a nuestro ejercicio anterior pero ahora la base será un objeto aparte.</li>
 </ul>
-<pre class="r"><code>OLS_1 &lt;- lm(ingresos_mens_indv ~ educ_nivel, data=Ej_Enaho)
-summary(OLS_1)</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = ingresos_mens_indv ~ educ_nivel, data = Ej_Enaho)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -2058.5  -599.1  -211.0   316.4 11515.3 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  -219.51      86.54  -2.536   0.0113 *  
-## educ_nivel    295.05      14.88  19.831   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 1125 on 996 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared:  0.2831, Adjusted R-squared:  0.2823 
-## F-statistic: 393.3 on 1 and 996 DF,  p-value: &lt; 2.2e-16</code></pre>
-<pre class="r"><code>coefficients(OLS_1) # model coefficients</code></pre>
-<pre><code>## (Intercept)  educ_nivel 
-##   -219.5134    295.0452</code></pre>
-<pre class="r"><code>confint(OLS_1, level=0.95) # CIs for model parameters </code></pre>
-<pre><code>##                 2.5 %    97.5 %
-## (Intercept) -389.3410 -49.68588
-## educ_nivel   265.8489 324.24142</code></pre>
-<pre class="r"><code>#fitted(OLS_1) # predicted values
-#residuals(OLS_1) # residuals
-anova(OLS_1) # anova table </code></pre>
-<pre><code>## Analysis of Variance Table
-## 
-## Response: ingresos_mens_indv
-##             Df     Sum Sq   Mean Sq F value    Pr(&gt;F)    
-## educ_nivel   1  497606163 497606163  393.26 &lt; 2.2e-16 ***
-## Residuals  996 1260288670   1265350                      
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<pre class="r"><code>vcov(OLS_1) # covariance matrix for model parameters </code></pre>
-<pre><code>##             (Intercept) educ_nivel
-## (Intercept)    7489.691 -1173.5705
-## educ_nivel    -1173.570   221.3614</code></pre>
-<pre class="r"><code>#influence(OLS_1) # regression diagnostics</code></pre>
+<pre class="r"><code>resumen&lt;-s2018%&gt;%group_by(ubigeo)%&gt;%
+  summarise(promedio=mean(ingreso_bruto),
+            desv=sd(ingreso_bruto))
+head(resumen)</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   ubigeo promedio   desv
+##   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;
+## 1 010101   80756. 43287.
+## 2 010112   22392     NA 
+## 3 010201   10520.  4929.
+## 4 010202    3746.  2255.
+## 5 010203   17275     NA 
+## 6 010205   11892  14875.</code></pre>
+<p>La diferencia aquí es que hemos usado <code>summarise</code> en lugar de <code>mutate</code>. Ya que no estamos agregando una variable a la base. Estamos creando una nueva base.</p>
+<pre class="r"><code>nrow(resumen)</code></pre>
+<pre><code>## [1] 514</code></pre>
+<p>Ahora juntemos las bases de datos. El proceso es más conocido como “merge” o “join”</p>
+<pre class="r"><code>s2018&lt;-s2018%&gt;%left_join(resumen, by=&quot;ubigeo&quot;)
+head(s2018[,c(6,159,160)])</code></pre>
+<pre><code>##   hogar minimo  promedio
+## 1    11      1 20971.317
+## 2    11      1  4007.568
+## 3    11      1  8651.279
+## 4    12      1 39084.833
+## 5    11      1  4224.000
+## 6    11      1 30128.250</code></pre>
+<p>Existen diferentes tipos de “join”</p>
 <ul>
-<li><p>Graficos de ajustes de regresion</p></li>
-<li><p>Controlando por otras variables</p></li>
-<li><p>Cluster SE OLS_3 &lt;- lm(ingresos_mens_indv ~ educ_nivel, data=Ej_Enaho)</p></li>
-<li><p>Efectos fijos</p></li>
-<li><p>Probit/logit – odss ratio y marginal efects</p></li>
+<li>left_join()</li>
+<li>rigth_join()</li>
+<li>inner_join()</li>
 </ul>
-<p>(regresiones de paper mody)</p>
-</div>
-<div id="tema2" class="section level2">
-<h2>Tema2 <a name="T2"></a></h2>
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist       
-##  Min.   : 4.0   Min.   :  2.00  
-##  1st Qu.:12.0   1st Qu.: 26.00  
-##  Median :15.0   Median : 36.00  
-##  Mean   :15.4   Mean   : 42.98  
-##  3rd Qu.:19.0   3rd Qu.: 56.00  
-##  Max.   :25.0   Max.   :120.00</code></pre>
-</div>
-<div id="tema3" class="section level2">
-<h2>Tema3 <a name="T3"></a></h2>
-</div>
-<div id="section" class="section level2">
-<h2></h2>
-</div>
-<div id="section-1" class="section level2">
-<h2></h2>
-</div>
-<div id="section-2" class="section level2">
-<h2></h2>
-</div>
-<div id="section-3" class="section level2">
-<h2></h2>
 </div>
 </div>
 
