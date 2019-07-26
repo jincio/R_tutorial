@@ -16,32 +16,104 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
+
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
 
 
 <style type="text/css">
@@ -106,33 +178,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 51px;
+  padding-top: 45px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 50px;
+  margin-top: -50px;
 }
 .dropdown-submenu {
   position: relative;
@@ -251,6 +323,63 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -258,6 +387,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -289,7 +428,7 @@ $(document).ready(function () {
   </a>
 </li>
 <li>
-  <a href="descrip.html">
+  <a href="Descriptives.html">
     <span class="fa fa-newspaper-o"></span>
      
     Descriptives
@@ -325,9 +464,6 @@ $(document).ready(function () {
 
 </div>
 
-<div id="TOC">
-true
-</div>
 
 <style>
 #TOC {
@@ -339,67 +475,46 @@ true
 }
 </style>
 <p><strong>ULTIMA ACTUALIZACIÓN:</strong></p>
-<pre class="r"><code>print(Sys.time())</code></pre>
-<pre><code>## [1] &quot;2019-07-25 20:10:20 EDT&quot;</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">print</span>(<span class="kw">Sys.time</span>())</a></code></pre></div>
+<pre><code>## [1] &quot;2019-07-26 10:18:09 EDT&quot;</code></pre>
 <div id="tabla-de-contenidos" class="section level1">
-<h1>Tabla de Contenidos</h1>
+<h1><span class="header-section-number">1</span> Tabla de Contenidos</h1>
 <p>Parte I:</p>
 <ul>
-<li><a href="#T1">Descargando e instalando R</a></li>
-<li><a href="#T2">La consola de R y comandos basicos</a></li>
-<li><a href="#T3">Subiendo una base de datos</a></li>
-</ul>
-<p>Parte II: Manipular y limpiar base de datos</p>
-<ul>
-<li>Recode</li>
-<li>Rename y re label</li>
-<li>gen variable (categorica, dicotomica, average de grupo)</li>
-<li>Missing – finding them (no sean en 0s si se grabo asi – a missing )</li>
-</ul>
-<p>Parte III: Estadisticos descriptivos</p>
-<ul>
-<li>Media, mediana, moda, SD</li>
-<li>Graficos simples de distribucion</li>
-<li>Percentiles</li>
-<li>Dos variables – diferencia de medias, correlaciones, GRaficosde distribucion y correlacion</li>
-</ul>
-<p>Parte IV: Analisis y Graficos</p>
-<ul>
-<li>Regresion simple y diagnostico</li>
-<li>Graficos de ajustes de regresion</li>
-<li>Controlando por otras variables</li>
-<li>Cluster SE</li>
-<li>Efectos fijos</li>
-<li>Probit/logit – odss ratio y marginal efects</li>
+<li><a href="#T1">Basicos</a></li>
+<li><a href="#T2">Subiendo bases de datos</a></li>
+<li><a href="#T3">Manipular y limpiar base de datos</a></li>
+<li><a href="#T3">Merge-Join bases</a></li>
 </ul>
 </div>
 <div id="basicos." class="section level1">
-<h1>Basicos.</h1>
+<h1><span class="header-section-number">2</span> Basicos.</h1>
 <p>Cuando inicias <strong>R</strong> se activan un grupo básicos de paquetes. Los paquetes tienen funciones y las funciones argumentos.</p>
 <p>Puedes instalar paquetes usando <code>install.packages("nombre del paquete")</code>. Los paquetes se instalan una sola vez. Luego de eso ya estan en la memoria de tu computadora.</p>
 <p>Cada vez que necesitas un paquete lo puedes llamar con: <code>library(paquete)</code>.</p>
 <p>Por ejemplo si corres un código y el resultado es un error con un mensaje que dice: <strong>could not find function “xxx”</strong>. Entonces no has llamado el paquete (usando library) y si llamas al paqute y te resulta un error con el siguiente mensaje: <strong>Error in library(paquete) : there is no package called ‘paquete’</strong> significa que necesitas instalarlo.</p>
 <div id="subiendo-una-base-de-datos" class="section level2">
-<h2>Subiendo una base de datos <a name="T3"></a></h2>
+<h2><span class="header-section-number">2.1</span> Subiendo una base de datos <a name="T2"></a></h2>
 <p>Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. Existen varios paquetes que nos pueden ayudar con eso. En este tutorial trabajaremos con <code>rio</code>. Rio nos permite abrir distintos tipos de base de datos con facilidad.</p>
-<pre class="r"><code>install.packages(&quot;rio&quot;)</code></pre>
-<pre class="r"><code>library(rio)</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;rio&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">library</span>(rio)</a></code></pre></div>
 <p>Segundo, llamamos a nuestra base de datos.</p>
 <p><strong>IMPORTANTE</strong> antes de interacturar con folders (subir data, grabar resultados, gráficos, etc) tienes que establecer tu directorio de trabajo. La forma más rápida es con la rueda con la etiqueta “more” en el panel derecho.</p>
 <p><img src="data_examples/Rstudio_swd.png" width="80%" /></p>
-<p>La base de datos debe estar en nuestro espacio de trabajo. La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. La base <strong>sumaria-2018.dta</strong>. Aquí esta el link de donde pueden descargarla <embed src="http://iinei.inei.gob.pe/iinei/srienaho/descarga/STATA/634-Modulo34.zip" />. Tenemos informacion sobre ingresos, y gastos de los hogares en Perú.</p>
+<p>La base de datos debe estar en nuestro espacio de trabajo.
+La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. La base <strong>sumaria-2018.dta</strong>. Aquí esta el link de donde pueden descargarla <embed src="http://iinei.inei.gob.pe/iinei/srienaho/descarga/STATA/634-Modulo34.zip" />. Tenemos informacion sobre ingresos, y gastos de los hogares en Perú.</p>
 <p>En esta página estoy trabajando con una selección aleatoria de 1000 casos. La base original tiene más de 30 mil casos.</p>
 <p>Dado que tenemos el paquete rio, no necesitamos decirle a R que nuestra base de datos esta en STATA, R lo entiende.</p>
 <p>Vamos a usar el comando import y asignarle un nombre a nuestra base de datos. Lo llamaremos <strong>S2018</strong>. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.</p>
-<pre class="r"><code>s2018&lt;-import(&quot;./data_examples/summaria-2018.dta&quot;)</code></pre>
-<pre class="r"><code>head(s2018) #Give us the first six cases. </code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">s2018&lt;-<span class="kw">import</span>(<span class="st">&quot;./data_examples/summaria-2018.dta&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">head</span>(s2018) <span class="co">#Give us the first six cases. </span></a></code></pre></div>
 <p>Siempre es bueno mirar la base de datos con la cual estamos trabajando para darnos una idea mas concreta de que estamos haciendo. Primero debemos saber con que tipo de objeto estamos lidiando.</p>
-<pre class="r"><code>str(s2018) ## Te da el tipo de objeto y el tipo de cada variable. </code></pre>
-<pre class="r"><code>is.data.frame(s2018) ## Es otra forma de comprobarlo.</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">str</span>(s2018) <span class="co">## Te da el tipo de objeto y el tipo de cada variable. </span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">is.data.frame</span>(s2018) <span class="co">## Es otra forma de comprobarlo.</span></a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>En este caso <strong>Ej_Enaho</strong> es un objeto de tipo data frame, por lo que tiene dos dimensiones, saber esto es importante por que así podemos manipularlas.</p>
 <p>En el código debajo estamos seleccionando los 20 primeros casos (1:20), y las tres primeras variables (1:3). Conocer las dimensiones es útil para luego filtrar la base de datos.</p>
-<pre class="r"><code>s2018[1:20,1:3]</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">s2018[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</a></code></pre></div>
 <pre><code>##     aÑo mes nconglome
 ## 1  2018  06    021521
 ## 2  2018  02    033493
@@ -422,18 +537,18 @@ true
 ## 19 2018  10    042844
 ## 20 2018  07    014755</code></pre>
 <p>Si eres ansioso y quieres ver toda la base de datos puedes usar el siguiente código:</p>
-<pre class="r"><code>View(s2018)</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">View</span>(s2018)</a></code></pre></div>
 <p>Podriamos mirar una muestra de nuestra base de datos con la opcion head. Abajo, le pedimos que nos puestre las 300 primeras observaciones.</p>
-<pre class="r"><code>View(head(s2018,300))</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">View</span>(<span class="kw">head</span>(s2018,<span class="dv">300</span>))</a></code></pre></div>
 <p>La función <strong>import</strong> de rio permite subir archivos en distintos formatos. Existen otros paquetes como <strong>foreign</strong> que también hacen lo mismo. Pero <strong>rio</strong> me parece más conveniente.</p>
 </div>
-<div id="parte-ii-manipular-y-limpiar-base-de-datos" class="section level2">
-<h2>Parte II: Manipular y limpiar base de datos</h2>
+<div id="manipular-y-limpiar-base-de-datos" class="section level2">
+<h2><span class="header-section-number">2.2</span> Manipular y limpiar base de datos <a name="T3"></a></h2>
 <p>En esta secciones aprenderemos algunas de los pasos mas frecuentes que hacemos al encontrarnos con una nueva base de datos: limpiar y manipular algunas variables para que pueda analizarse. Debemos limpiar nuestra base de datos por muchas razones; quizas para calcular las variables que queremos, para desacernos de grupos de observaciones que no nos interesan o para hacer mas fácil el juntar nuestra base de datos con otras.</p>
 <div id="re-nombrar-y-etiquetar-variables" class="section level3">
-<h3>Re-nombrar y etiquetar variables</h3>
+<h3><span class="header-section-number">2.2.1</span> Re-nombrar y etiquetar variables</h3>
 <p>Podemos llamar nuestras variables en la BD con la función <code>names</code> o también <code>ls</code></p>
-<pre class="r"><code>ls(s2018) ## Este comando te las da en nombre alfabetico</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">ls</span>(s2018) <span class="co">## Este comando te las da en nombre alfabetico</span></a></code></pre></div>
 <pre><code>##   [1] &quot;aÑo&quot;        &quot;conglome&quot;   &quot;dominio&quot;    &quot;estrato&quot;    &quot;estrsocial&quot;
 ##   [6] &quot;factor07&quot;   &quot;g05hd&quot;      &quot;g05hd1&quot;     &quot;g05hd2&quot;     &quot;g05hd3&quot;    
 ##  [11] &quot;g05hd4&quot;     &quot;g05hd5&quot;     &quot;g05hd6&quot;     &quot;g07hd&quot;      &quot;ga03hd&quot;    
@@ -466,7 +581,7 @@ true
 ## [146] &quot;sg42&quot;       &quot;sg421&quot;      &quot;sg422&quot;      &quot;sg423&quot;      &quot;sg42d&quot;     
 ## [151] &quot;sg42d1&quot;     &quot;sg42d2&quot;     &quot;sg42d3&quot;     &quot;sig24&quot;      &quot;sig26&quot;     
 ## [156] &quot;totmieho&quot;   &quot;ubigeo&quot;     &quot;vivienda&quot;</code></pre>
-<pre class="r"><code>names(s2018)## Te los da en el orden en que estan en la base de datos. </code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">names</span>(s2018)<span class="co">## Te los da en el orden en que estan en la base de datos. </span></a></code></pre></div>
 <pre><code>##   [1] &quot;aÑo&quot;        &quot;mes&quot;        &quot;nconglome&quot;  &quot;conglome&quot;   &quot;vivienda&quot;  
 ##   [6] &quot;hogar&quot;      &quot;ubigeo&quot;     &quot;dominio&quot;    &quot;estrato&quot;    &quot;percepho&quot;  
 ##  [11] &quot;mieperho&quot;   &quot;totmieho&quot;   &quot;ia01hd&quot;     &quot;ia02hd&quot;     &quot;ig03hd1&quot;   
@@ -501,70 +616,70 @@ true
 ## [156] &quot;linea&quot;      &quot;pobreza&quot;    &quot;factor07&quot;</code></pre>
 <p>Por ejemplo la variable <strong>inghog1d</strong> (posición 141) es el ingreso bruto anual queremos cambiar el nombre a “ingreso_bruto”.</p>
 <p>La forma más rápida es:</p>
-<pre class="r"><code>names(s2018)[141]&lt;-&quot;ingreso_bruto&quot;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">names</span>(s2018)[<span class="dv">141</span>]&lt;-<span class="st">&quot;ingreso_bruto&quot;</span></a></code></pre></div>
 <p>Si no tenemos la ubicación, quizás son miles de variables, podemos también usar</p>
-<pre class="r"><code>names(s2018)[names(s2018) == &quot;inghog1d&quot;] &lt;-&quot;ingreso_bruto&quot;
-## Si ya corriste el código anterior este te va a dar error, ya que está buscando un nombre que no existe ;)</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">names</span>(s2018)[<span class="kw">names</span>(s2018) <span class="op">==</span><span class="st"> &quot;inghog1d&quot;</span>] &lt;-<span class="st">&quot;ingreso_bruto&quot;</span></a>
+<a class="sourceLine" id="cb19-2" title="2"><span class="co">## Si ya corriste el código anterior este te va a dar error, ya que está buscando un nombre que no existe ;)</span></a></code></pre></div>
 <p>Pedimos el nombre de variables denuevo</p>
-<pre class="r"><code>names(s2018)[140:145] #Exacto! podemos indexar para no ver todas las variables nuevamente </code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">names</span>(s2018)[<span class="dv">140</span><span class="op">:</span><span class="dv">145</span>] <span class="co">#Exacto! podemos indexar para no ver todas las variables nuevamente </span></a></code></pre></div>
 <pre><code>## [1] &quot;ingotrhd&quot;      &quot;ingreso_bruto&quot; &quot;ingmo2hd&quot;      &quot;inghog1d&quot;     
 ## [5] &quot;inghog2d&quot;      &quot;gashog1d&quot;</code></pre>
 <p><strong>etiquetas</strong></p>
 <p>Si subimos la base de datos desde STATA, estas pueden tener etiquetas.</p>
 <p>Por ejemplo, veamos la etiqueta de nuestra variables “ingreso_bruto”</p>
-<pre class="r"><code>label(s2018$ingreso_bruto)</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label</a></code></pre></div>
 <pre><code>## [1] &quot;ingreso monetario (bruto)&quot;</code></pre>
 <p>Queremos cambiarla a “ingreso monetario (bruto) anual”</p>
-<pre class="r"><code>label(s2018$ingreso_bruto)&lt;-&quot;ingreso monetario (bruto) anual&quot;
-label(s2018$ingreso_bruto) #Veamos el cambio!.</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label&lt;-<span class="st">&quot;ingreso monetario (bruto) anual&quot;</span></a>
+<a class="sourceLine" id="cb24-2" title="2"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label <span class="co">#Veamos el cambio!.</span></a></code></pre></div>
 <pre><code>## [1] &quot;ingreso monetario (bruto) anual&quot;</code></pre>
 </div>
 <div id="recodificar-variables" class="section level3">
-<h3>Recodificar variables</h3>
+<h3><span class="header-section-number">2.2.2</span> Recodificar variables</h3>
 <p>Ahora recodificaremos los valores de la variable con que estamos trabajando.</p>
 <p>Usamos la funcion abajo para ver los valores y las etiquetas de la variable que creamos.</p>
-<pre class="r"><code>attributes(s2018$estrsocial)$labels</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
 <pre><code>##     a     b     c     d     e rural 
 ##     1     2     3     4     5     6</code></pre>
 <p>Queremos recodificar los valores de <strong>rural</strong> de 6 a 0.</p>
-<pre class="r"><code>s2018[s2018$estrsocial==6,]$estrsocial&lt;-0</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">s2018[s2018<span class="op">$</span>estrsocial<span class="op">==</span><span class="dv">6</span>,]<span class="op">$</span>estrsocial&lt;-<span class="dv">0</span></a></code></pre></div>
 <p>Si pedimos una tabla vemos que el cambio se realizo:</p>
-<pre class="r"><code>table(s2018$estrsocial)</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">table</span>(s2018<span class="op">$</span>estrsocial)</a></code></pre></div>
 <pre><code>## 
 ##   0   1   2   3   4   5 
 ## 383  17  34  81 226 259</code></pre>
 <p>Pero las etiquetas siguen mostrando el orden anterior</p>
-<pre class="r"><code>attributes(s2018$estrsocial)$labels</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
 <pre><code>##     a     b     c     d     e rural 
 ##     1     2     3     4     5     6</code></pre>
-<pre class="r"><code>attributes(s2018$estrsocial)$labels[[1]]&lt;-0
-attributes(s2018$estrsocial)$labels</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels[[<span class="dv">1</span>]]&lt;-<span class="dv">0</span></a>
+<a class="sourceLine" id="cb33-2" title="2"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
 <pre><code>##     a     b     c     d     e rural 
 ##     0     2     3     4     5     6</code></pre>
 </div>
 <div id="generar-variables-categorica-dicotomica-average-de-grupo" class="section level3">
-<h3>Generar variables (categorica, dicotomica, average de grupo)</h3>
+<h3><span class="header-section-number">2.2.3</span> Generar variables (categorica, dicotomica, average de grupo)</h3>
 <p>Ahora vamos a generar distintos tipos de variables. Empecemos con una variable dicotomica. Vamos a usar informacion sobre el ingreso reportado</p>
 </div>
 <div id="variable-categoricas" class="section level3">
-<h3>Variable categóricas</h3>
+<h3><span class="header-section-number">2.2.4</span> Variable categóricas</h3>
 <p>Generemos una variable que toma el valor de 1 si es que el informante gana más de 800 soles y 0 si es menos o igual. Creamos una variable vacia y le incluimos los argumentos:</p>
 <ul>
 <li>Forma 1:</li>
 </ul>
-<pre class="r"><code>s2018$minimo&lt;-NA
-s2018[s2018$ingreso_bruto&lt;=800,]$minimo&lt;-0
-s2018[s2018$ingreso_bruto&gt;800,]$minimo&lt;-1
-table(s2018$minimo)</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">s2018<span class="op">$</span>minimo&lt;-<span class="ot">NA</span></a>
+<a class="sourceLine" id="cb35-2" title="2">s2018[s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,]<span class="op">$</span>minimo&lt;-<span class="dv">0</span></a>
+<a class="sourceLine" id="cb35-3" title="3">s2018[s2018<span class="op">$</span>ingreso_bruto<span class="op">&gt;</span><span class="dv">800</span>,]<span class="op">$</span>minimo&lt;-<span class="dv">1</span></a>
+<a class="sourceLine" id="cb35-4" title="4"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
 <pre><code>## 
 ##   0   1 
 ##  16 984</code></pre>
 <ul>
 <li>Forma 2:</li>
 </ul>
-<pre class="r"><code>s2018$minimo&lt;-NA
-s2018$minimo&lt;-ifelse(s2018$ingreso_bruto&lt;=800,0,1)
-table(s2018$minimo)</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">s2018<span class="op">$</span>minimo&lt;-<span class="ot">NA</span></a>
+<a class="sourceLine" id="cb37-2" title="2">s2018<span class="op">$</span>minimo&lt;-<span class="kw">ifelse</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,<span class="dv">0</span>,<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb37-3" title="3"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
 <pre><code>## 
 ##   0   1 
 ##  16 984</code></pre>
@@ -575,26 +690,27 @@ table(s2018$minimo)</code></pre>
 <p>Dplyr y Tydir son muy populares, así que es bueno ir familiarizandose con ellos.</p>
 <p>Lo especial de Dplyr es que tiene sus propias funciones y además que conecta funciones usando <strong>%&gt;%</strong>. De esa manera puede ser más eficiente con el espacio de trabajo, evitando crear muchos objetos.</p>
 <p>En este caso la función es <strong>mutate</strong></p>
-<pre class="r"><code>s2018&lt;-s2018%&gt;%mutate(minimo=ifelse(s2018$ingreso_bruto&lt;=800,0,1))
-table(s2018$minimo)</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">minimo=</span><span class="kw">ifelse</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,<span class="dv">0</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb39-2" title="2"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
 <pre><code>## 
 ##   0   1 
 ##  16 984</code></pre>
 </div>
 <div id="medidas-por-grupo." class="section level3">
-<h3>Medidas por grupo.</h3>
-<p>Por ejemplo queremos calcular el promedio de cada grupo. Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desviación estandar por cada ubigeo (municipalidad)</p>
+<h3><span class="header-section-number">2.2.5</span> Medidas por grupo.</h3>
+<p>Por ejemplo queremos calcular el promedio de cada grupo.
+Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desviación estandar por cada ubigeo (municipalidad)</p>
 <ul>
 <li>Podemos concatenar funciones. Primero hemos “agrupado” la base de datos, luego hemos calculado el promedio, y la desviación estandard en base a la variable de agrupación.</li>
 <li><code>arrange</code> es para ordernar los ubigeos</li>
 <li>`<code>select</code> para quedarnos con algunas variables (son más de 150)</li>
 <li>`<code>head</code> para pedir los 6 primeros casos.</li>
 </ul>
-<pre class="r"><code>s2018%&gt;%group_by(ubigeo)%&gt;%
-  mutate(promedio=mean(ingreso_bruto),
-         desv=sd(ingreso_bruto))%&gt;%
-  arrange(ubigeo)%&gt;%
-  select(c(1:3,160,161))%&gt;%head()</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
+<a class="sourceLine" id="cb41-3" title="3">         <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-4" title="4"><span class="st">  </span><span class="kw">arrange</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb41-5" title="5"><span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dv">160</span>,<span class="dv">161</span>))<span class="op">%&gt;%</span><span class="kw">head</span>()</a></code></pre></div>
 <pre><code>## Adding missing grouping variables: `ubigeo`</code></pre>
 <pre><code>## # A tibble: 6 x 6
 ## # Groups:   ubigeo [3]
@@ -607,21 +723,21 @@ table(s2018$minimo)</code></pre>
 ## 5 010201 2018  04    006618      10520.  4929.
 ## 6 010201 2018  08    006641      10520.  4929.</code></pre>
 <p>Ahora bien los cambios no se han guardado en la base de datos para hacerlo debemos remplazar el objeto o crear uno nuevo.</p>
-<pre class="r"><code>s2018&lt;-s2018%&gt;%group_by(ubigeo)%&gt;%
-  mutate(promedio=mean(ingreso_bruto),
-         desv=sd(ingreso_bruto))%&gt;%
-  arrange(ubigeo)### Aquí nuestra base ha cambiado ya que tiene dos variables más</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
+<a class="sourceLine" id="cb44-3" title="3">         <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-4" title="4"><span class="st">  </span><span class="kw">arrange</span>(ubigeo)<span class="co">### Aquí nuestra base ha cambiado ya que tiene dos variables más</span></a></code></pre></div>
 </div>
 </div>
 <div id="merge-y-append-bases-de-datos" class="section level2">
-<h2>Merge y append bases de datos</h2>
+<h2><span class="header-section-number">2.3</span> Merge y append bases de datos <a name="T4"></a></h2>
 <ul>
 <li>Creemos una base de datos que contenga el ingreso promedio por distrito. Similar a nuestro ejercicio anterior pero ahora la base será un objeto aparte.</li>
 </ul>
-<pre class="r"><code>resumen&lt;-s2018%&gt;%group_by(ubigeo)%&gt;%
-  summarise(promedio=mean(ingreso_bruto),
-            desv=sd(ingreso_bruto))
-head(resumen)</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1">resumen&lt;-s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb45-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
+<a class="sourceLine" id="cb45-3" title="3">            <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))</a>
+<a class="sourceLine" id="cb45-4" title="4"><span class="kw">head</span>(resumen)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   ubigeo promedio   desv
 ##   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;
@@ -632,11 +748,11 @@ head(resumen)</code></pre>
 ## 5 010203   17275     NA 
 ## 6 010205   11892  14875.</code></pre>
 <p>La diferencia aquí es que hemos usado <code>summarise</code> en lugar de <code>mutate</code>. Ya que no estamos agregando una variable a la base. Estamos creando una nueva base.</p>
-<pre class="r"><code>nrow(resumen)</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1"><span class="kw">nrow</span>(resumen)</a></code></pre></div>
 <pre><code>## [1] 514</code></pre>
 <p>Ahora juntemos las bases de datos. El proceso es más conocido como “merge” o “join”</p>
-<pre class="r"><code>s2018&lt;-s2018%&gt;%left_join(resumen, by=&quot;ubigeo&quot;)
-head(s2018[,c(6,159,160)])</code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">left_join</span>(resumen, <span class="dt">by=</span><span class="st">&quot;ubigeo&quot;</span>)</a>
+<a class="sourceLine" id="cb49-2" title="2"><span class="kw">head</span>(s2018[,<span class="kw">c</span>(<span class="dv">6</span>,<span class="dv">159</span>,<span class="dv">160</span>)])</a></code></pre></div>
 <pre><code>##   hogar minimo  promedio
 ## 1    11      1 20971.317
 ## 2    11      1  4007.568
@@ -655,6 +771,8 @@ head(s2018[,c(6,159,160)])</code></pre>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -687,6 +805,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

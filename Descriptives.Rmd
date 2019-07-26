@@ -6,22 +6,110 @@ title: "Descriptives"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+**ULTIMA ACTUALIZACIÓN:**
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r}
+print(Sys.time())
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+# Tabla de Contenidos
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+Parte I: 
+
+- [Medidas centrales](#T1)
+- [Correlaciones](#T2)
+- [Differencias de medias](#T3)
+- [Chi-square otras](#T3)
+  
+
+## Descriptivos básicos  
+
+Reutilizamos la base de datos con la que hemos venido trabajando **s2018** en la sección anterior
+
+```{r, echo=FALSE}
+library(rio)
+library(dplyr)
+set.seed(100)
+s2018<-import("./data_examples/sumaria-2018.dta")%>%
+  sample_n(1000)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+names(s2018)[141]<-"ingreso_bruto"
+```
+
+Existen funciones que nos pueden dar un vistazo a toda la base de datos. La más útil es: summary. Podemos pedir un summary de la base de datos o de una variable
+
+```{r, eval=FALSE}
+summary(s2018) # De toda la base de datos
+```
+
+```{r}
+summary(s2018$ingreso_bruto)
+```
+
+Dentro del paquete Hmisc tenemos varias funciones útiles. 
+
+```{r eval=FALSE}
+install.packages("Hmisc") #Si no lo tienes instalado ya. 
+```
+
+```{r}
+library(Hmisc)
+```
+
+```{r}
+describe(s2018$ingreso_bruto)
+```
+
+Podemos pedir medidas especifícas, es bueno agregar ```na.rm=true``` ya que si tenemos valores perdidos generaría error en el cálculo. 
+
+```{r}
+mean(s2018$ingreso_bruto, na.rm = TRUE) ## Media
+median(s2018$ingreso_bruto) ## Mediana
+sd(s2018$ingreso_bruto) ## Desviación estandard
+var(s2018$ingreso_bruto)
+```
+
+Podemos pedir medidas de posición:
+
+```{r}
+quantile(s2018$ingreso_bruto, 0.9) #percentil 90
+```
+
+Podemos pedir varios a la vez, combinando funciones. Por ejemplo la función ```seq(inicio, final, salto)``` 
+
+```{r}
+quantile(s2018$ingreso_bruto, seq(0.1,0.9,0.1))
+```
+
+## Tablas: 
+
+Frequencias.
+
+```{r}
+table(s2018$estrsocial)
+```
+
+Proportion table. 
+
+```{r}
+prop.table(table(s2018$estrsocial))
+```
+
+Tablas con Dplyr: 
+
+```{r}
+s2018%>%group_by(estrsocial)%>%
+  summarise(Frequency=n())%>%
+  mutate(Porcentaje=Frequency/sum(Frequency)*100)
+```
+
+```{r}
+attributes(s2018$estrsocial)$labels
+```
+
+
+
+

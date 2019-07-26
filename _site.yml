@@ -10,7 +10,7 @@ navbar:
       icon: fa-newspaper-o
       text: Basicos
     - 
-      href: descrip.html
+      href: Descriptives.html
       icon: fa-newspaper-o
       text: Descriptives
     - 
@@ -22,6 +22,12 @@ navbar:
       icon: fa-newspaper-o
       text: Modelos
   title: "R Tutorials"
-output: html_document
+output:
+  bookdown::html_document2:
+    theme: yeti
+    toc: yes
+    toc_depth: 3
+    toc_float: true
+    number_sections: yes
+    highlight: haddock
 output_dir: docs
-theme: jekyll-theme-slate

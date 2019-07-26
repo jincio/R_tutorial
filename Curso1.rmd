@@ -37,34 +37,11 @@ print(Sys.time())
 
 Parte I: 
 
-- [Descargando e instalando R](#T1)
-- [La consola de R y comandos basicos](#T2)
-- [Subiendo una base de datos](#T3)
+- [Basicos](#T1)
+- [Subiendo bases de datos](#T2)
+- [Manipular y limpiar base de datos](#T3)
+- [Merge-Join bases](#T3)
   
-
-Parte II: Manipular y limpiar base de datos
-
-- Recode
-- Rename y re label
-- gen variable (categorica, dicotomica, average de grupo)
-- Missing -- finding them (no sean en 0s si se grabo asi -- a missing )
-
-Parte III: Estadisticos descriptivos
-
-- Media, mediana, moda, SD
-- Graficos simples de distribucion
-- Percentiles
-- Dos variables -- diferencia de medias, correlaciones, GRaficosde distribucion y  correlacion
-
-Parte IV: Analisis y Graficos
-
-- Regresion simple y diagnostico
-- Graficos de ajustes de regresion
-- Controlando por otras variables
-- Cluster SE
-- Efectos fijos
-- Probit/logit -- odss ratio y marginal efects
-
 # Basicos. 
 
 Cuando inicias **R** se activan un grupo básicos de paquetes. Los paquetes tienen funciones y las funciones argumentos. 
@@ -75,7 +52,7 @@ Cada vez que necesitas un paquete lo puedes llamar con: ```library(paquete)```.
 
 Por ejemplo si corres un código y el resultado es un error con un mensaje que dice: **could not find function "xxx"**. Entonces no has llamado el paquete (usando library) y si llamas al paqute y te resulta un error con el siguiente mensaje: **Error in library(paquete) : there is no package called ‘paquete’** significa que necesitas instalarlo. 
 
-## Subiendo una base de datos <a name="T3"></a>
+## Subiendo una base de datos <a name="T2"></a>
 
 Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. Existen varios paquetes que nos pueden ayudar con eso. En este tutorial trabajaremos con ```rio```. Rio nos permite abrir distintos tipos de base de datos con facilidad. 
 
@@ -106,6 +83,7 @@ Dado que tenemos el paquete rio, no necesitamos decirle a R que nuestra base de 
 Vamos a usar el comando import y asignarle un nombre a nuestra base de datos. Lo llamaremos **S2018**. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.
 
 ```{r, echo=FALSE}
+library(dplyr)
 set.seed(100)
 s2018<-import("./data_examples/sumaria-2018.dta")%>%
   sample_n(1000)
@@ -152,7 +130,7 @@ View(head(s2018,300))
 
 La función **import** de rio permite subir archivos en distintos formatos. Existen otros paquetes como **foreign** que también hacen lo mismo. Pero **rio** me parece más conveniente.
 
-## Parte II: Manipular y limpiar base de datos
+## Manipular y limpiar base de datos <a name="T3"></a>
 
 En esta secciones aprenderemos algunas de los pasos mas frecuentes que hacemos al encontrarnos con una nueva base de datos: limpiar y manipular algunas variables para que pueda analizarse. Debemos limpiar nuestra base de datos por muchas razones; quizas para calcular las variables que queremos, para desacernos de grupos de observaciones que no nos interesan o para hacer mas fácil el juntar nuestra base de datos con otras.
 
@@ -195,14 +173,14 @@ Si subimos la base de datos desde STATA, estas pueden tener etiquetas.
 Por ejemplo, veamos la etiqueta de nuestra variables "ingreso_bruto" 
 
 ```{r}
-label(s2018$ingreso_bruto)
+attributes(s2018$ingreso_bruto)$label
 ```
 
 Queremos cambiarla a "ingreso monetario (bruto) anual"
 
 ```{r}
-label(s2018$ingreso_bruto)<-"ingreso monetario (bruto) anual"
-label(s2018$ingreso_bruto) #Veamos el cambio!.
+attributes(s2018$ingreso_bruto)$label<-"ingreso monetario (bruto) anual"
+attributes(s2018$ingreso_bruto)$label #Veamos el cambio!.
 ```
 
 ### Recodificar variables
@@ -307,7 +285,7 @@ s2018<-s2018%>%group_by(ubigeo)%>%
 ```
 
 
-## Merge y append bases de datos
+## Merge y append bases de datos <a name="T4"></a>
 
 - Creemos una base de datos que contenga el ingreso promedio por distrito. Similar a nuestro ejercicio anterior pero ahora la base será un objeto aparte. 
 
