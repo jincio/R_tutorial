@@ -12,19 +12,6 @@ knitr::opts_chunk$set(echo = TRUE)
 print(Sys.time())
 ```
 
-
-# Tabla de Contenidos
-
-Parte I: 
-
-- [Descriptivos básicos](#T1)
-    a) [Tablas de Frequencias](#T1.1)
-    b) [Gráficos descriptivos](#T1.2)
-- [Correlaciones](#T2)
-- [Differencias de medias](#T3)
-- [Chi-square otras](#T3)
-  
-
 ## Descriptivos básicos  <a name="T1"></a>
 
 Reutilizamos la base de datos con la que hemos venido trabajando **s2018** en la sección anterior
@@ -103,7 +90,7 @@ prop.table(table(s2018$estrsocial))
 Tablas con Dplyr:
 
 
-```{r}
+```{r test2}
 s2018%>%group_by(estrsocial)%>%
   summarise(Frequency=n())%>%
   mutate(Porcentaje=Frequency/sum(Frequency)*100)%>%
@@ -111,16 +98,13 @@ s2018%>%group_by(estrsocial)%>%
   select(Estratos,Frequency,Porcentaje)
 ```
 
-
-
-
-### Gráficos Descriptivos: <a name="T1.1"></a>
+## Gráficos Descriptivos: <a name="T2"></a>
 
 Existen funciones básicas para gráficos en R, pero la versatilidad de R para gráficos va más allá de estas funciones básicas. Paquetes como **ggplot** han llevado a otro nivel el análisis gráfico de R. 
 
 Aquí trataremos de mostra ambos. 
 
-### Graficos de Barra simples en R 
+### Graficos de Barra simples en R <a name="T2_1"></a>
 
 ```{r}
 barplot(table(s2018$estrsocial))
@@ -134,14 +118,15 @@ barplot(table(s2018$estrsocial), col="red",
         main="Este es un título")
 ```
 
-### Graficos de Barra simples en **ggplot** y **dplyr**
+### Graficos de Barra simples en **ggplot** y **dplyr** <a name="T2_2"></a>
 
 - ggplot: es el paso inicial para crear un "ambiente" ggplot.
 - **+** vas agregando capas (detalles) al objecto
 - ```geom_bar``` es que crearemos un gráficos de barras
 
 ```{r}
-library(ggplot2) # Recuerda que tienes haberlo instalado antes. 
+library(ggplot2) # Recuerda que tienes haberlo instalado antes.
+library(dplyr)
 s2018%>%ggplot(aes(x=estrsocial))+
     geom_bar(stat="bin", bins=20)
 ```
@@ -193,7 +178,7 @@ boxplot(s2018$ingreso_bruto~s2018$estrsocial, col="red")
 
 ### Box plot o diagramas de cajas con **dyplr** y **ggplot2**
 
-```{r}
+```{r test1}
 s2018%>%ggplot(aes(y=estrsocial))+
   geom_boxplot(col="red", fill="blue")
 ```
@@ -230,7 +215,7 @@ text(median(s2018$ingreso_bruto),300, "Medana",pch = 3)
 
 ### Histogramas con **dplyr** y **ggplot2**
 
-```{r}
+```{r }
 s2018%>%ggplot(aes(x=ingreso_bruto))+
   geom_histogram(bins=20)+
   geom_vline(aes(xintercept=mean(ingreso_bruto)),
