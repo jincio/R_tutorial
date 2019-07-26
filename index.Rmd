@@ -8,8 +8,6 @@ title: "Presentación"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# R
-
 **Spanish**
 
 Esta página está dedicada a todos los que quieren aprender R. Aquí

@@ -451,7 +451,7 @@ div.tocify {
 
 <p><strong>ULTIMA ACTUALIZACIÓN:</strong></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">print</span>(<span class="kw">Sys.time</span>())</a></code></pre></div>
-<pre><code>## [1] &quot;2019-07-26 15:27:26 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2019-07-26 17:35:28 EDT&quot;</code></pre>
 <div id="tabla-de-contenidos" class="section level1">
 <h1><span class="header-section-number">1</span> Tabla de Contenidos</h1>
 <p>Parte I:</p>
@@ -481,15 +481,23 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 <p>En esta página estoy trabajando con una selección aleatoria de 1000 casos. La base original tiene más de 30 mil casos.</p>
 <p>Dado que tenemos el paquete rio, no necesitamos decirle a R que nuestra base de datos esta en STATA, R lo entiende.</p>
 <p>Vamos a usar el comando import y asignarle un nombre a nuestra base de datos. Lo llamaremos <strong>S2018</strong>. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">s2018&lt;-<span class="kw">import</span>(<span class="st">&quot;./data_examples/summaria-2018.dta&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">head</span>(s2018) <span class="co">#Give us the first six cases. </span></a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">s2018&lt;-<span class="kw">import</span>(<span class="st">&quot;./data_examples/summaria-2018.dta&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">head</span>(s2018) <span class="co">#Give us the first six cases. </span></a></code></pre></div>
 <p>Siempre es bueno mirar la base de datos con la cual estamos trabajando para darnos una idea mas concreta de que estamos haciendo. Primero debemos saber con que tipo de objeto estamos lidiando.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">str</span>(s2018) <span class="co">## Te da el tipo de objeto y el tipo de cada variable. </span></a></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">is.data.frame</span>(s2018) <span class="co">## Es otra forma de comprobarlo.</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">str</span>(s2018) <span class="co">## Te da el tipo de objeto y el tipo de cada variable. </span></a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">is.data.frame</span>(s2018) <span class="co">## Es otra forma de comprobarlo.</span></a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>En este caso <strong>Ej_Enaho</strong> es un objeto de tipo data frame, por lo que tiene dos dimensiones, saber esto es importante por que así podemos manipularlas.</p>
 <p>En el código debajo estamos seleccionando los 20 primeros casos (1:20), y las tres primeras variables (1:3). Conocer las dimensiones es útil para luego filtrar la base de datos.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">s2018[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">s2018[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</a></code></pre></div>
 <pre><code>##     aÑo mes nconglome
 ## 1  2018  06    021521
 ## 2  2018  02    033493
@@ -512,9 +520,9 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 ## 19 2018  10    042844
 ## 20 2018  07    014755</code></pre>
 <p>Si eres ansioso y quieres ver toda la base de datos puedes usar el siguiente código:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">View</span>(s2018)</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">View</span>(s2018)</a></code></pre></div>
 <p>Podriamos mirar una muestra de nuestra base de datos con la opcion head. Abajo, le pedimos que nos puestre las 300 primeras observaciones.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">View</span>(<span class="kw">head</span>(s2018,<span class="dv">300</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">View</span>(<span class="kw">head</span>(s2018,<span class="dv">300</span>))</a></code></pre></div>
 <p>La función <strong>import</strong> de rio permite subir archivos en distintos formatos. Existen otros paquetes como <strong>foreign</strong> que también hacen lo mismo. Pero <strong>rio</strong> me parece más conveniente.</p>
 </div>
 <div id="manipular-y-limpiar-base-de-datos" class="section level2">
@@ -523,7 +531,7 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 <div id="re-nombrar-y-etiquetar-variables" class="section level3">
 <h3><span class="header-section-number">2.2.1</span> Re-nombrar y etiquetar variables</h3>
 <p>Podemos llamar nuestras variables en la BD con la función <code>names</code> o también <code>ls</code></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">ls</span>(s2018) <span class="co">## Este comando te las da en nombre alfabetico</span></a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">ls</span>(s2018) <span class="co">## Este comando te las da en nombre alfabetico</span></a></code></pre></div>
 <pre><code>##   [1] &quot;aÑo&quot;        &quot;conglome&quot;   &quot;dominio&quot;    &quot;estrato&quot;    &quot;estrsocial&quot;
 ##   [6] &quot;factor07&quot;   &quot;g05hd&quot;      &quot;g05hd1&quot;     &quot;g05hd2&quot;     &quot;g05hd3&quot;    
 ##  [11] &quot;g05hd4&quot;     &quot;g05hd5&quot;     &quot;g05hd6&quot;     &quot;g07hd&quot;      &quot;ga03hd&quot;    
@@ -556,7 +564,7 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 ## [146] &quot;sg42&quot;       &quot;sg421&quot;      &quot;sg422&quot;      &quot;sg423&quot;      &quot;sg42d&quot;     
 ## [151] &quot;sg42d1&quot;     &quot;sg42d2&quot;     &quot;sg42d3&quot;     &quot;sig24&quot;      &quot;sig26&quot;     
 ## [156] &quot;totmieho&quot;   &quot;ubigeo&quot;     &quot;vivienda&quot;</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">names</span>(s2018)<span class="co">## Te los da en el orden en que estan en la base de datos. </span></a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">names</span>(s2018)<span class="co">## Te los da en el orden en que estan en la base de datos. </span></a></code></pre></div>
 <pre><code>##   [1] &quot;aÑo&quot;        &quot;mes&quot;        &quot;nconglome&quot;  &quot;conglome&quot;   &quot;vivienda&quot;  
 ##   [6] &quot;hogar&quot;      &quot;ubigeo&quot;     &quot;dominio&quot;    &quot;estrato&quot;    &quot;percepho&quot;  
 ##  [11] &quot;mieperho&quot;   &quot;totmieho&quot;   &quot;ia01hd&quot;     &quot;ia02hd&quot;     &quot;ig03hd1&quot;   
@@ -591,44 +599,44 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 ## [156] &quot;linea&quot;      &quot;pobreza&quot;    &quot;factor07&quot;</code></pre>
 <p>Por ejemplo la variable <strong>inghog1d</strong> (posición 141) es el ingreso bruto anual queremos cambiar el nombre a “ingreso_bruto”.</p>
 <p>La forma más rápida es:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">names</span>(s2018)[<span class="dv">141</span>]&lt;-<span class="st">&quot;ingreso_bruto&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1"><span class="kw">names</span>(s2018)[<span class="dv">141</span>]&lt;-<span class="st">&quot;ingreso_bruto&quot;</span></a></code></pre></div>
 <p>Si no tenemos la ubicación, quizás son miles de variables, podemos también usar</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">names</span>(s2018)[<span class="kw">names</span>(s2018) <span class="op">==</span><span class="st"> &quot;inghog1d&quot;</span>] &lt;-<span class="st">&quot;ingreso_bruto&quot;</span></a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="co">## Si ya corriste el código anterior este te va a dar error, ya que está buscando un nombre que no existe ;)</span></a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">names</span>(s2018)[<span class="kw">names</span>(s2018) <span class="op">==</span><span class="st"> &quot;inghog1d&quot;</span>] &lt;-<span class="st">&quot;ingreso_bruto&quot;</span></a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="co">## Si ya corriste el código anterior este te va a dar error, ya que está buscando un nombre que no existe ;)</span></a></code></pre></div>
 <p>Pedimos el nombre de variables denuevo</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">names</span>(s2018)[<span class="dv">140</span><span class="op">:</span><span class="dv">145</span>] <span class="co">#Exacto! podemos indexar para no ver todas las variables nuevamente </span></a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">names</span>(s2018)[<span class="dv">140</span><span class="op">:</span><span class="dv">145</span>] <span class="co">#Exacto! podemos indexar para no ver todas las variables nuevamente </span></a></code></pre></div>
 <pre><code>## [1] &quot;ingotrhd&quot;      &quot;ingreso_bruto&quot; &quot;ingmo2hd&quot;      &quot;inghog1d&quot;     
 ## [5] &quot;inghog2d&quot;      &quot;gashog1d&quot;</code></pre>
 <p><strong>etiquetas</strong></p>
 <p>Si subimos la base de datos desde STATA, estas pueden tener etiquetas.</p>
 <p>Por ejemplo, veamos la etiqueta de nuestra variables “ingreso_bruto”</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label</a></code></pre></div>
 <pre><code>## [1] &quot;ingreso monetario (bruto)&quot;</code></pre>
 <p>Queremos cambiarla a “ingreso monetario (bruto) anual”</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label&lt;-<span class="st">&quot;ingreso monetario (bruto) anual&quot;</span></a>
-<a class="sourceLine" id="cb24-2" title="2"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label <span class="co">#Veamos el cambio!.</span></a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label&lt;-<span class="st">&quot;ingreso monetario (bruto) anual&quot;</span></a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label <span class="co">#Veamos el cambio!.</span></a></code></pre></div>
 <pre><code>## [1] &quot;ingreso monetario (bruto) anual&quot;</code></pre>
 </div>
 <div id="recodificar-variables" class="section level3">
 <h3><span class="header-section-number">2.2.2</span> Recodificar variables</h3>
 <p>Ahora recodificaremos los valores de la variable con que estamos trabajando.</p>
 <p>Usamos la funcion abajo para ver los valores y las etiquetas de la variable que creamos.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
 <pre><code>##     a     b     c     d     e rural 
 ##     1     2     3     4     5     6</code></pre>
 <p>Queremos recodificar los valores de <strong>rural</strong> de 6 a 0.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1">s2018[s2018<span class="op">$</span>estrsocial<span class="op">==</span><span class="dv">6</span>,]<span class="op">$</span>estrsocial&lt;-<span class="dv">0</span></a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">s2018[s2018<span class="op">$</span>estrsocial<span class="op">==</span><span class="dv">6</span>,]<span class="op">$</span>estrsocial&lt;-<span class="dv">0</span></a></code></pre></div>
 <p>Si pedimos una tabla vemos que el cambio se realizo:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">table</span>(s2018<span class="op">$</span>estrsocial)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">table</span>(s2018<span class="op">$</span>estrsocial)</a></code></pre></div>
 <pre><code>## 
 ##   0   1   2   3   4   5 
 ## 383  17  34  81 226 259</code></pre>
 <p>Pero las etiquetas siguen mostrando el orden anterior</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
 <pre><code>##     a     b     c     d     e rural 
 ##     1     2     3     4     5     6</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels[[<span class="dv">1</span>]]&lt;-<span class="dv">0</span></a>
-<a class="sourceLine" id="cb33-2" title="2"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels[[<span class="dv">1</span>]]&lt;-<span class="dv">0</span></a>
+<a class="sourceLine" id="cb36-2" title="2"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
 <pre><code>##     a     b     c     d     e rural 
 ##     0     2     3     4     5     6</code></pre>
 </div>
@@ -642,19 +650,19 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 <ul>
 <li>Forma 1:</li>
 </ul>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1">s2018<span class="op">$</span>minimo&lt;-<span class="ot">NA</span></a>
-<a class="sourceLine" id="cb35-2" title="2">s2018[s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,]<span class="op">$</span>minimo&lt;-<span class="dv">0</span></a>
-<a class="sourceLine" id="cb35-3" title="3">s2018[s2018<span class="op">$</span>ingreso_bruto<span class="op">&gt;</span><span class="dv">800</span>,]<span class="op">$</span>minimo&lt;-<span class="dv">1</span></a>
-<a class="sourceLine" id="cb35-4" title="4"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">s2018<span class="op">$</span>minimo&lt;-<span class="ot">NA</span></a>
+<a class="sourceLine" id="cb38-2" title="2">s2018[s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,]<span class="op">$</span>minimo&lt;-<span class="dv">0</span></a>
+<a class="sourceLine" id="cb38-3" title="3">s2018[s2018<span class="op">$</span>ingreso_bruto<span class="op">&gt;</span><span class="dv">800</span>,]<span class="op">$</span>minimo&lt;-<span class="dv">1</span></a>
+<a class="sourceLine" id="cb38-4" title="4"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
 <pre><code>## 
 ##   0   1 
 ##  16 984</code></pre>
 <ul>
 <li>Forma 2:</li>
 </ul>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">s2018<span class="op">$</span>minimo&lt;-<span class="ot">NA</span></a>
-<a class="sourceLine" id="cb37-2" title="2">s2018<span class="op">$</span>minimo&lt;-<span class="kw">ifelse</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,<span class="dv">0</span>,<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb37-3" title="3"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">s2018<span class="op">$</span>minimo&lt;-<span class="ot">NA</span></a>
+<a class="sourceLine" id="cb40-2" title="2">s2018<span class="op">$</span>minimo&lt;-<span class="kw">ifelse</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,<span class="dv">0</span>,<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb40-3" title="3"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
 <pre><code>## 
 ##   0   1 
 ##  16 984</code></pre>
@@ -665,8 +673,8 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 <p>Dplyr y Tydir son muy populares, así que es bueno ir familiarizandose con ellos.</p>
 <p>Lo especial de Dplyr es que tiene sus propias funciones y además que conecta funciones usando <strong>%&gt;%</strong>. De esa manera puede ser más eficiente con el espacio de trabajo, evitando crear muchos objetos.</p>
 <p>En este caso la función es <strong>mutate</strong></p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">minimo=</span><span class="kw">ifelse</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,<span class="dv">0</span>,<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb39-2" title="2"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">minimo=</span><span class="kw">ifelse</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,<span class="dv">0</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb42-2" title="2"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
 <pre><code>## 
 ##   0   1 
 ##  16 984</code></pre>
@@ -681,11 +689,11 @@ Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desvia
 <li>`<code>select</code> para quedarnos con algunas variables (son más de 150)</li>
 <li>`<code>head</code> para pedir los 6 primeros casos.</li>
 </ul>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb41-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
-<a class="sourceLine" id="cb41-3" title="3">         <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb41-4" title="4"><span class="st">  </span><span class="kw">arrange</span>(ubigeo)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb41-5" title="5"><span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dv">160</span>,<span class="dv">161</span>))<span class="op">%&gt;%</span><span class="kw">head</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
+<a class="sourceLine" id="cb44-3" title="3">         <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-4" title="4"><span class="st">  </span><span class="kw">arrange</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb44-5" title="5"><span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dv">160</span>,<span class="dv">161</span>))<span class="op">%&gt;%</span><span class="kw">head</span>()</a></code></pre></div>
 <pre><code>## Adding missing grouping variables: `ubigeo`</code></pre>
 <pre><code>## # A tibble: 6 x 6
 ## # Groups:   ubigeo [3]
@@ -698,10 +706,10 @@ Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desvia
 ## 5 010201 2018  04    006618      10520.  4929.
 ## 6 010201 2018  08    006641      10520.  4929.</code></pre>
 <p>Ahora bien los cambios no se han guardado en la base de datos para hacerlo debemos remplazar el objeto o crear uno nuevo.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb44-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
-<a class="sourceLine" id="cb44-3" title="3">         <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb44-4" title="4"><span class="st">  </span><span class="kw">arrange</span>(ubigeo)<span class="co">### Aquí nuestra base ha cambiado ya que tiene dos variables más</span></a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-2" title="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
+<a class="sourceLine" id="cb47-3" title="3">         <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb47-4" title="4"><span class="st">  </span><span class="kw">arrange</span>(ubigeo)<span class="co">### Aquí nuestra base ha cambiado ya que tiene dos variables más</span></a></code></pre></div>
 </div>
 </div>
 <div id="merge-y-append-bases-de-datos" class="section level2">
@@ -709,10 +717,10 @@ Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desvia
 <ul>
 <li>Creemos una base de datos que contenga el ingreso promedio por distrito. Similar a nuestro ejercicio anterior pero ahora la base será un objeto aparte.</li>
 </ul>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1">resumen&lt;-s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb45-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
-<a class="sourceLine" id="cb45-3" title="3">            <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))</a>
-<a class="sourceLine" id="cb45-4" title="4"><span class="kw">head</span>(resumen)</a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" title="1">resumen&lt;-s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb48-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
+<a class="sourceLine" id="cb48-3" title="3">            <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))</a>
+<a class="sourceLine" id="cb48-4" title="4"><span class="kw">head</span>(resumen)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   ubigeo promedio   desv
 ##   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;
@@ -723,11 +731,11 @@ Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desvia
 ## 5 010203   17275     NA 
 ## 6 010205   11892  14875.</code></pre>
 <p>La diferencia aquí es que hemos usado <code>summarise</code> en lugar de <code>mutate</code>. Ya que no estamos agregando una variable a la base. Estamos creando una nueva base.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1"><span class="kw">nrow</span>(resumen)</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1"><span class="kw">nrow</span>(resumen)</a></code></pre></div>
 <pre><code>## [1] 514</code></pre>
 <p>Ahora juntemos las bases de datos. El proceso es más conocido como “merge” o “join”</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">left_join</span>(resumen, <span class="dt">by=</span><span class="st">&quot;ubigeo&quot;</span>)</a>
-<a class="sourceLine" id="cb49-2" title="2"><span class="kw">head</span>(s2018[,<span class="kw">c</span>(<span class="dv">6</span>,<span class="dv">159</span>,<span class="dv">160</span>)])</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">left_join</span>(resumen, <span class="dt">by=</span><span class="st">&quot;ubigeo&quot;</span>)</a>
+<a class="sourceLine" id="cb52-2" title="2"><span class="kw">head</span>(s2018[,<span class="kw">c</span>(<span class="dv">6</span>,<span class="dv">159</span>,<span class="dv">160</span>)])</a></code></pre></div>
 <pre><code>##   hogar minimo  promedio
 ## 1    11      1 20971.317
 ## 2    11      1  4007.568
