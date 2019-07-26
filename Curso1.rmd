@@ -1,6 +1,6 @@
 ---
 title: "Basicos_R"
-toc: true
+#toc: true
 #knit: (function(input_file, encoding) {
 #  out_dir <- 'docs';
 #  rmarkdown::render(input_file,
@@ -42,7 +42,7 @@ Parte I:
 - [Manipular y limpiar base de datos](#T3)
 - [Merge-Join bases](#T3)
   
-# Basicos. 
+# Basicos. <a name="T1"></a>
 
 Cuando inicias **R** se activan un grupo básicos de paquetes. Los paquetes tienen funciones y las funciones argumentos. 
 

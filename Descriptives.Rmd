@@ -17,13 +17,15 @@ print(Sys.time())
 
 Parte I: 
 
-- [Medidas centrales](#T1)
+- [Descriptivos básicos](#T1)
+    a) [Tablas de Frequencias](#T1.1)
+    b) [Gráficos descriptivos](#T1.2)
 - [Correlaciones](#T2)
 - [Differencias de medias](#T3)
 - [Chi-square otras](#T3)
   
 
-## Descriptivos básicos  
+## Descriptivos básicos  <a name="T1"></a>
 
 Reutilizamos la base de datos con la que hemos venido trabajando **s2018** en la sección anterior
 
@@ -84,7 +86,7 @@ Podemos pedir varios a la vez, combinando funciones. Por ejemplo la función ```
 quantile(s2018$ingreso_bruto, seq(0.1,0.9,0.1))
 ```
 
-## Tablas: 
+### Tablas: <a name="T1.1"></a> 
 
 Frequencias.
 
@@ -98,18 +100,103 @@ Proportion table.
 prop.table(table(s2018$estrsocial))
 ```
 
-Tablas con Dplyr: 
+Tablas con Dplyr:
+
 
 ```{r}
 s2018%>%group_by(estrsocial)%>%
   summarise(Frequency=n())%>%
-  mutate(Porcentaje=Frequency/sum(Frequency)*100)
+  mutate(Porcentaje=Frequency/sum(Frequency)*100)%>%
+  mutate(Estratos=names(attributes(s2018$estrsocial)$labels))%>%
+  select(Estratos,Frequency,Porcentaje)
 ```
+
+
+
+
+### Gráficos Descriptivos: <a name="T1.1"></a>
+
+Existen funciones básicas para gráficos en R, pero la versatilidad de R para gráficos va más allá de estas funciones básicas. Paquetes como **ggplot** han llevado a otro nivel el análisis gráfico de R. 
+
+Aquí trataremos de mostra ambos. 
+
+### Graficos de Barra simples en R 
 
 ```{r}
-attributes(s2018$estrsocial)$labels
+barplot(table(s2018$estrsocial))
 ```
 
+Podemos cambiar algunas cosas:
+
+```{r}
+barplot(table(s2018$estrsocial), col="red",
+        names.arg = names(attributes(s2018$estrsocial)$labels), 
+        main="Este es un título")
+```
+
+### Graficos de Barra simples en **ggplot** y **dplyr**
+
+- ggplot: es el paso inicial para crear un "ambiente" ggplot.
+- **+** vas agregando capas (detalles) al objecto
+- ```geom_bar``` es que crearemos un gráficos de barras
+
+```{r}
+library(ggplot2) # Recuerda que tienes haberlo instalado antes. 
+s2018%>%ggplot(aes(x=estrsocial))+
+    geom_bar(stat="bin", bins=20)
+```
+
+Al mismo gráfico le cambiamos el nombre de los ejes con ```labs```, incluso le podemos agregar una "nota" 
+
+```{r}
+s2018%>%ggplot(aes(x=estrsocial))+
+    geom_bar(stat="bin", bins=20)+
+    labs(y="Frecuencia", x="Estrato Social",
+         caption="(Tomado de....)")
+```
+
+Ahora le cambiamos la etiqueta al eje x!.
+
+```{r}
+s2018%>%ggplot(aes(x=estrsocial))+
+    geom_bar(stat="bin", bins=20)+
+    labs(y="Frecuencia", x="Estrato Social",
+         caption="(Tomado de....)")+
+    scale_x_discrete(limit= c("A","B","C","D",
+                               "E","Rural"))
+```
+
+Gráficos con porcentajes
+
+- En este caso manipulamos la data con dplyr para obtener los porcentajes por cada grupo. 
+```{r}
+s2018%>%group_by(estrsocial)%>%
+  summarise(Frequencia=n())%>% ## Tabla de frecuencias 
+  mutate(Porcentaje=Frequencia/sum(Frequencia)*100)%>% ##Agregando porcentajes
+  ggplot(aes(x=estrsocial, y=Porcentaje))+
+  geom_bar(stat="identity", fill="red")+
+  scale_x_discrete(limit= c("A","B","C","D",
+                               "E","Rural"))
+  
+```
+
+### Box plot o diagramas de cajas
+
+```{r}
+boxplot(s2018$estrsocial, col="red")
+```
+
+```{r, eval=FALSE}
+boxplot(s2018$ingreso_bruto~s2018$estrsocial, col="red")
+## Boxplot by groups 
+```
+
+### Box plot o diagramas de cajas con **dyplr** y **ggplot2**
+
+```{r}
+s2018%>%ggplot(aes(y=estrsocial))+
+  geom_boxplot(col="red", fill="blue")
+```
 
 
 
