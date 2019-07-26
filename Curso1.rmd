@@ -1,26 +1,6 @@
 ---
 title: "Basicos_R"
-#toc: true
-#knit: (function(input_file, encoding) {
-#  out_dir <- 'docs';
-#  rmarkdown::render(input_file,
-# encoding=encoding,
-# output_file=file.path(dirname(input_file), out_dir, 'Basicos_R.html'))})
-#author: "Paloma B"
-#date: "7/2/2019"
-#output: html_document
-#    css: test.css
-#  pdf_document: default
 ---
-<style>
-#TOC {
-  top: 1%;
-  opacity: 0.5;
-}
-#TOC:hover {
-  opacity: 1;
-}
-</style>
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)

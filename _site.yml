@@ -7,20 +7,16 @@ navbar:
       text: Home
     - 
       href: Curso1.html
-      icon: fa-newspaper-o
-      text: Basicos
+      text: Básicos
     - 
       href: Descriptives.html
-      icon: fa-newspaper-o
-      text: Descriptives
+      text: Descriptivos
     - 
       href: Descriptives.html
-      icon: fa-newspaper-o
-      text: Gráficos
+      text: Bivariado
     - 
       href: Curso1.html
-      icon: fa-newspaper-o
-      text: Modelos
+      text: Modelos lineales
   title: "R Tutorials"
 output:
   bookdown::html_document2:

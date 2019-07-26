@@ -198,5 +198,44 @@ s2018%>%ggplot(aes(y=estrsocial))+
   geom_boxplot(col="red", fill="blue")
 ```
 
+### Histogramas 
 
+- Hagamos una histograma de la variable ingreso
+
+```{r}
+hist(s2018$ingreso_bruto, main="Histograma de Ingreso",
+     ylab="TITULO EJE Y", xlab="FRECUENCIA",
+     col="blue")
+```
+
+Podemos agregar una línea que represente la media.
+
+```{r}
+hist(s2018$ingreso_bruto, main="Histograma de Ingreso",
+     ylab="TITULO EJE Y", xlab="FRECUENCIA",
+     col="blue")
+abline(v=mean(s2018$ingreso_bruto), col="red")
+```
+
+Podemos agregar una línea que represente la mediana también y otros detalles. 
+
+```{r}
+hist(s2018$ingreso_bruto, main="Histograma de Ingreso",
+     ylab="TITULO EJE Y", xlab="FRECUENCIA",
+     col="grey") ## Histograma básico 
+abline(v=mean(s2018$ingreso_bruto), col="red") ## Agregando media
+abline(v=median(s2018$ingreso_bruto), col="purple") ## Agregando Mediana
+text(median(s2018$ingreso_bruto),300, "Medana",pch = 3)
+```
+
+### Histogramas con **dplyr** y **ggplot2**
+
+```{r}
+s2018%>%ggplot(aes(x=ingreso_bruto))+
+  geom_histogram(bins=20)+
+  geom_vline(aes(xintercept=mean(ingreso_bruto)),
+             linetype="dashed" , col="blue")+
+  geom_vline(aes(xintercept=median(ingreso_bruto)),
+             linetype="dashed" , col="red")
+```
 

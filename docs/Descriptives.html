@@ -421,32 +421,16 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="Curso1.html">
-    <span class="fa fa-newspaper-o"></span>
-     
-    Basicos
-  </a>
+  <a href="Curso1.html">Básicos</a>
 </li>
 <li>
-  <a href="Descriptives.html">
-    <span class="fa fa-newspaper-o"></span>
-     
-    Descriptives
-  </a>
+  <a href="Descriptives.html">Descriptivos</a>
 </li>
 <li>
-  <a href="Descriptives.html">
-    <span class="fa fa-newspaper-o"></span>
-     
-    Gráficos
-  </a>
+  <a href="Descriptives.html">Bivariado</a>
 </li>
 <li>
-  <a href="Curso1.html">
-    <span class="fa fa-newspaper-o"></span>
-     
-    Modelos
-  </a>
+  <a href="Curso1.html">Modelos lineales</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -467,7 +451,7 @@ div.tocify {
 
 <p><strong>ULTIMA ACTUALIZACIÓN:</strong></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">print</span>(<span class="kw">Sys.time</span>())</a></code></pre></div>
-<pre><code>## [1] &quot;2019-07-26 12:36:44 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2019-07-26 15:27:29 EDT&quot;</code></pre>
 <div id="tabla-de-contenidos" class="section level1">
 <h1><span class="header-section-number">1</span> Tabla de Contenidos</h1>
 <p>Parte I:</p>
@@ -613,6 +597,40 @@ div.tocify {
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y=</span>estrsocial))<span class="op">+</span></a>
 <a class="sourceLine" id="cb37-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
 <p><img src="Descriptives_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+</div>
+<div id="histogramas" class="section level3">
+<h3><span class="header-section-number">1.1.7</span> Histogramas</h3>
+<ul>
+<li>Hagamos una histograma de la variable ingreso</li>
+</ul>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1"><span class="kw">hist</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="dt">main=</span><span class="st">&quot;Histograma de Ingreso&quot;</span>,</a>
+<a class="sourceLine" id="cb38-2" title="2">     <span class="dt">ylab=</span><span class="st">&quot;TITULO EJE Y&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;FRECUENCIA&quot;</span>,</a>
+<a class="sourceLine" id="cb38-3" title="3">     <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
+<p><img src="Descriptives_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p>Podemos agregar una línea que represente la media.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">hist</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="dt">main=</span><span class="st">&quot;Histograma de Ingreso&quot;</span>,</a>
+<a class="sourceLine" id="cb39-2" title="2">     <span class="dt">ylab=</span><span class="st">&quot;TITULO EJE Y&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;FRECUENCIA&quot;</span>,</a>
+<a class="sourceLine" id="cb39-3" title="3">     <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a>
+<a class="sourceLine" id="cb39-4" title="4"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(s2018<span class="op">$</span>ingreso_bruto), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<p><img src="Descriptives_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p>Podemos agregar una línea que represente la mediana también y otros detalles.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">hist</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="dt">main=</span><span class="st">&quot;Histograma de Ingreso&quot;</span>,</a>
+<a class="sourceLine" id="cb40-2" title="2">     <span class="dt">ylab=</span><span class="st">&quot;TITULO EJE Y&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;FRECUENCIA&quot;</span>,</a>
+<a class="sourceLine" id="cb40-3" title="3">     <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>) <span class="co">## Histograma básico </span></a>
+<a class="sourceLine" id="cb40-4" title="4"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(s2018<span class="op">$</span>ingreso_bruto), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>) <span class="co">## Agregando media</span></a>
+<a class="sourceLine" id="cb40-5" title="5"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">median</span>(s2018<span class="op">$</span>ingreso_bruto), <span class="dt">col=</span><span class="st">&quot;purple&quot;</span>) <span class="co">## Agregando Mediana</span></a>
+<a class="sourceLine" id="cb40-6" title="6"><span class="kw">text</span>(<span class="kw">median</span>(s2018<span class="op">$</span>ingreso_bruto),<span class="dv">300</span>, <span class="st">&quot;Medana&quot;</span>,<span class="dt">pch =</span> <span class="dv">3</span>)</a></code></pre></div>
+<p><img src="Descriptives_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+</div>
+<div id="histogramas-con-dplyr-y-ggplot2" class="section level3">
+<h3><span class="header-section-number">1.1.8</span> Histogramas con <strong>dplyr</strong> y <strong>ggplot2</strong></h3>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>ingreso_bruto))<span class="op">+</span></a>
+<a class="sourceLine" id="cb41-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins=</span><span class="dv">20</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb41-3" title="3"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span><span class="kw">mean</span>(ingreso_bruto)),</a>
+<a class="sourceLine" id="cb41-4" title="4">             <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span> , <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb41-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span><span class="kw">median</span>(ingreso_bruto)),</a>
+<a class="sourceLine" id="cb41-6" title="6">             <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span> , <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<p><img src="Descriptives_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 </div>
 </div>
 </div>
