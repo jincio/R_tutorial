@@ -10,11 +10,11 @@ navbar:
       icon: fa-newspaper-o
       text: Basicos
     - 
-      href: Curso1.html
+      href: descrip.html
       icon: fa-newspaper-o
       text: Descriptives
     - 
-      href: Curso1.html
+      href: Descriptives.html
       icon: fa-newspaper-o
       text: Gráficos
     - 
