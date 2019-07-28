@@ -28,6 +28,92 @@
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
 
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
 
 
 <style type="text/css">
@@ -341,7 +427,7 @@ div.tocify {
   <a href="Descriptives.html">Descriptivos</a>
 </li>
 <li>
-  <a href="Descriptives.html">Bivariado</a>
+  <a href="Bivariado.html">Bivariado</a>
 </li>
 <li>
   <a href="Curso1.html">Modelos lineales</a>
@@ -365,15 +451,321 @@ div.tocify {
 
 <div id="correlaciones" class="section level2">
 <h2><span class="header-section-number">0.1</span> Correlaciones</h2>
+<p>Tomamos la base de datos del artículo:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(rio)</a>
+<a class="sourceLine" id="cb1-2" title="2">recall&lt;-<span class="kw">import</span>(<span class="st">&quot;https://github.com/jincio/Imperfect_recall/raw/master/recalldataset.dta&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">names</span>(recall)</a></code></pre></div>
+<pre><code>##  [1] &quot;idmun&quot;          &quot;region&quot;         &quot;voters&quot;         &quot;request&quot;       
+##  [5] &quot;vote&quot;           &quot;removal&quot;        &quot;enp&quot;            &quot;competition&quot;   
+##  [9] &quot;indigenous&quot;     &quot;execution&quot;      &quot;budget&quot;         &quot;canon&quot;         
+## [13] &quot;previous&quot;       &quot;conflict&quot;       &quot;incumbent&quot;      &quot;share&quot;         
+## [17] &quot;rural&quot;          &quot;period&quot;         &quot;days&quot;           &quot;firstexecution&quot;
+## [21] &quot;female&quot;         &quot;poverty2&quot;       &quot;investment&quot;</code></pre>
+<p>Existirá correlación entre el la competitividad y las regalias mineras</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">cor</span>(recall<span class="op">$</span>canon,recall<span class="op">$</span>execution,<span class="dt">use =</span> <span class="st">&quot;complete.obs&quot;</span>)</a></code></pre></div>
+<pre><code>## [1] -0.2587664</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">cor</span>(recall<span class="op">$</span>canon,recall<span class="op">$</span>execution,<span class="dt">use =</span> <span class="st">&quot;complete.obs&quot;</span>, <span class="dt">method =</span> <span class="st">&quot;kendall&quot;</span>)</a></code></pre></div>
+<pre><code>## [1] -0.2253771</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">cor.test</span>(recall<span class="op">$</span>canon,recall<span class="op">$</span>execution)</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  recall$canon and recall$execution
+## t = -18.739, df = 4893, p-value &lt; 2.2e-16
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.2847175 -0.2324364
+## sample estimates:
+##        cor 
+## -0.2587664</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">cor</span>(recall[,<span class="dv">7</span><span class="op">:</span><span class="dv">12</span>], <span class="dt">use=</span> <span class="st">&quot;complete.obs&quot;</span>)</a></code></pre></div>
+<pre><code>##                     enp competition  indigenous   execution      budget
+## enp          1.00000000 -0.41369220  0.11892046 -0.07563594 -0.10379910
+## competition -0.41369220  1.00000000 -0.06243175  0.02768176  0.03305790
+## indigenous   0.11892046 -0.06243175  1.00000000 -0.06564584  0.08987345
+## execution   -0.07563594  0.02768176 -0.06564584  1.00000000 -0.29726150
+## budget      -0.10379910  0.03305790  0.08987345 -0.29726150  1.00000000
+## canon       -0.05402253  0.01635722  0.07501678 -0.25869880  0.95052677
+##                   canon
+## enp         -0.05402253
+## competition  0.01635722
+## indigenous   0.07501678
+## execution   -0.25869880
+## budget       0.95052677
+## canon        1.00000000</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">library</span>(Hmisc)</a></code></pre></div>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre><code>## Loading required package: survival</code></pre>
+<pre><code>## Loading required package: Formula</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Registered S3 methods overwritten by &#39;ggplot2&#39;:
+##   method         from 
+##   [.quosures     rlang
+##   c.quosures     rlang
+##   print.quosures rlang</code></pre>
+<pre><code>## 
+## Attaching package: &#39;Hmisc&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     format.pval, units</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">rcorr</span>(<span class="kw">as.matrix</span>(recall[,<span class="dv">7</span><span class="op">:</span><span class="dv">12</span>]))</a></code></pre></div>
+<pre><code>##               enp competition indigenous execution budget canon
+## enp          1.00       -0.42       0.13     -0.08  -0.15 -0.05
+## competition -0.42        1.00      -0.07      0.03   0.04  0.02
+## indigenous   0.13       -0.07       1.00     -0.07   0.08  0.08
+## execution   -0.08        0.03      -0.07      1.00  -0.30 -0.26
+## budget      -0.15        0.04       0.08     -0.30   1.00  0.95
+## canon       -0.05        0.02       0.08     -0.26   0.95  1.00
+## 
+## n
+##              enp competition indigenous execution budget canon
+## enp         6558        6555       6533      4895   6518  4917
+## competition 6555        6555       6530      4892   6515  4914
+## indigenous  6533        6530       6533      4878   6498  4900
+## execution   4895        4892       4878      4895   4895  4895
+## budget      6518        6515       6498      4895   6518  4895
+## canon       4917        4914       4900      4895   4895  4917
+## 
+## P
+##             enp    competition indigenous execution budget canon 
+## enp                0.0000      0.0000     0.0000    0.0000 0.0001
+## competition 0.0000             0.0000     0.0448    0.0015 0.2560
+## indigenous  0.0000 0.0000                 0.0000    0.0000 0.0000
+## execution   0.0000 0.0448      0.0000               0.0000 0.0000
+## budget      0.0000 0.0015      0.0000     0.0000           0.0000
+## canon       0.0001 0.2560      0.0000     0.0000    0.0000</code></pre>
+<div id="correlaciones-por-grupo-usando-dplyr" class="section level3">
+<h3><span class="header-section-number">0.1.1</span> Correlaciones por grupo usando dplyr</h3>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:Hmisc&#39;:
+## 
+##     src, summarize</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">recall <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(period) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="st">              </span><span class="kw">do</span>(<span class="kw">as.data.frame</span>(<span class="kw">cor</span>(.[,<span class="kw">c</span>(<span class="st">&quot;canon&quot;</span>,<span class="st">&quot;budget&quot;</span>)], <span class="dt">method=</span><span class="st">&quot;spearman&quot;</span>, <span class="dt">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>)))</a></code></pre></div>
+<pre><code>## # A tibble: 8 x 3
+## # Groups:   period [4]
+##   period  canon budget
+##    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+## 1      1 NA     NA    
+## 2      1 NA      1    
+## 3      2  1      0.855
+## 4      2  0.855  1    
+## 5      3  1      0.767
+## 6      3  0.767  1.000
+## 7      4  1      0.666
+## 8      4  0.666  1</code></pre>
+</div>
 </div>
 <div id="pruebas-t" class="section level2">
 <h2><span class="header-section-number">0.2</span> Pruebas T</h2>
+<p>Pruebas de diferencias de medias:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1"><span class="kw">t.test</span>(recall<span class="op">$</span>enp<span class="op">~</span>recall<span class="op">$</span>incumbent)</a></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  recall$enp by recall$incumbent
+## t = 18.428, df = 2060.1, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.7307678 0.9048306
+## sample estimates:
+## mean in group 0 mean in group 1 
+##        4.682983        3.865184</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1"><span class="kw">t.test</span>(recall<span class="op">$</span>budget,recall<span class="op">$</span>canon)</a></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  recall$budget and recall$canon
+## t = 12.658, df = 10563, p-value &lt; 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##   758.8097 1036.8967
+## sample estimates:
+## mean of x mean of y 
+##  2218.847  1320.994</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">t.test</span>(recall<span class="op">$</span>enp, <span class="dt">mu=</span><span class="fl">4.5</span>)</a></code></pre></div>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  recall$enp
+## t = 1.6325, df = 6557, p-value = 0.1026
+## alternative hypothesis: true mean is not equal to 4.5
+## 95 percent confidence interval:
+##  4.493581 4.570356
+## sample estimates:
+## mean of x 
+##  4.531969</code></pre>
 </div>
 <div id="chi-square" class="section level2">
 <h2><span class="header-section-number">0.3</span> Chi-square</h2>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">chisq.test</span>(<span class="kw">table</span>(recall<span class="op">$</span>vote, recall<span class="op">$</span>incumbent))</a></code></pre></div>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test with Yates&#39; continuity correction
+## 
+## data:  table(recall$vote, recall$incumbent)
+## X-squared = 2.7529, df = 1, p-value = 0.09708</code></pre>
 </div>
 <div id="graficos-bivariados" class="section level2">
 <h2><span class="header-section-number">0.4</span> Gráficos Bivariados</h2>
+<div id="correlaciones-1" class="section level3">
+<h3><span class="header-section-number">0.4.1</span> Correlaciones</h3>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="co">#install.packages(&quot;corrplot&quot;)</span></a>
+<a class="sourceLine" id="cb37-2" title="2"><span class="kw">library</span>(corrplot)</a></code></pre></div>
+<pre><code>## corrplot 0.84 loaded</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" title="1"><span class="kw">corrplot</span>(<span class="kw">cor</span>(recall[,<span class="dv">7</span><span class="op">:</span><span class="dv">12</span>], <span class="dt">use=</span> <span class="st">&quot;complete.obs&quot;</span>), <span class="dt">type =</span> <span class="st">&quot;upper&quot;</span>, <span class="dt">order =</span> <span class="st">&quot;hclust&quot;</span>, </a>
+<a class="sourceLine" id="cb39-2" title="2">         <span class="dt">tl.col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">tl.srt =</span> <span class="dv">45</span>)</a></code></pre></div>
+<p><img src="Bivariado_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" title="1">correlations&lt;-<span class="kw">rcorr</span>(<span class="kw">as.matrix</span>(recall[,<span class="dv">7</span><span class="op">:</span><span class="dv">12</span>]))</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" title="1"><span class="kw">corrplot</span>(correlations<span class="op">$</span>r, <span class="dt">type=</span><span class="st">&quot;upper&quot;</span>, <span class="dt">order=</span><span class="st">&quot;hclust&quot;</span>, </a>
+<a class="sourceLine" id="cb41-2" title="2">         <span class="dt">p.mat =</span> correlations<span class="op">$</span>P, <span class="dt">sig.level =</span> <span class="fl">0.001</span>, <span class="dt">insig =</span> <span class="st">&quot;blank&quot;</span>)</a></code></pre></div>
+<p><img src="Bivariado_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" title="1">col&lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;red&quot;</span>))(<span class="dv">20</span>)</a>
+<a class="sourceLine" id="cb42-2" title="2">col</a></code></pre></div>
+<pre><code>##  [1] &quot;#0000FF&quot; &quot;#1A1AFF&quot; &quot;#3535FF&quot; &quot;#5050FF&quot; &quot;#6B6BFF&quot; &quot;#8686FF&quot; &quot;#A1A1FF&quot;
+##  [8] &quot;#BBBBFF&quot; &quot;#D6D6FF&quot; &quot;#F1F1FF&quot; &quot;#FFF1F1&quot; &quot;#FFD6D6&quot; &quot;#FFBBBB&quot; &quot;#FFA1A1&quot;
+## [15] &quot;#FF8686&quot; &quot;#FF6B6B&quot; &quot;#FF5050&quot; &quot;#FF3535&quot; &quot;#FF1A1A&quot; &quot;#FF0000&quot;</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" title="1">col&lt;-<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>, <span class="st">&quot;white&quot;</span>, <span class="st">&quot;red&quot;</span>))(<span class="dv">6</span>)</a>
+<a class="sourceLine" id="cb44-2" title="2"><span class="kw">heatmap</span>(<span class="kw">cor</span>(recall[,<span class="dv">7</span><span class="op">:</span><span class="dv">12</span>], <span class="dt">use=</span> <span class="st">&quot;complete.obs&quot;</span>), <span class="dt">col =</span> col, <span class="dt">symm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="Bivariado_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+</div>
+<div id="correlations-plots-with-ggplot" class="section level3">
+<h3><span class="header-section-number">0.4.2</span> Correlations plots with <strong>ggplot</strong></h3>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" title="1">correlations&lt;-<span class="kw">round</span>(<span class="kw">cor</span>(recall[,<span class="dv">7</span><span class="op">:</span><span class="dv">12</span>], <span class="dt">use=</span> <span class="st">&quot;complete.obs&quot;</span>),<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb45-2" title="2">correlations</a></code></pre></div>
+<pre><code>##                enp competition indigenous execution budget  canon
+## enp          1.000      -0.414      0.119    -0.076 -0.104 -0.054
+## competition -0.414       1.000     -0.062     0.028  0.033  0.016
+## indigenous   0.119      -0.062      1.000    -0.066  0.090  0.075
+## execution   -0.076       0.028     -0.066     1.000 -0.297 -0.259
+## budget      -0.104       0.033      0.090    -0.297  1.000  0.951
+## canon       -0.054       0.016      0.075    -0.259  0.951  1.000</code></pre>
+<p>Necesitamos la data en otro formato:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" title="1">reshape2<span class="op">::</span><span class="kw">melt</span>(correlations)</a></code></pre></div>
+<pre><code>##           Var1        Var2  value
+## 1          enp         enp  1.000
+## 2  competition         enp -0.414
+## 3   indigenous         enp  0.119
+## 4    execution         enp -0.076
+## 5       budget         enp -0.104
+## 6        canon         enp -0.054
+## 7          enp competition -0.414
+## 8  competition competition  1.000
+## 9   indigenous competition -0.062
+## 10   execution competition  0.028
+## 11      budget competition  0.033
+## 12       canon competition  0.016
+## 13         enp  indigenous  0.119
+## 14 competition  indigenous -0.062
+## 15  indigenous  indigenous  1.000
+## 16   execution  indigenous -0.066
+## 17      budget  indigenous  0.090
+## 18       canon  indigenous  0.075
+## 19         enp   execution -0.076
+## 20 competition   execution  0.028
+## 21  indigenous   execution -0.066
+## 22   execution   execution  1.000
+## 23      budget   execution -0.297
+## 24       canon   execution -0.259
+## 25         enp      budget -0.104
+## 26 competition      budget  0.033
+## 27  indigenous      budget  0.090
+## 28   execution      budget -0.297
+## 29      budget      budget  1.000
+## 30       canon      budget  0.951
+## 31         enp       canon -0.054
+## 32 competition       canon  0.016
+## 33  indigenous       canon  0.075
+## 34   execution       canon -0.259
+## 35      budget       canon  0.951
+## 36       canon       canon  1.000</code></pre>
+<p>Se puede llamar la función de un paquete usando <code>::</code>. Es útil en dos momentos: si no vas a usar el paquete nuevamente o si hay conflicto con el nombre de las funciones.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" title="1">reshape2<span class="op">::</span><span class="kw">melt</span>(correlations)<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>Var1, <span class="dt">y=</span>Var2, <span class="dt">fill=</span>value)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_tile</span>()</a></code></pre></div>
+<p><img src="Bivariado_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" title="1">correlations[<span class="kw">lower.tri</span>(correlations)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb50-2" title="2">correlations</a></code></pre></div>
+<pre><code>##             enp competition indigenous execution budget  canon
+## enp           1      -0.414      0.119    -0.076 -0.104 -0.054
+## competition  NA       1.000     -0.062     0.028  0.033  0.016
+## indigenous   NA          NA      1.000    -0.066  0.090  0.075
+## execution    NA          NA         NA     1.000 -0.297 -0.259
+## budget       NA          NA         NA        NA  1.000  0.951
+## canon        NA          NA         NA        NA     NA  1.000</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" title="1"><span class="kw">melt</span>(correlations, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<pre><code>##           Var1        Var2  value
+## 1          enp         enp  1.000
+## 7          enp competition -0.414
+## 8  competition competition  1.000
+## 13         enp  indigenous  0.119
+## 14 competition  indigenous -0.062
+## 15  indigenous  indigenous  1.000
+## 19         enp   execution -0.076
+## 20 competition   execution  0.028
+## 21  indigenous   execution -0.066
+## 22   execution   execution  1.000
+## 25         enp      budget -0.104
+## 26 competition      budget  0.033
+## 27  indigenous      budget  0.090
+## 28   execution      budget -0.297
+## 29      budget      budget  1.000
+## 31         enp       canon -0.054
+## 32 competition       canon  0.016
+## 33  indigenous       canon  0.075
+## 34   execution       canon -0.259
+## 35      budget       canon  0.951
+## 36       canon       canon  1.000</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" title="1"><span class="kw">melt</span>(correlations, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb54-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(Var2, Var1, <span class="dt">fill =</span> value))<span class="op">+</span></a>
+<a class="sourceLine" id="cb54-3" title="3"><span class="st"> </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb54-4" title="4"><span class="st"> </span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">mid =</span> <span class="st">&quot;white&quot;</span>, </a>
+<a class="sourceLine" id="cb54-5" title="5">   <span class="dt">midpoint =</span> <span class="dv">0</span>, <span class="dt">limit =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">space =</span> <span class="st">&quot;Lab&quot;</span>, </a>
+<a class="sourceLine" id="cb54-6" title="6">   <span class="dt">name=</span><span class="st">&quot;Pearson</span><span class="ch">\n</span><span class="st">Correlation&quot;</span>)</a></code></pre></div>
+<p><img src="Bivariado_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" title="1"><span class="kw">melt</span>(correlations, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb55-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(Var2, Var1, <span class="dt">fill =</span> value))<span class="op">+</span></a>
+<a class="sourceLine" id="cb55-3" title="3"><span class="st"> </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb55-4" title="4"><span class="st"> </span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">mid =</span> <span class="st">&quot;white&quot;</span>, </a>
+<a class="sourceLine" id="cb55-5" title="5">   <span class="dt">midpoint =</span> <span class="dv">0</span>, <span class="dt">limit =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">space =</span> <span class="st">&quot;Lab&quot;</span>, </a>
+<a class="sourceLine" id="cb55-6" title="6">   <span class="dt">name=</span><span class="st">&quot;Pearson</span><span class="ch">\n</span><span class="st">Correlation&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb55-7" title="7"><span class="st">  </span><span class="kw">theme_minimal</span>()<span class="co">#+</span></a></code></pre></div>
+<p><img src="Bivariado_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" title="1"> <span class="co"># theme(axis.text.x = element_text(angle = 45, vjust = 1, </span></a>
+<a class="sourceLine" id="cb56-2" title="2">  <span class="co">#  size = 12, hjust = 1))+ </span><span class="al">###</span><span class="co"> Pone los nombres de las variables inclinadas</span></a>
+<a class="sourceLine" id="cb56-3" title="3"> <span class="co">#coord_fixed()</span></a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" title="1"><span class="kw">melt</span>(correlations, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb57-2" title="2"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(Var2, Var1, <span class="dt">fill =</span> value))<span class="op">+</span></a>
+<a class="sourceLine" id="cb57-3" title="3"><span class="st"> </span><span class="kw">geom_tile</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb57-4" title="4"><span class="st"> </span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;red&quot;</span>, <span class="dt">mid =</span> <span class="st">&quot;white&quot;</span>, </a>
+<a class="sourceLine" id="cb57-5" title="5">   <span class="dt">midpoint =</span> <span class="dv">0</span>, <span class="dt">limit =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>), <span class="dt">space =</span> <span class="st">&quot;Lab&quot;</span>, </a>
+<a class="sourceLine" id="cb57-6" title="6">   <span class="dt">name=</span><span class="st">&quot;Pearson</span><span class="ch">\n</span><span class="st">Correlation&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb57-7" title="7"><span class="st">  </span><span class="kw">theme_minimal</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb57-8" title="8"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">45</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb57-9" title="9">    <span class="dt">size =</span> <span class="dv">12</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))</a></code></pre></div>
+<p><img src="Bivariado_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+</div>
+<div id="error-bars" class="section level3">
+<h3><span class="header-section-number">0.4.3</span> Error bars</h3>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" title="1">recall<span class="op">%&gt;%</span><span class="kw">select</span>(incumbent,enp)<span class="op">%&gt;%</span><span class="kw">group_by</span>(incumbent)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb58-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean=</span><span class="kw">mean</span>(enp), <span class="dt">sd=</span><span class="kw">sd</span>(enp))<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb58-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>incumbent, <span class="dt">y=</span>mean, <span class="dt">group=</span>incumbent))<span class="op">+</span></a>
+<a class="sourceLine" id="cb58-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb58-5" title="5"><span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span></a>
+<a class="sourceLine" id="cb58-6" title="6"><span class="st">  </span><span class="kw">geom_errorbar</span>(<span class="kw">aes</span>(<span class="dt">ymin=</span>mean<span class="op">-</span>sd, <span class="dt">ymax=</span>mean<span class="op">+</span>sd), <span class="dt">width=</span>.<span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb58-7" title="7">                 <span class="dt">position=</span><span class="kw">position_dodge</span>(<span class="fl">0.05</span>))</a></code></pre></div>
+<pre><code>## geom_path: Each group consists of only one observation. Do you need to
+## adjust the group aesthetic?</code></pre>
+<p><img src="Bivariado_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" title="1"><span class="kw">library</span>(gplots)</a>
+<a class="sourceLine" id="cb60-2" title="2"><span class="kw">plotmeans</span>(enp <span class="op">~</span><span class="st"> </span>incumbent, <span class="dt">data =</span> recall, <span class="dt">mean.labels =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="Bivariado_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+</div>
 </div>
 
 

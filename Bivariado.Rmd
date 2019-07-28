@@ -1,13 +1,5 @@
 ---
 title: "Bivariado"
-#knit: (function(input_file, encoding) {
-#  out_dir <- 'docs';
-#  rmarkdown::render(input_file,
-# encoding=encoding,
-# output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
-#author: "José Incio"
-#date: "7/26/2019"
-#output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -15,6 +7,191 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Correlaciones
+
+Tomamos la base de datos del artículo: 
+
+
+```{r}
+library(rio)
+recall<-import("https://github.com/jincio/Imperfect_recall/raw/master/recalldataset.dta")
+```
+
+```{r}
+names(recall)
+```
+
+
+Existirá correlación entre el la competitividad y las regalias mineras
+
+```{r}
+
+```
+
+```{r}
+cor(recall$canon,recall$execution,use = "complete.obs")
+```
+
+```{r}
+cor(recall$canon,recall$execution,use = "complete.obs", method = "kendall")
+```
+
+```{r}
+cor.test(recall$canon,recall$execution)
+```
+
+```{r}
+cor(recall[,7:12], use= "complete.obs")
+```
+
+```{r}
+library(Hmisc)
+rcorr(as.matrix(recall[,7:12]))
+```
+
+### Correlaciones por grupo usando dplyr 
+
+```{r}
+library(dplyr)
+recall %>% group_by(period) %>%
+              do(as.data.frame(cor(.[,c("canon","budget")], method="spearman", use="pairwise.complete.obs")))
+```
+
 ## Pruebas T
+
+Pruebas de diferencias de medias:
+
+```{r}
+t.test(recall$enp~recall$incumbent)
+```
+
+```{r}
+t.test(recall$budget,recall$canon)
+```
+
+```{r}
+t.test(recall$enp, mu=4.5)
+```
+
 ## Chi-square
+
+```{r}
+chisq.test(table(recall$vote, recall$incumbent))
+```
+
 ## Gráficos Bivariados
+
+### Correlaciones 
+```{r}
+#install.packages("corrplot")
+library(corrplot)
+corrplot(cor(recall[,7:12], use= "complete.obs"), type = "upper", order = "hclust", 
+         tl.col = "black", tl.srt = 45)
+```
+
+
+```{r}
+correlations<-rcorr(as.matrix(recall[,7:12]))
+```
+
+```{r}
+corrplot(correlations$r, type="upper", order="hclust", 
+         p.mat = correlations$P, sig.level = 0.001, insig = "blank")
+```
+
+```{r}
+col<- colorRampPalette(c("blue", "white", "red"))(20)
+col
+```
+
+```{r}
+col<- colorRampPalette(c("blue", "white", "red"))(6)
+heatmap(cor(recall[,7:12], use= "complete.obs"), col = col, symm = TRUE)
+```
+
+### Correlations plots with **ggplot**
+
+```{r}
+correlations<-round(cor(recall[,7:12], use= "complete.obs"),3)
+correlations
+```
+
+Necesitamos la data en otro formato:
+
+```{r, echo=FALSE}
+library(reshape2)
+```
+
+```{r}
+reshape2::melt(correlations)
+```
+
+Se puede llamar la función de un paquete usando ```::```. Es útil en dos momentos: si no vas a usar el paquete nuevamente o si hay conflicto con el nombre de las funciones. 
+
+```{r}
+reshape2::melt(correlations)%>%ggplot(aes(x=Var1, y=Var2, fill=value)) + geom_tile()
+```
+
+```{r}
+correlations[lower.tri(correlations)] <- NA
+correlations
+```
+
+```{r}
+melt(correlations, na.rm = TRUE)
+```
+
+```{r}
+melt(correlations, na.rm = TRUE)%>%
+  ggplot(aes(Var2, Var1, fill = value))+
+ geom_tile(color = "white")+
+ scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+   midpoint = 0, limit = c(-1,1), space = "Lab", 
+   name="Pearson\nCorrelation")
+```
+
+```{r}
+melt(correlations, na.rm = TRUE)%>%
+  ggplot(aes(Var2, Var1, fill = value))+
+ geom_tile(color = "white")+
+ scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+   midpoint = 0, limit = c(-1,1), space = "Lab", 
+   name="Pearson\nCorrelation") +
+  theme_minimal()#+
+ # theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+  #  size = 12, hjust = 1))+ ### Pone los nombres de las variables inclinadas
+ #coord_fixed()
+```
+
+```{r}
+melt(correlations, na.rm = TRUE)%>%
+  ggplot(aes(Var2, Var1, fill = value))+
+ geom_tile(color = "white")+
+ scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
+   midpoint = 0, limit = c(-1,1), space = "Lab", 
+   name="Pearson\nCorrelation") +
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+    size = 12, hjust = 1))
+```
+
+### Error bars 
+
+```{r}
+recall%>%select(incumbent,enp)%>%group_by(incumbent)%>%
+  summarise(mean=mean(enp), sd=sd(enp))%>%
+  ggplot(aes(x=incumbent, y=mean, group=incumbent))+
+  geom_line()+
+  geom_point()+
+  geom_errorbar(aes(ymin=mean-sd, ymax=mean+sd), width=.2,
+                 position=position_dodge(0.05))
+  
+```
+
+
+```{r, message=FALSE}
+library(gplots)
+plotmeans(enp ~ incumbent, data = recall, mean.labels = TRUE)
+```
+
+
+
