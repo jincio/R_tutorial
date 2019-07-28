@@ -1,23 +1,18 @@
 ---
 title: "Presentación"
-#author: "José Incio"
-#output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-**Spanish**
+Esta página está dedicada a todos los que quieren aprender R. Tiene los elementos básicos. Este material lo he preparado para
+presentaciones/workshops, etc.  Puedes navegar esta página usando el menú superior. 
 
-Esta página está dedicada a todos los que quieren aprender R. Aquí
-encontraran páginas de tutoriales que he preparado para
-presentaciones/workshops, así como otros temas que en algún momento me
-han costado trabajo. 
+Si estas interesado en temás más avanzados puedes revisar otros tutoriales que he preparado aquí: 
 
-- Algunas páginas estarán en ingles.
-- Pronto abriré la página para colaboración.
+- Si estas interesado en colaborar escríbeme: j.incio@pitt.edu.
 
-Colaboradores:
+## Colaboradores:
 
   - Paloma Bellatin
