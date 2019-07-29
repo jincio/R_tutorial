@@ -17,7 +17,7 @@ navbar:
     - 
       href: mlineales.html
       text: Modelos lineales
-  title: "R Tutorials"
+  title: "ALACIP"
 output:
   bookdown::html_document2:
     theme: yeti

@@ -93,3 +93,8 @@ library(lmtest)
 bptest(m1)
 ```
 
+```{r}
+par(mfrow=c(2,2))
+plot(m1)
+```
+
