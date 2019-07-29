@@ -15,7 +15,7 @@ navbar:
       href: Bivariado.html
       text: Bivariado
     - 
-      href: Curso1.html
+      href: mlineales.html
       text: Modelos lineales
   title: "R Tutorials"
 output:
