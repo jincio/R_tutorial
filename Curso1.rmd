@@ -3,12 +3,16 @@ title: "Basicos_R"
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+library(lubridate)
+fecha <- today(tzone = "America/Lima")
+mes <- month(fecha, label = T, abbr = F, locale = "es_PE.utf8")
 ```
 
 **ULTIMA ACTUALIZACIÓN:**
 
-```{r}
+La última actualización de este artículo se realizó el `r day(fecha)` de  `r mes` del `r year(fecha)`.
+
+```{r, include = F}
 print(Sys.time())
 ```
 
@@ -26,9 +30,9 @@ Parte I:
 
 Cuando inicias **R** se activan un grupo básicos de paquetes. Los paquetes tienen funciones y las funciones argumentos. 
 
-Puedes instalar paquetes usando ```install.packages("nombre del paquete")```.  Los paquetes se instalan una sola vez. Luego de eso ya estan en la memoria de tu computadora.
+Puedes instalar paquetes usando `install.packages("nombre del paquete")`.  Los paquetes se instalan una sola vez. Luego de eso ya estan en la memoria de tu computadora.
 
-Cada vez que necesitas un paquete lo puedes llamar con: ```library(paquete)```. 
+Cada vez que necesitas un paquete lo puedes llamar con: `library(paquete)`. 
 
 Por ejemplo si corres un código y el resultado es un error con un mensaje que dice: **could not find function "xxx"**. Entonces no has llamado el paquete (usando library) y si llamas al paqute y te resulta un error con el siguiente mensaje: **Error in library(paquete) : there is no package called ‘paquete’** significa que necesitas instalarlo. 
 
@@ -54,7 +58,7 @@ knitr::include_graphics('./data_examples/Rstudio_swd.png')
 ```
 
 La base de datos debe estar en nuestro espacio de trabajo. 
-La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. La base **sumaria-2018.dta**. Aquí esta el link de donde pueden descargarla ![link](http://iinei.inei.gob.pe/iinei/srienaho/descarga/STATA/634-Modulo34.zip). Tenemos informacion sobre ingresos, y gastos de los hogares en Perú. 
+La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. La base **sumaria-2018.dta**. Aquí esta el link de donde pueden [descargarla](http://iinei.inei.gob.pe/iinei/srienaho/descarga/STATA/634-Modulo34.zip). Tenemos informacion sobre ingresos, y gastos de los hogares en Perú. 
 
 En esta página estoy trabajando con una selección aleatoria de 1000 casos. La base original tiene más de 30 mil casos. 
 
@@ -62,33 +66,40 @@ Dado que tenemos el paquete rio, no necesitamos decirle a R que nuestra base de 
 
 Vamos a usar el comando import y asignarle un nombre a nuestra base de datos. Lo llamaremos **S2018**. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, message = FALSE}
 library(dplyr)
 set.seed(100)
 s2018<-import("./data_examples/sumaria-2018.dta")%>%
   sample_n(1000)
 ```
 
-```{r, eval=FALSE, message=FALSE}
-s2018<-import("./data_examples/summaria-2018.dta")
+```{r, eval = FALSE}
+s2018<-import("./data_examples/sumaria-2018.dta")
 ```
 
+Podemos usar `head()` en nuestra data para ver las primeras seis observaciones. Debido a que esta data cuenta con `r dim(s2018)[2]` columnas, usamos `[,1:5]` para que nos muestre sólo las 5 primeras.
 
-```{r, eval=FALSE}
-head(s2018) #Give us the first six cases. 
+```{r}
+head(s2018)[,1:5]
 ```
 
-Siempre es bueno mirar la base de datos con la cual estamos trabajando para darnos una idea mas concreta de que estamos haciendo. Primero debemos saber con que tipo de objeto estamos lidiando. 
+Siempre es bueno mirar la base de datos con la cual estamos trabajando para darnos una idea mas concreta de que estamos haciendo. Primero debemos saber con que tipo de objeto estamos lidiando. La función `str()` nos brinda informaciòn útil sobre el objeto en cuestión y sus elementos. En el siguiente código, usamos `[,1:6]` para limitar la vista a las 6 primeras variables
 
-```{r , eval=FALSE}
-str(s2018) ## Te da el tipo de objeto y el tipo de cada variable. 
+```{r}
+str(s2018[,1:6]) 
 ```
+Vemos que las variables son de tipo 'chr', que quiere decir character o texto.  Asimismo, podemos ver que cada variable dos espacios de `attr()`, estos son sus atributos. Más adelante veremos qué son y cómo utilizarlos. También vemos que el objeto `s2018` es un `data.frame`.
+
 
 ```{r}
 is.data.frame(s2018) ## Es otra forma de comprobarlo.
 ```
 
-En este caso **Ej_Enaho** es un objeto de tipo data frame, por lo que tiene dos dimensiones, saber esto es importante por que así podemos manipularlas. 
+En este caso `s2018` es un objeto de tipo `data.frame`, por lo que tiene dos dimensiones, saber esto es importante por que así podemos manipularlas. La función `dim()` nos permite ver ambas. El primer número se refiere a la cantidad de observaciones o casos (las filas) y el segundo a la cantidad de variables (las columnas).
+
+```{r}
+dim(s2018)
+```
 
 En el código debajo estamos seleccionando los 20 primeros casos (1:20), y las tres primeras variables (1:3). Conocer las dimensiones es útil para luego filtrar la base de datos. 
 
@@ -108,7 +119,7 @@ Podriamos mirar una muestra de nuestra base de datos con la opcion head. Abajo, 
 View(head(s2018,300))
 ```
 
-La función **import** de rio permite subir archivos en distintos formatos. Existen otros paquetes como **foreign** que también hacen lo mismo. Pero **rio** me parece más conveniente.
+La función `import()` de rio permite subir archivos en distintos formatos. Existen otros paquetes como `foreign` que también hacen lo mismo. Pero `rio` me parece más conveniente.
 
 ## Manipular y limpiar base de datos <a name="T3"></a>
 
@@ -116,17 +127,17 @@ En esta secciones aprenderemos algunas de los pasos mas frecuentes que hacemos a
 
 ### Re-nombrar y etiquetar variables
 
-Podemos llamar nuestras variables en la BD con la función ```names``` o también ```ls```
-
-```{r, message=FALSE}
-ls(s2018) ## Este comando te las da en nombre alfabetico
-```
+Podemos llamar nuestras variables en la BD con la función `names()` o también `ls()`
 
 ```{r}
 names(s2018)## Te los da en el orden en que estan en la base de datos. 
 ```
 
-Por ejemplo la variable **inghog1d** (posición 141) es el ingreso bruto anual queremos cambiar el nombre a "ingreso_bruto".  
+```{r, message=FALSE}
+ls(s2018) ## Este comando te las da en nombre alfabetico
+```
+
+Por ejemplo la variable `inghog1d` (posición 141) es el ingreso bruto anual queremos cambiar el nombre a "ingreso_bruto".  
 
 La forma más rápida es: 
 
@@ -137,16 +148,19 @@ names(s2018)[141]<-"ingreso_bruto"
 Si no tenemos la ubicación, quizás son miles de variables, podemos también usar 
 
 ```{r, eval=FALSE}
-names(s2018)[names(s2018) == "inghog1d"] <-"ingreso_bruto"
-## Si ya corriste el código anterior este te va a dar error, ya que está buscando un nombre que no existe ;)
+names(s2018[names(s2018) == "inghog1d"]) <-"ingreso_bruto"
+
+# Si ya corriste el código anterior este te va a dar error, ya que 
+# está buscando un nombre que no existe ;)
 ```
 
 Pedimos el nombre de variables denuevo 
 ```{r}
-names(s2018)[140:145] #Exacto! podemos indexar para no ver todas las variables nuevamente 
+names(s2018)[140:145] 
+# Exacto! podemos indexar para no ver todas las variables nuevamente 
 ```
 
-**etiquetas**
+**Etiquetas**
 
 Si subimos la base de datos desde STATA, estas pueden tener etiquetas. 
 
@@ -160,7 +174,9 @@ Queremos cambiarla a "ingreso monetario (bruto) anual"
 
 ```{r}
 attributes(s2018$ingreso_bruto)$label<-"ingreso monetario (bruto) anual"
-attributes(s2018$ingreso_bruto)$label #Veamos el cambio!.
+
+#Veamos el cambio!
+attributes(s2018$ingreso_bruto)$label 
 ```
 
 ### Recodificar variables
@@ -242,9 +258,9 @@ Por ejemplo queremos calcular el promedio de cada grupo.
 Usaremos **dplyr** para calcular el promedio de ingreso y la desviación estandar por cada ubigeo (municipalidad)
 
 - Podemos concatenar funciones. Primero hemos "agrupado" la base de datos, luego hemos calculado el promedio, y la desviación estandard en base a la variable de agrupación.
-- ```arrange``` es para ordernar los ubigeos
-- ```select`` para quedarnos con algunas variables (son más de 150)
-- ```head`` para pedir los 6 primeros casos.
+- `arrange()` es para ordernar los ubigeos
+- `select()` para quedarnos con algunas variables (son más de 150)
+- `head()` para pedir los 6 primeros casos.
 
 
 ```{r}
@@ -293,7 +309,7 @@ head(s2018[,c(6,159,160)])
 
 Existen diferentes tipos de "join" 
 
-  - left_join()
-  - rigth_join()
-  - inner_join()
+  - `left_join()`
+  - `rigth_join()`
+  - `inner_join()`
 
