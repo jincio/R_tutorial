@@ -1,5 +1,5 @@
 ---
-title: "Basicos_R"
+title: "Básicos"
 ---
 
 ```{r setup, include=FALSE}
@@ -16,29 +16,141 @@ La última actualización de este artículo se realizó el `r day(fecha)` de  `r
 
 Parte I: 
 
-- [Basicos](#T1)
+- [Básicos](#T1)
 - [Subiendo bases de datos](#T2)
 - [Manipular y limpiar base de datos](#T3)
 - [Merge-Join bases](#T3)
   
-# Basicos. <a name="T1"></a>
+# Básicos. <a name="T1"></a>
 
-Cuando inicias **R** se activan un grupo básicos de paquetes. Los paquetes tienen funciones y las funciones argumentos. 
+R es un entorno y lenguaje de programación con un enfoque al análisis estadístico[^1]. En palabras sencillas, R es un idioma con el que podemos pedirle a nuestra computadora que haga ciertas cosas para nosotros. En estos tutoriales usaremos R a través de RStudio[^2]. 
 
-Puedes instalar paquetes usando `install.packages("nombre del paquete")`.  Los paquetes se instalan una sola vez. Luego de eso ya estan en la memoria de tu computadora.
+Debido a que casi todo lo que puedes hacer con R se hace a través de objetos, empezaremos presentando dos de los más comunes: los operadores y las funciones. Iremos conociendo otros tipos de objetos a medida que avancemos en los tutoriales.
 
-Cada vez que necesitas un paquete lo puedes llamar con: `library(paquete)`. 
+## Operadores
 
-Por ejemplo si corres un código y el resultado es un error con un mensaje que dice: **could not find function "xxx"**. Entonces no has llamado el paquete (usando library) y si llamas al paqute y te resulta un error con el siguiente mensaje: **Error in library(paquete) : there is no package called ‘paquete’** significa que necesitas instalarlo. 
+Los operadores, como dice su nombre, nos permiten realizar operaciones entre ciertos valores de manera similar a como lo haríamos con una calculadora. Los siguientes nos permiten realizar operaciones aritméticas básicas:
 
-## Subiendo una base de datos <a name="T2"></a>
+- `+`: suma
+- `-`: resta
+- `*`: multiplicación
+- `/`: división real
+- `**`: potencia
+- `()`: para priorizar las operaciones al interior de los paréntesis
 
-Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. Existen varios paquetes que nos pueden ayudar con eso. En este tutorial trabajaremos con ```rio```. Rio nos permite abrir distintos tipos de base de datos con facilidad. 
+Podemos ver cómo lucen los operadores en funcionamiento al usarlos en R. 
 
-```{r eval=FALSE}
-install.packages("rio")
+```{r}
+(((1+2)*3)**2)/3
 ```
 
+R primero opera el `1+2` al ser el nivel más profundo, obteniendo como resultado 3. Inmediatamente después, R realiza la operación `3*3` y obtiene 9. Después de esto, R opera el `9**2`obteniedo 81, y finaliza con la operación `81/3`, obteniedo 27 como resultado. Hasta este punto, R está siendo utilizado como una simple calculadora, pero podemos exigirle mucho más.
+
+Pero antes de pasar a ello es importante conocer a otro operador fundamental, el de asignamiento. Está compuesto por el signo "menor que" `<` y el signo de resta `-`, que al juntarse lucen como una flecha que apunta hacia la izquierda `<-`. Este operador sirve para asignar un nombre a cualquier objeto o valor, de tal modo podamos acceder a él con mayor facilidad. Por ejemplo, podemos asignarle el nombre "result" al resultado de la operación que realizamos anteriormente.
+
+```{r}
+result <- (((1+2)*3)**2)/3
+```
+
+A simple vista, nada ha cambiado[^3], pero cuando accedemos al objeto `result` ahora obtenemos inmediatamente la respuesta de nuestra operación.
+
+```{r}
+result
+```
+
+Hemos visto que podemos usar el operador `**` para elevar un número a cualquier potencia, pero no tenemos un operador para obtener la raíz. Podemos solucionar esto haciendo uso de funciones.
+
+## Funciones
+
+Las funciones nos permiten aplicar transformaciones a los valores u objetos que ingresemos en ellas. Para crear una función, debemos asignarle un nombre, argumentos y código que será utilizado para la transformación. Su forma general en R es la siguiente:
+
+
+```
+nombredefuncion <- function(argumento_1, argumento_2, argumento_n){
+
+código
+
+}
+```
+Para que sea más entendible, haremos nuestra función para hallar la raíz cuadrada de cualquier número[^4] y la llamaremos `raiz_cuadrada`. Siempre es importante asignar un nombre significativo y que dé una buena idea del funcionamiento de la función.
+
+```{r}
+raiz_cuadrada <- function(x){
+  x**(1/2)
+}
+```
+
+Como vemos en el cuerpo de la función, esta obtiene un número "x" y calcula su raíz cuadrada. Probemos su funcionamiento.
+
+```{r}
+raiz_cuadrada(25)
+```
+
+R ha calculado de manera correcta que la raíz cuadrada de 25 es 5. También podemos hacer una función para determinar la raíz cúbica de un número "x" de la misma manera.
+
+```{r}
+raiz_cubica <- function(x){
+  x**(1/3)
+}
+
+raiz_cubica(27)
+```
+
+Al probar su funcionamiento vemos que nos arroja el cálculo correcto. Podríamos hacer una función de raíz para cada número, pero como las funciones pueden tener más de un argumento, podemos usar eso para nuestra ventaja y hacer una función que aplique una raiz "n" a cualquier número "x".
+
+```{r}
+raiz_n <- function(x, n){
+  x**(1/n)
+}
+
+raiz_n(1024, 10)
+
+```
+
+Ese es el poder de las funciones, nos permiten hacer nuestras transformaciones de manera generalizada. Incluso podemos usar funciones en el cuerpo y argumento de otras funciones. En el siguiente ejemplo, usaremos la función predefinida `paste()`, que nos permite pegar textos para formar una oración.
+
+```{r}
+texto_raiz <- function(x, n){
+  paste("La raiz ", n, " de", x, "es ", raiz_n(x, n))
+}
+
+texto_raiz(1024, 10)
+```
+
+Una vez que hemos entendido cómo usar funciones, estamos listos para conocer los paquetes.
+
+## Usando paquetes
+
+R es un lenguaje utilizado por muchas personas y cada quien escribe sus funciones según sus propias necesidades. Sin embargo, no resulta extraño que varios usuarios necesiten lo mismo. Por ejemplo, resulta lógico pensar que no somos las únicas personas que necesitan obtener la raíz "n" de un número. 
+
+Es en este punto que entran en juego los paquetes, una colección de funciones y datos que los usuarios de R comparten entre sí para facilitar el trabajo a los demás y evitar la repetición innecesaria de creación de funciones de uso común o de alta utilidad[^5]. Hay paquetes de todo tipo, desde los que te permiten realizar una función muy específica (como `clipr` que es usado para copiar y pegar información contenida en el portapapeles del sistema) hasta los que te permiten expandir los límites de lo que R es capaz de hacer (como `reticulate`, que te permite ejecutar código del lenguaje de programación Python en tu entorno R).
+
+Cuando inicias **R** se activa un grupo base de paquetes. Estos han sido desarrollados por el R Core Team y son la pieza fundamental de su funcionalidad. 
+
+Puedes instalar paquetes usando la función `install.packages()` y poniendo como argumento el nombre del paquete entre comillas `""`.  Este procedimiento sólo será necesario una vez, ya que después de instalados, los paquetes son conservados en la memoria de la computadora. Aquí puedes ver algunos ejemplos:
+
+```
+install.packages("ggplot2")
+install.packages("DT")
+install.packages("RColorBrewer")
+```
+
+Pero tenerlos instalados no es suficiente. Cada vez que necesitas usar un paquete lo puedes llamar con `library(paquete)`. Esto hará que sus funciones y objetos estén disponibles para el uso. Te darás cuenta que no has llamado al paquete si corres un código y el resultado es un error como este: 
+
+```{r, error = TRUE}
+glue("texto", "de", "ejemplo")
+```
+Esto significa que no has llamado al paquete necesario usando `library()`. En cambio, si al llamar al paquete te da como resultado un error de este tipo:
+
+```{r, error = TRUE}
+library(testpackage)
+```
+
+Significa que necesitas instalarlo. No hay que asustarse al obtener un mensaje de error alguna vez, por lo general suelen ser bastante explicativos respecto a por qué son causados y nos permiten corregir aquello en lo que nos equivocamos.
+
+# Subiendo una base de datos <a name="T2"></a>
+
+Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. Existen varios paquetes que nos pueden ayudar con eso. En este tutorial trabajaremos con `rio`, que nos permite abrir distintos tipos de base de datos con facilidad. 
 
 ```{r, message=FALSE}
 library(rio)
@@ -115,11 +227,11 @@ View(head(s2018,300))
 
 La función `import()` de rio permite subir archivos en distintos formatos. Existen otros paquetes como `foreign` que también hacen lo mismo. Pero `rio` me parece más conveniente.
 
-## Manipular y limpiar base de datos <a name="T3"></a>
+# Manipular y limpiar base de datos <a name="T3"></a>
 
 En esta secciones aprenderemos algunas de los pasos mas frecuentes que hacemos al encontrarnos con una nueva base de datos: limpiar y manipular algunas variables para que pueda analizarse. Debemos limpiar nuestra base de datos por muchas razones; quizas para calcular las variables que queremos, para desacernos de grupos de observaciones que no nos interesan o para hacer mas fácil el juntar nuestra base de datos con otras.
 
-### Re-nombrar y etiquetar variables
+## Re-nombrar y etiquetar variables
 
 Podemos llamar nuestras variables en la BD con la función `names()` o también `ls()`
 
@@ -173,7 +285,7 @@ attributes(s2018$ingreso_bruto)$label<-"ingreso monetario (bruto) anual"
 attributes(s2018$ingreso_bruto)$label 
 ```
 
-### Recodificar variables
+## Recodificar variables
 
 Ahora recodificaremos los valores de la variable con que estamos trabajando.
 
@@ -206,11 +318,11 @@ attributes(s2018$estrsocial)$labels[[1]]<-0
 attributes(s2018$estrsocial)$labels
 ```
 
-### Generar variables (categorica, dicotomica, average de grupo)
+## Generar variables (categorica, dicotomica, average de grupo)
 
 Ahora vamos a generar distintos tipos de variables. Empecemos con una variable dicotomica. Vamos a usar informacion sobre el ingreso reportado
 
-### Variable categóricas
+## Variable categóricas
 
 Generemos una variable que toma el valor de 1 si es que el informante gana más de 800 soles y 0 si es menos o igual. Creamos una variable vacia y le incluimos los argumentos:
 
@@ -246,7 +358,7 @@ s2018<-s2018%>%mutate(minimo=ifelse(s2018$ingreso_bruto<=800,0,1))
 table(s2018$minimo)
 ```
 
-### Medidas por grupo. 
+## Medidas por grupo. 
 
 Por ejemplo queremos calcular el promedio de cada grupo. 
 Usaremos **dplyr** para calcular el promedio de ingreso y la desviación estandar por cada ubigeo (municipalidad)
@@ -275,7 +387,7 @@ s2018<-s2018%>%group_by(ubigeo)%>%
 ```
 
 
-## Merge y append bases de datos <a name="T4"></a>
+# Merge y append bases de datos <a name="T4"></a>
 
 - Creemos una base de datos que contenga el ingreso promedio por distrito. Similar a nuestro ejercicio anterior pero ahora la base será un objeto aparte. 
 
@@ -307,3 +419,8 @@ Existen diferentes tipos de "join"
   - `rigth_join()`
   - `inner_join()`
 
+[^1]: Definición obtenida de https://es.wikipedia.org/wiki/R_(lenguaje_de_programaci%C3%B3n)
+[^2]: RStudio es un Entorno de desarrollo integrado (IDE) para R. Para instalar ambos, recomendamos seguir las instrucciones del punto 1.4.1 y 1.4.2 del siguiente enlace https://es.r4ds.hadley.nz/introducci%C3%B3n.html
+[^3]: Si estamos usando RStudio podemos ver que en en la sección Values de la pestaña "Environment" ha aparecido nuestro objeto "result" asociado al resultado de la operación.
+[^4]: Teniendo en cuenta que la raíz cuadrada de X puede ser expresada como potencia de X en la forma X^(1/2)^
+[^5]: Podemos obtener la mayor parte de paquetes del CRAN (Comprehensive R Archive Network). La función `install.packages()` busca allí los paquetes que le pedimos que descargue.

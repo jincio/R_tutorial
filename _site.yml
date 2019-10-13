@@ -6,7 +6,7 @@ navbar:
       icon: fa-home
       text: Home
     - 
-      href: Curso1.html
+      href: Básicos.html
       text: Básicos
     - 
       href: Descriptivos.html

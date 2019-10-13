@@ -14,4 +14,4 @@ Puedes revisar mi blog, en el que también posteo sobre como usar R. http://www.
 # Colaboradores:
 
 - Paloma Bellatin
-- Samuel Calderon Serrano
+- [Samuel Calderon Serrano](https://github.com/calderonsamuel)

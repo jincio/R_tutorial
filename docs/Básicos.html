@@ -12,7 +12,7 @@
 
 
 
-<title>Basicos_R</title>
+<title>Básicos</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -420,10 +420,10 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="Curso1.html">Básicos</a>
+  <a href="Básicos.html">Básicos</a>
 </li>
 <li>
-  <a href="Descriptives.html">Descriptivos</a>
+  <a href="Descriptivos.html">Descriptivos</a>
 </li>
 <li>
   <a href="Bivariado.html">Bivariado</a>
@@ -443,45 +443,120 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Basicos_R</h1>
+<h1 class="title toc-ignore">Básicos</h1>
 
 </div>
 
 
 <p><strong>ULTIMA ACTUALIZACIÓN:</strong></p>
-<p>La última actualización de este artículo se realizó el 12 de octubre del 2019.</p>
+<p>La última actualización de este artículo se realizó el 13 de octubre del 2019.</p>
 <div id="tabla-de-contenidos" class="section level1">
 <h1><span class="header-section-number">1</span> Tabla de Contenidos</h1>
 <p>Parte I:</p>
 <ul>
-<li><a href="#T1">Basicos</a></li>
+<li><a href="#T1">Básicos</a></li>
 <li><a href="#T2">Subiendo bases de datos</a></li>
 <li><a href="#T3">Manipular y limpiar base de datos</a></li>
 <li><a href="#T3">Merge-Join bases</a></li>
 </ul>
 </div>
-<div id="basicos." class="section level1">
-<h1><span class="header-section-number">2</span> Basicos. <a name="T1"></a></h1>
-<p>Cuando inicias <strong>R</strong> se activan un grupo básicos de paquetes. Los paquetes tienen funciones y las funciones argumentos.</p>
-<p>Puedes instalar paquetes usando <code>install.packages(&quot;nombre del paquete&quot;)</code>. Los paquetes se instalan una sola vez. Luego de eso ya estan en la memoria de tu computadora.</p>
-<p>Cada vez que necesitas un paquete lo puedes llamar con: <code>library(paquete)</code>.</p>
-<p>Por ejemplo si corres un código y el resultado es un error con un mensaje que dice: <strong>could not find function “xxx”</strong>. Entonces no has llamado el paquete (usando library) y si llamas al paqute y te resulta un error con el siguiente mensaje: <strong>Error in library(paquete) : there is no package called ‘paquete’</strong> significa que necesitas instalarlo.</p>
-<div id="subiendo-una-base-de-datos" class="section level2">
-<h2><span class="header-section-number">2.1</span> Subiendo una base de datos <a name="T2"></a></h2>
-<p>Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. Existen varios paquetes que nos pueden ayudar con eso. En este tutorial trabajaremos con <code>rio</code>. Rio nos permite abrir distintos tipos de base de datos con facilidad.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;rio&quot;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(rio)</a></code></pre></div>
+<div id="básicos." class="section level1">
+<h1><span class="header-section-number">2</span> Básicos. <a name="T1"></a></h1>
+<p>R es un entorno y lenguaje de programación con un enfoque al análisis estadístico<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. En palabras sencillas, R es un idioma con el que podemos pedirle a nuestra computadora que haga ciertas cosas para nosotros. En estos tutoriales usaremos R a través de RStudio<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+<p>Debido a que casi todo lo que puedes hacer con R se hace a través de objetos, empezaremos presentando dos de los más comunes: los operadores y las funciones. Iremos conociendo otros tipos de objetos a medida que avancemos en los tutoriales.</p>
+<div id="operadores" class="section level2">
+<h2><span class="header-section-number">2.1</span> Operadores</h2>
+<p>Los operadores, como dice su nombre, nos permiten realizar operaciones entre ciertos valores de manera similar a como lo haríamos con una calculadora. Los siguientes nos permiten realizar operaciones aritméticas básicas:</p>
+<ul>
+<li><code>+</code>: suma</li>
+<li><code>-</code>: resta</li>
+<li><code>*</code>: multiplicación</li>
+<li><code>/</code>: división real</li>
+<li><code>**</code>: potencia</li>
+<li><code>()</code>: para priorizar las operaciones al interior de los paréntesis</li>
+</ul>
+<p>Podemos ver cómo lucen los operadores en funcionamiento al usarlos en R.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">(((<span class="dv">1</span><span class="op">+</span><span class="dv">2</span>)<span class="op">*</span><span class="dv">3</span>)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">3</span></a></code></pre></div>
+<pre><code>## [1] 27</code></pre>
+<p>R primero opera el <code>1+2</code> al ser el nivel más profundo, obteniendo como resultado 3. Inmediatamente después, R realiza la operación <code>3*3</code> y obtiene 9. Después de esto, R opera el <code>9**2</code>obteniedo 81, y finaliza con la operación <code>81/3</code>, obteniedo 27 como resultado. Hasta este punto, R está siendo utilizado como una simple calculadora, pero podemos exigirle mucho más.</p>
+<p>Pero antes de pasar a ello es importante conocer a otro operador fundamental, el de asignamiento. Está compuesto por el signo “menor que” <code>&lt;</code> y el signo de resta <code>-</code>, que al juntarse lucen como una flecha que apunta hacia la izquierda <code>&lt;-</code>. Este operador sirve para asignar un nombre a cualquier objeto o valor, de tal modo podamos acceder a él con mayor facilidad. Por ejemplo, podemos asignarle el nombre “result” al resultado de la operación que realizamos anteriormente.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">result &lt;-<span class="st"> </span>(((<span class="dv">1</span><span class="op">+</span><span class="dv">2</span>)<span class="op">*</span><span class="dv">3</span>)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">3</span></a></code></pre></div>
+<p>A simple vista, nada ha cambiado<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>, pero cuando accedemos al objeto <code>result</code> ahora obtenemos inmediatamente la respuesta de nuestra operación.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">result</a></code></pre></div>
+<pre><code>## [1] 27</code></pre>
+<p>Hemos visto que podemos usar el operador <code>**</code> para elevar un número a cualquier potencia, pero no tenemos un operador para obtener la raíz. Podemos solucionar esto haciendo uso de funciones.</p>
+</div>
+<div id="funciones" class="section level2">
+<h2><span class="header-section-number">2.2</span> Funciones</h2>
+<p>Las funciones nos permiten aplicar transformaciones a los valores u objetos que ingresemos en ellas. Para crear una función, debemos asignarle un nombre, argumentos y código que será utilizado para la transformación. Su forma general en R es la siguiente:</p>
+<pre><code>nombredefuncion &lt;- function(argumento_1, argumento_2, argumento_n){
+
+código
+
+}</code></pre>
+<p>Para que sea más entendible, haremos nuestra función para hallar la raíz cuadrada de cualquier número<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> y la llamaremos <code>raiz_cuadrada</code>. Siempre es importante asignar un nombre significativo y que dé una buena idea del funcionamiento de la función.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">raiz_cuadrada &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">  x<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">}</a></code></pre></div>
+<p>Como vemos en el cuerpo de la función, esta obtiene un número “x” y calcula su raíz cuadrada. Probemos su funcionamiento.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">raiz_cuadrada</span>(<span class="dv">25</span>)</a></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>R ha calculado de manera correcta que la raíz cuadrada de 25 es 5. También podemos hacer una función para determinar la raíz cúbica de un número “x” de la misma manera.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">raiz_cubica &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">  x<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw">raiz_cubica</span>(<span class="dv">27</span>)</a></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p>Al probar su funcionamiento vemos que nos arroja el cálculo correcto. Podríamos hacer una función de raíz para cada número, pero como las funciones pueden tener más de un argumento, podemos usar eso para nuestra ventaja y hacer una función que aplique una raiz “n” a cualquier número “x”.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">raiz_n &lt;-<span class="st"> </span><span class="cf">function</span>(x, n){</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">  x<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span>n)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="kw">raiz_n</span>(<span class="dv">1024</span>, <span class="dv">10</span>)</a></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>Ese es el poder de las funciones, nos permiten hacer nuestras transformaciones de manera generalizada. Incluso podemos usar funciones en el cuerpo y argumento de otras funciones. En el siguiente ejemplo, usaremos la función predefinida <code>paste()</code>, que nos permite pegar textos para formar una oración.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">texto_raiz &lt;-<span class="st"> </span><span class="cf">function</span>(x, n){</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="kw">paste</span>(<span class="st">&quot;La raiz &quot;</span>, n, <span class="st">&quot; de&quot;</span>, x, <span class="st">&quot;es &quot;</span>, <span class="kw">raiz_n</span>(x, n))</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="kw">texto_raiz</span>(<span class="dv">1024</span>, <span class="dv">10</span>)</a></code></pre></div>
+<pre><code>## [1] &quot;La raiz  10  de 1024 es  2&quot;</code></pre>
+<p>Una vez que hemos entendido cómo usar funciones, estamos listos para conocer los paquetes.</p>
+</div>
+<div id="usando-paquetes" class="section level2">
+<h2><span class="header-section-number">2.3</span> Usando paquetes</h2>
+<p>R es un lenguaje utilizado por muchas personas y cada quien escribe sus funciones según sus propias necesidades. Sin embargo, no resulta extraño que varios usuarios necesiten lo mismo. Por ejemplo, resulta lógico pensar que no somos las únicas personas que necesitan obtener la raíz “n” de un número.</p>
+<p>Es en este punto que entran en juego los paquetes, una colección de funciones y datos que los usuarios de R comparten entre sí para facilitar el trabajo a los demás y evitar la repetición innecesaria de creación de funciones de uso común o de alta utilidad<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>. Hay paquetes de todo tipo, desde los que te permiten realizar una función muy específica (como <code>clipr</code> que es usado para copiar y pegar información contenida en el portapapeles del sistema) hasta los que te permiten expandir los límites de lo que R es capaz de hacer (como <code>reticulate</code>, que te permite ejecutar código del lenguaje de programación Python en tu entorno R).</p>
+<p>Cuando inicias <strong>R</strong> se activa un grupo base de paquetes. Estos han sido desarrollados por el R Core Team y son la pieza fundamental de su funcionalidad.</p>
+<p>Puedes instalar paquetes usando la función <code>install.packages()</code> y poniendo como argumento el nombre del paquete entre comillas <code>&quot;&quot;</code>. Este procedimiento sólo será necesario una vez, ya que después de instalados, los paquetes son conservados en la memoria de la computadora. Aquí puedes ver algunos ejemplos:</p>
+<pre><code>install.packages(&quot;ggplot2&quot;)
+install.packages(&quot;DT&quot;)
+install.packages(&quot;RColorBrewer&quot;)</code></pre>
+<p>Pero tenerlos instalados no es suficiente. Cada vez que necesitas usar un paquete lo puedes llamar con <code>library(paquete)</code>. Esto hará que sus funciones y objetos estén disponibles para el uso. Te darás cuenta que no has llamado al paquete si corres un código y el resultado es un error como este:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">glue</span>(<span class="st">&quot;texto&quot;</span>, <span class="st">&quot;de&quot;</span>, <span class="st">&quot;ejemplo&quot;</span>)</a></code></pre></div>
+<pre><code>## Error in glue(&quot;texto&quot;, &quot;de&quot;, &quot;ejemplo&quot;): could not find function &quot;glue&quot;</code></pre>
+<p>Esto significa que no has llamado al paquete necesario usando <code>library()</code>. En cambio, si al llamar al paquete te da como resultado un error de este tipo:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">library</span>(testpackage)</a></code></pre></div>
+<pre><code>## Error in library(testpackage): there is no package called &#39;testpackage&#39;</code></pre>
+<p>Significa que necesitas instalarlo. No hay que asustarse al obtener un mensaje de error alguna vez, por lo general suelen ser bastante explicativos respecto a por qué son causados y nos permiten corregir aquello en lo que nos equivocamos.</p>
+</div>
+</div>
+<div id="subiendo-una-base-de-datos" class="section level1">
+<h1><span class="header-section-number">3</span> Subiendo una base de datos <a name="T2"></a></h1>
+<p>Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. Existen varios paquetes que nos pueden ayudar con eso. En este tutorial trabajaremos con <code>rio</code>, que nos permite abrir distintos tipos de base de datos con facilidad.</p>
+<pre><code>install.packages(&quot;rio&quot;)</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">library</span>(rio)</a></code></pre></div>
 <p>Segundo, llamamos a nuestra base de datos.</p>
 <p><strong>IMPORTANTE</strong> antes de interacturar con folders (subir data, grabar resultados, gráficos, etc) tienes que establecer tu directorio de trabajo. La forma más rápida es con la rueda con la etiqueta “more” en el panel derecho.</p>
 <p><img src="data_examples/Rstudio_swd.png" width="80%" /></p>
-<p>La base de datos debe estar en nuestro espacio de trabajo.
-La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. La base <strong>sumaria-2018.dta</strong>. Aquí esta el link de donde pueden <a href="http://iinei.inei.gob.pe/iinei/srienaho/descarga/STATA/634-Modulo34.zip">descargarla</a>. Tenemos informacion sobre ingresos, y gastos de los hogares en Perú.</p>
-<p>En esta página estoy trabajando con una selección aleatoria de 1000 casos. La base original tiene más de 30 mil casos.</p>
-<p>Dado que tenemos el paquete rio, no necesitamos decirle a R que nuestra base de datos esta en STATA, R lo entiende.</p>
-<p>Vamos a usar el comando import y asignarle un nombre a nuestra base de datos. Lo llamaremos <strong>S2018</strong>. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">s2018&lt;-<span class="kw">import</span>(<span class="st">&quot;./data_examples/sumaria-2018.dta&quot;</span>)</a></code></pre></div>
+<p>La base de datos debe estar en nuestro espacio de trabajo.</p>
+<p>La Base de Datos que usaremos es una muestra de 1000 casos de la base <strong>sumaria-2018.dta</strong> de ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. Aquí esta el link de donde pueden <a href="http://iinei.inei.gob.pe/iinei/srienaho/descarga/STATA/634-Modulo34.zip">descargarla</a> en formato STATA. Tenemos informacion sobre ingresos, y gastos de los hogares en Perú.</p>
+<p>Dado que tenemos el paquete <code>rio</code>, no necesitamos decirle a R que nuestra base de datos está en STATA, R lo entiende.</p>
+<p>Vamos a usar la función <code>import()</code> y asignarle un nombre a nuestra base de datos. Lo llamaremos <code>s2018</code>. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">s2018&lt;-<span class="kw">import</span>(<span class="st">&quot;./data_examples/sumaria-2018.dta&quot;</span>)</a></code></pre></div>
 <p>Podemos usar <code>head()</code> en nuestra data para ver las primeras seis observaciones. Debido a que esta data cuenta con 158 columnas, usamos <code>[,1:5]</code> para que nos muestre sólo las 5 primeras.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">head</span>(s2018)[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">head</span>(s2018)[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
 <pre><code>##    aÑo mes nconglome conglome vivienda
 ## 1 2018  06    021521   007584      078
 ## 2 2018  02    033493   006483      274
@@ -490,7 +565,7 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 ## 5 2018  04    015685   009752      010
 ## 6 2018  09    018285   006146      027</code></pre>
 <p>Siempre es bueno mirar la base de datos con la cual estamos trabajando para darnos una idea mas concreta de que estamos haciendo. Primero debemos saber con que tipo de objeto estamos lidiando. La función <code>str()</code> nos brinda informaciòn útil sobre el objeto en cuestión y sus elementos. En el siguiente código, usamos <code>[,1:6]</code> para limitar la vista a las 6 primeras variables</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">str</span>(s2018[,<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]) </a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">str</span>(s2018[,<span class="dv">1</span><span class="op">:</span><span class="dv">6</span>]) </a></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    1000 obs. of  6 variables:
 ##  $ aÑo      : chr  &quot;2018&quot; &quot;2018&quot; &quot;2018&quot; &quot;2018&quot; ...
 ##   ..- attr(*, &quot;label&quot;)= chr &quot;año de la encuesta&quot;
@@ -510,14 +585,14 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 ##  $ hogar    : chr  &quot;11&quot; &quot;11&quot; &quot;11&quot; &quot;12&quot; ...
 ##   ..- attr(*, &quot;label&quot;)= chr &quot;número secuencial del hogar&quot;
 ##   ..- attr(*, &quot;format.stata&quot;)= chr &quot;%2s&quot;</code></pre>
-<p>Vemos que las variables son de tipo ‘chr’, que quiere decir character o texto. Asimismo, podemos ver que cada variable dos espacios de <code>attr()</code>, estos son sus atributos. Más adelante veremos qué son y cómo utilizarlos. También vemos que el objeto <code>s2018</code> es un <code>data.frame</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">is.data.frame</span>(s2018) <span class="co">## Es otra forma de comprobarlo.</span></a></code></pre></div>
+<p>Vemos que las variables son de tipo ‘chr’, que quiere decir character o texto. Asimismo, podemos ver que cada variable cuenta con dos espacios de <code>attr()</code>, estos son sus atributos. Más adelante veremos qué son y cómo utilizarlos. También vemos que el objeto <code>s2018</code> es un <code>data.frame</code>.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">is.data.frame</span>(s2018) <span class="co">## Es otra forma de comprobarlo.</span></a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>En este caso <code>s2018</code> es un objeto de tipo <code>data.frame</code>, por lo que tiene dos dimensiones, saber esto es importante por que así podemos manipularlas. La función <code>dim()</code> nos permite ver ambas. El primer número se refiere a la cantidad de observaciones o casos (las filas) y el segundo a la cantidad de variables (las columnas).</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">dim</span>(s2018)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">dim</span>(s2018)</a></code></pre></div>
 <pre><code>## [1] 1000  158</code></pre>
 <p>En el código debajo estamos seleccionando los 20 primeros casos (1:20), y las tres primeras variables (1:3). Conocer las dimensiones es útil para luego filtrar la base de datos.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">s2018[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">s2018[<span class="dv">1</span><span class="op">:</span><span class="dv">20</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</a></code></pre></div>
 <pre><code>##     aÑo mes nconglome
 ## 1  2018  06    021521
 ## 2  2018  02    033493
@@ -540,18 +615,18 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 ## 19 2018  10    042844
 ## 20 2018  07    014755</code></pre>
 <p>Si eres ansioso y quieres ver toda la base de datos puedes usar el siguiente código:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">View</span>(s2018)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">View</span>(s2018)</a></code></pre></div>
 <p>Podriamos mirar una muestra de nuestra base de datos con la opcion head. Abajo, le pedimos que nos puestre las 300 primeras observaciones.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">View</span>(<span class="kw">head</span>(s2018,<span class="dv">300</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">View</span>(<span class="kw">head</span>(s2018,<span class="dv">300</span>))</a></code></pre></div>
 <p>La función <code>import()</code> de rio permite subir archivos en distintos formatos. Existen otros paquetes como <code>foreign</code> que también hacen lo mismo. Pero <code>rio</code> me parece más conveniente.</p>
 </div>
-<div id="manipular-y-limpiar-base-de-datos" class="section level2">
-<h2><span class="header-section-number">2.2</span> Manipular y limpiar base de datos <a name="T3"></a></h2>
+<div id="manipular-y-limpiar-base-de-datos" class="section level1">
+<h1><span class="header-section-number">4</span> Manipular y limpiar base de datos <a name="T3"></a></h1>
 <p>En esta secciones aprenderemos algunas de los pasos mas frecuentes que hacemos al encontrarnos con una nueva base de datos: limpiar y manipular algunas variables para que pueda analizarse. Debemos limpiar nuestra base de datos por muchas razones; quizas para calcular las variables que queremos, para desacernos de grupos de observaciones que no nos interesan o para hacer mas fácil el juntar nuestra base de datos con otras.</p>
-<div id="re-nombrar-y-etiquetar-variables" class="section level3">
-<h3><span class="header-section-number">2.2.1</span> Re-nombrar y etiquetar variables</h3>
+<div id="re-nombrar-y-etiquetar-variables" class="section level2">
+<h2><span class="header-section-number">4.1</span> Re-nombrar y etiquetar variables</h2>
 <p>Podemos llamar nuestras variables en la BD con la función <code>names()</code> o también <code>ls()</code></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">names</span>(s2018)<span class="co">## Te los da en el orden en que estan en la base de datos. </span></a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">names</span>(s2018)<span class="co">## Te los da en el orden en que estan en la base de datos. </span></a></code></pre></div>
 <pre><code>##   [1] &quot;aÑo&quot;        &quot;mes&quot;        &quot;nconglome&quot;  &quot;conglome&quot;   &quot;vivienda&quot;  
 ##   [6] &quot;hogar&quot;      &quot;ubigeo&quot;     &quot;dominio&quot;    &quot;estrato&quot;    &quot;percepho&quot;  
 ##  [11] &quot;mieperho&quot;   &quot;totmieho&quot;   &quot;ia01hd&quot;     &quot;ia02hd&quot;     &quot;ig03hd1&quot;   
@@ -584,7 +659,7 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 ## [146] &quot;gashog21&quot;   &quot;gashog22&quot;   &quot;gashog23&quot;   &quot;gashog24&quot;   &quot;gashog26&quot;  
 ## [151] &quot;gashog25&quot;   &quot;gashog2d&quot;   &quot;ld&quot;         &quot;estrsocial&quot; &quot;linpe&quot;     
 ## [156] &quot;linea&quot;      &quot;pobreza&quot;    &quot;factor07&quot;</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">ls</span>(s2018) <span class="co">## Este comando te las da en nombre alfabetico</span></a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">ls</span>(s2018) <span class="co">## Este comando te las da en nombre alfabetico</span></a></code></pre></div>
 <pre><code>##   [1] &quot;aÑo&quot;        &quot;conglome&quot;   &quot;dominio&quot;    &quot;estrato&quot;    &quot;estrsocial&quot;
 ##   [6] &quot;factor07&quot;   &quot;g05hd&quot;      &quot;g05hd1&quot;     &quot;g05hd2&quot;     &quot;g05hd3&quot;    
 ##  [11] &quot;g05hd4&quot;     &quot;g05hd5&quot;     &quot;g05hd6&quot;     &quot;g07hd&quot;      &quot;ga03hd&quot;    
@@ -619,75 +694,75 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 ## [156] &quot;totmieho&quot;   &quot;ubigeo&quot;     &quot;vivienda&quot;</code></pre>
 <p>Por ejemplo la variable <code>inghog1d</code> (posición 141) es el ingreso bruto anual queremos cambiar el nombre a “ingreso_bruto”.</p>
 <p>La forma más rápida es:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">names</span>(s2018)[<span class="dv">141</span>]&lt;-<span class="st">&quot;ingreso_bruto&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">names</span>(s2018)[<span class="dv">141</span>]&lt;-<span class="st">&quot;ingreso_bruto&quot;</span></a></code></pre></div>
 <p>Si no tenemos la ubicación, quizás son miles de variables, podemos también usar</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">names</span>(s2018[<span class="kw">names</span>(s2018) <span class="op">==</span><span class="st"> &quot;inghog1d&quot;</span>]) &lt;-<span class="st">&quot;ingreso_bruto&quot;</span></a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co"># Si ya corriste el código anterior este te va a dar error, ya que </span></a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co"># está buscando un nombre que no existe ;)</span></a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">names</span>(s2018[<span class="kw">names</span>(s2018) <span class="op">==</span><span class="st"> &quot;inghog1d&quot;</span>]) &lt;-<span class="st">&quot;ingreso_bruto&quot;</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb41-3" data-line-number="3"><span class="co"># Si ya corriste el código anterior este te va a dar error, ya que </span></a>
+<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="co"># está buscando un nombre que no existe ;)</span></a></code></pre></div>
 <p>Pedimos el nombre de variables denuevo</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">names</span>(s2018)[<span class="dv">140</span><span class="op">:</span><span class="dv">145</span>] </a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">names</span>(s2018)[<span class="dv">140</span><span class="op">:</span><span class="dv">145</span>] </a></code></pre></div>
 <pre><code>## [1] &quot;ingotrhd&quot;      &quot;ingreso_bruto&quot; &quot;ingmo2hd&quot;      &quot;inghog1d&quot;     
 ## [5] &quot;inghog2d&quot;      &quot;gashog1d&quot;</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="co"># Exacto! podemos indexar para no ver todas las variables nuevamente </span></a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co"># Exacto! podemos indexar para no ver todas las variables nuevamente </span></a></code></pre></div>
 <p><strong>Etiquetas</strong></p>
 <p>Si subimos la base de datos desde STATA, estas pueden tener etiquetas.</p>
 <p>Por ejemplo, veamos la etiqueta de nuestra variables “ingreso_bruto”</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label</a></code></pre></div>
 <pre><code>## [1] &quot;ingreso monetario (bruto)&quot;</code></pre>
 <p>Queremos cambiarla a “ingreso monetario (bruto) anual”</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label&lt;-<span class="st">&quot;ingreso monetario (bruto) anual&quot;</span></a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb27-3" data-line-number="3"><span class="co">#Veamos el cambio!</span></a>
-<a class="sourceLine" id="cb27-4" data-line-number="4"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label </a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label&lt;-<span class="st">&quot;ingreso monetario (bruto) anual&quot;</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="co">#Veamos el cambio!</span></a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="kw">attributes</span>(s2018<span class="op">$</span>ingreso_bruto)<span class="op">$</span>label </a></code></pre></div>
 <pre><code>## [1] &quot;ingreso monetario (bruto) anual&quot;</code></pre>
 </div>
-<div id="recodificar-variables" class="section level3">
-<h3><span class="header-section-number">2.2.2</span> Recodificar variables</h3>
+<div id="recodificar-variables" class="section level2">
+<h2><span class="header-section-number">4.2</span> Recodificar variables</h2>
 <p>Ahora recodificaremos los valores de la variable con que estamos trabajando.</p>
 <p>Usamos la funcion abajo para ver los valores y las etiquetas de la variable que creamos.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
 <pre><code>##     a     b     c     d     e rural 
 ##     1     2     3     4     5     6</code></pre>
 <p>Queremos recodificar los valores de <strong>rural</strong> de 6 a 0.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">s2018[s2018<span class="op">$</span>estrsocial<span class="op">==</span><span class="dv">6</span>,]<span class="op">$</span>estrsocial&lt;-<span class="dv">0</span></a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">s2018[s2018<span class="op">$</span>estrsocial<span class="op">==</span><span class="dv">6</span>,]<span class="op">$</span>estrsocial&lt;-<span class="dv">0</span></a></code></pre></div>
 <p>Si pedimos una tabla vemos que el cambio se realizo:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">table</span>(s2018<span class="op">$</span>estrsocial)</a></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">table</span>(s2018<span class="op">$</span>estrsocial)</a></code></pre></div>
 <pre><code>## 
 ##   0   1   2   3   4   5 
 ## 383  17  34  81 226 259</code></pre>
 <p>Pero las etiquetas siguen mostrando el orden anterior</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
 <pre><code>##     a     b     c     d     e rural 
 ##     1     2     3     4     5     6</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels[[<span class="dv">1</span>]]&lt;-<span class="dv">0</span></a>
-<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels[[<span class="dv">1</span>]]&lt;-<span class="dv">0</span></a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels</a></code></pre></div>
 <pre><code>##     a     b     c     d     e rural 
 ##     0     2     3     4     5     6</code></pre>
 </div>
-<div id="generar-variables-categorica-dicotomica-average-de-grupo" class="section level3">
-<h3><span class="header-section-number">2.2.3</span> Generar variables (categorica, dicotomica, average de grupo)</h3>
+<div id="generar-variables-categorica-dicotomica-average-de-grupo" class="section level2">
+<h2><span class="header-section-number">4.3</span> Generar variables (categorica, dicotomica, average de grupo)</h2>
 <p>Ahora vamos a generar distintos tipos de variables. Empecemos con una variable dicotomica. Vamos a usar informacion sobre el ingreso reportado</p>
 </div>
-<div id="variable-categóricas" class="section level3">
-<h3><span class="header-section-number">2.2.4</span> Variable categóricas</h3>
+<div id="variable-categóricas" class="section level2">
+<h2><span class="header-section-number">4.4</span> Variable categóricas</h2>
 <p>Generemos una variable que toma el valor de 1 si es que el informante gana más de 800 soles y 0 si es menos o igual. Creamos una variable vacia y le incluimos los argumentos:</p>
 <ul>
 <li>Forma 1:</li>
 </ul>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">s2018<span class="op">$</span>minimo&lt;-<span class="ot">NA</span></a>
-<a class="sourceLine" id="cb38-2" data-line-number="2">s2018[s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,]<span class="op">$</span>minimo&lt;-<span class="dv">0</span></a>
-<a class="sourceLine" id="cb38-3" data-line-number="3">s2018[s2018<span class="op">$</span>ingreso_bruto<span class="op">&gt;</span><span class="dv">800</span>,]<span class="op">$</span>minimo&lt;-<span class="dv">1</span></a>
-<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">s2018<span class="op">$</span>minimo&lt;-<span class="ot">NA</span></a>
+<a class="sourceLine" id="cb58-2" data-line-number="2">s2018[s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,]<span class="op">$</span>minimo&lt;-<span class="dv">0</span></a>
+<a class="sourceLine" id="cb58-3" data-line-number="3">s2018[s2018<span class="op">$</span>ingreso_bruto<span class="op">&gt;</span><span class="dv">800</span>,]<span class="op">$</span>minimo&lt;-<span class="dv">1</span></a>
+<a class="sourceLine" id="cb58-4" data-line-number="4"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
 <pre><code>## 
 ##   0   1 
 ##  16 984</code></pre>
 <ul>
 <li>Forma 2:</li>
 </ul>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">s2018<span class="op">$</span>minimo&lt;-<span class="ot">NA</span></a>
-<a class="sourceLine" id="cb40-2" data-line-number="2">s2018<span class="op">$</span>minimo&lt;-<span class="kw">ifelse</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,<span class="dv">0</span>,<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb40-3" data-line-number="3"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">s2018<span class="op">$</span>minimo&lt;-<span class="ot">NA</span></a>
+<a class="sourceLine" id="cb60-2" data-line-number="2">s2018<span class="op">$</span>minimo&lt;-<span class="kw">ifelse</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,<span class="dv">0</span>,<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb60-3" data-line-number="3"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
 <pre><code>## 
 ##   0   1 
 ##  16 984</code></pre>
@@ -698,14 +773,14 @@ La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacion
 <p>Dplyr y Tydir son muy populares, así que es bueno ir familiarizandose con ellos.</p>
 <p>Lo especial de Dplyr es que tiene sus propias funciones y además que conecta funciones usando <strong>%&gt;%</strong>. De esa manera puede ser más eficiente con el espacio de trabajo, evitando crear muchos objetos.</p>
 <p>En este caso la función es <strong>mutate</strong></p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">minimo=</span><span class="kw">ifelse</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,<span class="dv">0</span>,<span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">mutate</span>(<span class="dt">minimo=</span><span class="kw">ifelse</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">&lt;=</span><span class="dv">800</span>,<span class="dv">0</span>,<span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb62-2" data-line-number="2"><span class="kw">table</span>(s2018<span class="op">$</span>minimo)</a></code></pre></div>
 <pre><code>## 
 ##   0   1 
 ##  16 984</code></pre>
 </div>
-<div id="medidas-por-grupo." class="section level3">
-<h3><span class="header-section-number">2.2.5</span> Medidas por grupo.</h3>
+<div id="medidas-por-grupo." class="section level2">
+<h2><span class="header-section-number">4.5</span> Medidas por grupo.</h2>
 <p>Por ejemplo queremos calcular el promedio de cada grupo.
 Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desviación estandar por cada ubigeo (municipalidad)</p>
 <ul>
@@ -714,11 +789,11 @@ Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desvia
 <li><code>select()</code> para quedarnos con algunas variables (son más de 150)</li>
 <li><code>head()</code> para pedir los 6 primeros casos.</li>
 </ul>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
-<a class="sourceLine" id="cb44-3" data-line-number="3">         <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb44-4" data-line-number="4"><span class="st">  </span><span class="kw">arrange</span>(ubigeo)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb44-5" data-line-number="5"><span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dv">160</span>,<span class="dv">161</span>))<span class="op">%&gt;%</span><span class="kw">head</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb64-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
+<a class="sourceLine" id="cb64-3" data-line-number="3">         <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb64-4" data-line-number="4"><span class="st">  </span><span class="kw">arrange</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb64-5" data-line-number="5"><span class="st">  </span><span class="kw">select</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>,<span class="dv">160</span>,<span class="dv">161</span>))<span class="op">%&gt;%</span><span class="kw">head</span>()</a></code></pre></div>
 <pre><code>## Adding missing grouping variables: `ubigeo`</code></pre>
 <pre><code>## # A tibble: 6 x 6
 ## # Groups:   ubigeo [3]
@@ -731,21 +806,21 @@ Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desvia
 ## 5 010201 2018  04    006618      10520.  4929.
 ## 6 010201 2018  08    006641      10520.  4929.</code></pre>
 <p>Ahora bien los cambios no se han guardado en la base de datos para hacerlo debemos remplazar el objeto o crear uno nuevo.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
-<a class="sourceLine" id="cb47-3" data-line-number="3">         <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="st">  </span><span class="kw">arrange</span>(ubigeo)<span class="co">### Aquí nuestra base ha cambiado ya que tiene dos variables más</span></a></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
+<a class="sourceLine" id="cb67-3" data-line-number="3">         <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb67-4" data-line-number="4"><span class="st">  </span><span class="kw">arrange</span>(ubigeo)<span class="co">### Aquí nuestra base ha cambiado ya que tiene dos variables más</span></a></code></pre></div>
 </div>
 </div>
-<div id="merge-y-append-bases-de-datos" class="section level2">
-<h2><span class="header-section-number">2.3</span> Merge y append bases de datos <a name="T4"></a></h2>
+<div id="merge-y-append-bases-de-datos" class="section level1">
+<h1><span class="header-section-number">5</span> Merge y append bases de datos <a name="T4"></a></h1>
 <ul>
 <li>Creemos una base de datos que contenga el ingreso promedio por distrito. Similar a nuestro ejercicio anterior pero ahora la base será un objeto aparte.</li>
 </ul>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">resumen&lt;-s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb48-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
-<a class="sourceLine" id="cb48-3" data-line-number="3">            <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))</a>
-<a class="sourceLine" id="cb48-4" data-line-number="4"><span class="kw">head</span>(resumen)</a></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">resumen&lt;-s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(ubigeo)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb68-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">promedio=</span><span class="kw">mean</span>(ingreso_bruto),</a>
+<a class="sourceLine" id="cb68-3" data-line-number="3">            <span class="dt">desv=</span><span class="kw">sd</span>(ingreso_bruto))</a>
+<a class="sourceLine" id="cb68-4" data-line-number="4"><span class="kw">head</span>(resumen)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   ubigeo promedio   desv
 ##   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;
@@ -756,11 +831,11 @@ Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desvia
 ## 5 010203   17275     NA 
 ## 6 010205   11892  14875.</code></pre>
 <p>La diferencia aquí es que hemos usado <code>summarise</code> en lugar de <code>mutate</code>. Ya que no estamos agregando una variable a la base. Estamos creando una nueva base.</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">nrow</span>(resumen)</a></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"><span class="kw">nrow</span>(resumen)</a></code></pre></div>
 <pre><code>## [1] 514</code></pre>
 <p>Ahora juntemos las bases de datos. El proceso es más conocido como “merge” o “join”</p>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">left_join</span>(resumen, <span class="dt">by=</span><span class="st">&quot;ubigeo&quot;</span>)</a>
-<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="kw">head</span>(s2018[,<span class="kw">c</span>(<span class="dv">6</span>,<span class="dv">159</span>,<span class="dv">160</span>)])</a></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1">s2018&lt;-s2018<span class="op">%&gt;%</span><span class="kw">left_join</span>(resumen, <span class="dt">by=</span><span class="st">&quot;ubigeo&quot;</span>)</a>
+<a class="sourceLine" id="cb72-2" data-line-number="2"><span class="kw">head</span>(s2018[,<span class="kw">c</span>(<span class="dv">6</span>,<span class="dv">159</span>,<span class="dv">160</span>)])</a></code></pre></div>
 <pre><code>##   hogar minimo  promedio
 ## 1    11      1 20971.317
 ## 2    11      1  4007.568
@@ -775,6 +850,15 @@ Usaremos <strong>dplyr</strong> para calcular el promedio de ingreso y la desvia
 <li><code>inner_join()</code></li>
 </ul>
 </div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Definición obtenida de <a href="https://es.wikipedia.org/wiki/R_(lenguaje_de_programaci%C3%B3n)" class="uri">https://es.wikipedia.org/wiki/R_(lenguaje_de_programaci%C3%B3n)</a><a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>RStudio es un Entorno de desarrollo integrado (IDE) para R. Para instalar ambos, recomendamos seguir las instrucciones del punto 1.4.1 y 1.4.2 del siguiente enlace <a href="https://es.r4ds.hadley.nz/introducci%C3%B3n.html" class="uri">https://es.r4ds.hadley.nz/introducci%C3%B3n.html</a><a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>Si estamos usando RStudio podemos ver que en en la sección Values de la pestaña “Environment” ha aparecido nuestro objeto “result” asociado al resultado de la operación.<a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p>Teniendo en cuenta que la raíz cuadrada de X puede ser expresada como potencia de X en la forma X<sup>(1/2)</sup><a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>Podemos obtener la mayor parte de paquetes del CRAN (Comprehensive R Archive Network). La función <code>install.packages()</code> busca allí los paquetes que le pedimos que descargue.<a href="#fnref5" class="footnote-back">↩</a></p></li>
+</ol>
 </div>
 
 

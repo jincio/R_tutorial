@@ -12,7 +12,7 @@ mes <- month(fecha, label = T, abbr = F, locale = "es_PE.utf8")
 
 La última actualización de este artículo se realizó el `r day(fecha)` de  `r mes` del `r year(fecha)`.
 
-## Descriptivos básicos  <a name="T1"></a>
+# Descriptivos básicos  <a name="T1"></a>
 
 Reutilizamos la base de datos `s2018`, con la que hemos venido trabajando en la sección anterior
 
@@ -37,27 +37,32 @@ summary(s2018[,1:5])
 summary(s2018$ingreso_bruto)
 ```
 
-Dentro del paquete Hmisc tenemos varias funciones útiles. 
+Dentro del paquete `Hmisc` tenemos la función `describe()` que también nos brinda un resumen bastante útil de nuestra variable. 
 
 ```{r eval = FALSE}
 install.packages("Hmisc") #Si no lo tienes instalado ya. 
 ```
 
-```{r, message = FALSE}
-library(Hmisc)
-```
 
 ```{r}
-describe(s2018$ingreso_bruto)
+Hmisc::describe(s2018$ingreso_bruto)
 ```
 
-Podemos pedir medidas especifícas, es bueno agregar `na.rm = TRUE` ya que si tenemos valores perdidos generaría error en el cálculo. 
+
+Podemos pedir medidas de centralidad especifícas. Es bueno agregar `na.rm = TRUE` ya que si tenemos valores perdidos generaría error en el cálculo. 
 
 ```{r}
-mean(s2018$ingreso_bruto, na.rm = TRUE) ## Media
-median(s2018$ingreso_bruto) ## Mediana
-sd(s2018$ingreso_bruto) ## Desviación estándar
-var(s2018$ingreso_bruto)
+# Media aritmética
+mean(s2018$ingreso_bruto, na.rm = TRUE)
+
+# Mediana
+median(s2018$ingreso_bruto) 
+
+# Desviación estándar
+sd(s2018$ingreso_bruto) 
+
+# Varianza
+var(s2018$ingreso_bruto) 
 ```
 
 Podemos pedir medidas de posición:
@@ -72,7 +77,7 @@ Podemos pedir varios a la vez, combinando funciones. Por ejemplo la función `se
 quantile(s2018$ingreso_bruto, seq(0.1,0.9,0.1))
 ```
 
-### Tablas: <a name="T1.1"></a> 
+## Tablas: <a name="T1.1"></a> 
 
 Frequencias.
 
@@ -98,13 +103,13 @@ s2018 %>%
   select(Estratos,Frequency,Porcentaje)
 ```
 
-## Gráficos Descriptivos: <a name="T2"></a>
+# Gráficos Descriptivos: <a name="T2"></a>
 
 Existen funciones básicas para gráficos en R, pero la versatilidad de R para gráficos va más allá de estas funciones básicas. Paquetes como **ggplot2** han llevado a otro nivel el análisis gráfico de R. 
 
 Aquí trataremos de mostrar ambos. 
 
-### Graficos de Barra simples en R base <a name="T2_1"></a>
+## Graficos de Barra simples en R base <a name="T2_1"></a>
 
 ```{r}
 barplot(table(s2018$estrsocial))
@@ -121,7 +126,7 @@ barplot(table(s2018$estrsocial), col="red",
         main="Este es un título")
 ```
 
-### Graficos de Barra simples en **ggplot2** y **dplyr** <a name="T2_2"></a>
+## Graficos de Barra simples en **ggplot2** y **dplyr** <a name="T2_2"></a>
 
 - ggplot: es el paso inicial para crear un "ambiente" ggplot.
 - **+** vas agregando capas (detalles) al objecto
@@ -168,7 +173,7 @@ s2018%>%group_by(estrsocial)%>%
   
 ```
 
-### Box plot o diagramas de cajas
+## Box plot o diagramas de cajas
 
 ```{r}
 boxplot(s2018$estrsocial, col="red")
@@ -179,14 +184,14 @@ boxplot(s2018$ingreso_bruto~s2018$estrsocial, col="red")
 ## Boxplot by groups 
 ```
 
-### Box plot o diagramas de cajas con **dyplr** y **ggplot2**
+## Box plot o diagramas de cajas con **dyplr** y **ggplot2**
 
 ```{r test1}
 s2018%>%ggplot(aes(y=estrsocial))+
   geom_boxplot(col="red", fill="blue")
 ```
 
-### Histogramas 
+## Histogramas 
 
 - Hagamos una histograma de la variable ingreso
 
@@ -216,7 +221,7 @@ abline(v=median(s2018$ingreso_bruto), col="purple") ## Agregando Mediana
 text(median(s2018$ingreso_bruto),300, "Medana",pch = 3)
 ```
 
-### Histogramas con **dplyr** y **ggplot2**
+## Histogramas con **dplyr** y **ggplot2**
 
 ```{r }
 s2018%>%ggplot(aes(x=ingreso_bruto))+
