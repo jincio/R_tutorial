@@ -12,11 +12,6 @@ mes <- month(fecha, label = T, abbr = F, locale = "es_PE.utf8")
 
 La última actualización de este artículo se realizó el `r day(fecha)` de  `r mes` del `r year(fecha)`.
 
-```{r, include = F}
-print(Sys.time())
-```
-
-
 # Tabla de Contenidos
 
 Parte I: 
@@ -58,13 +53,12 @@ knitr::include_graphics('./data_examples/Rstudio_swd.png')
 ```
 
 La base de datos debe estar en nuestro espacio de trabajo. 
-La Base de Datos que usaremos es una muestra de la ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. La base **sumaria-2018.dta**. Aquí esta el link de donde pueden [descargarla](http://iinei.inei.gob.pe/iinei/srienaho/descarga/STATA/634-Modulo34.zip). Tenemos informacion sobre ingresos, y gastos de los hogares en Perú. 
 
-En esta página estoy trabajando con una selección aleatoria de 1000 casos. La base original tiene más de 30 mil casos. 
+La Base de Datos que usaremos es una muestra de 1000 casos de la base **sumaria-2018.dta** de ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. Aquí esta el link de donde pueden [descargarla](http://iinei.inei.gob.pe/iinei/srienaho/descarga/STATA/634-Modulo34.zip) en formato STATA. Tenemos informacion sobre ingresos, y gastos de los hogares en Perú. 
 
-Dado que tenemos el paquete rio, no necesitamos decirle a R que nuestra base de datos esta en STATA, R lo entiende. 
+Dado que tenemos el paquete `rio`, no necesitamos decirle a R que nuestra base de datos está en STATA, R lo entiende. 
 
-Vamos a usar el comando import y asignarle un nombre a nuestra base de datos. Lo llamaremos **S2018**. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.
+Vamos a usar la función `import()` y asignarle un nombre a nuestra base de datos. Lo llamaremos `s2018`. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.
 
 ```{r, echo=FALSE, message = FALSE}
 library(dplyr)
@@ -88,7 +82,7 @@ Siempre es bueno mirar la base de datos con la cual estamos trabajando para darn
 ```{r}
 str(s2018[,1:6]) 
 ```
-Vemos que las variables son de tipo 'chr', que quiere decir character o texto.  Asimismo, podemos ver que cada variable dos espacios de `attr()`, estos son sus atributos. Más adelante veremos qué son y cómo utilizarlos. También vemos que el objeto `s2018` es un `data.frame`.
+Vemos que las variables son de tipo 'chr', que quiere decir character o texto.  Asimismo, podemos ver que cada variable cuenta con dos espacios de `attr()`, estos son sus atributos. Más adelante veremos qué son y cómo utilizarlos. También vemos que el objeto `s2018` es un `data.frame`.
 
 
 ```{r}

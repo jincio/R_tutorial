@@ -9,7 +9,7 @@ navbar:
       href: Curso1.html
       text: Básicos
     - 
-      href: Descriptives.html
+      href: Descriptivos.html
       text: Descriptivos
     - 
       href: Bivariado.html

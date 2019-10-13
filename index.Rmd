@@ -2,19 +2,16 @@
 title: "Presentación"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 Esta página está dedicada a todos los que quieren aprender R. Tiene los elementos básicos. Este material lo he preparado para
 presentaciones/workshops, etc.  Puedes navegar esta página usando el menú superior. 
 
-Si estas interesado en temás más avanzados puedes revisar otros tutoriales que he preparado aquí: http://www.joseincio.com/tutorials/ 
+Si estás interesado en temas más avanzados puedes revisar otros tutoriales que he preparado aquí: http://www.joseincio.com/tutorials/ 
 
 Puedes revisar mi blog, en el que también posteo sobre como usar R. http://www.joseincio.com/posts/ 
 
-- Si estas interesado en colaborar escríbeme: j.incio@pitt.edu.
+- Si estás interesado en colaborar escríbeme: j.incio@pitt.edu.
 
-## Colaboradores:
+# Colaboradores:
 
-  - Paloma Bellatin
+- Paloma Bellatin
+- Samuel Calderon Serrano
