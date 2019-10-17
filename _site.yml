@@ -6,10 +6,10 @@ navbar:
       icon: fa-home
       text: Home
     - 
-      href: Curso1.html
+      href: Básicos.html
       text: Básicos
     - 
-      href: Descriptives.html
+      href: Descriptivos.html
       text: Descriptivos
     - 
       href: Bivariado.html
