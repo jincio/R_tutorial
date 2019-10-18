@@ -5,7 +5,9 @@ title: "Básicos"
 ```{r setup, include=FALSE}
 library(lubridate)
 fecha <- today(tzone = "America/Lima")
-mes <- month(fecha, label = T, abbr = F, locale = "es_PE.utf8")
+mes <- month(fecha, label = T, abbr = F, 
+             #locale = "es_PE.utf8"
+             )
 ```
 
 **ULTIMA ACTUALIZACIÓN:**
