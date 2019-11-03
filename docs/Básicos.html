@@ -461,7 +461,7 @@ div.tocify {
 
 
 <p><strong>ULTIMA ACTUALIZACIÓN:</strong></p>
-<p>La última actualización de este artículo se realizó el 29 de October del 2019.</p>
+<p>La última actualización de este artículo se realizó el 3 de November del 2019.</p>
 <div id="tabla-de-contenidos" class="section level1">
 <h1><span class="header-section-number">1</span> Tabla de Contenidos</h1>
 <ul>
@@ -469,68 +469,108 @@ div.tocify {
 <li><a href="#T2">Vectores</a></li>
 </ul>
 </div>
-<div id="básicos." class="section level1">
-<h1><span class="header-section-number">2</span> Básicos. <a name="T1"></a></h1>
+<div id="T1" class="section level1">
+<h1><span class="header-section-number">2</span> Básicos</h1>
 <p>R es un entorno y lenguaje de programación con un enfoque al análisis estadístico<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. En palabras sencillas, R es un idioma con el que podemos pedirle a nuestra computadora que haga ciertas cosas para nosotros. En estos tutoriales usaremos R a través de RStudio<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
 <p>Debido a que casi todo lo que puedes hacer con R se hace a través de objetos, empezaremos presentando dos de los más comunes: los operadores y las funciones. Iremos conociendo otros tipos de objetos a medida que avancemos en los tutoriales.</p>
 <div id="operadores" class="section level2">
 <h2><span class="header-section-number">2.1</span> Operadores</h2>
 <p>Los operadores, como dice su nombre, nos permiten realizar operaciones entre ciertos valores de manera similar a como lo haríamos con una calculadora. Los siguientes nos permiten realizar operaciones aritméticas básicas:</p>
-<ul>
-<li><code>+</code>: suma</li>
-<li><code>-</code>: resta</li>
-<li><code>*</code>: multiplicación</li>
-<li><code>/</code>: división real</li>
-<li><code>**</code>: potencia</li>
-<li><code>()</code>: para priorizar las operaciones al interior de los paréntesis</li>
-</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Operador</th>
+<th>Operación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>+</code></td>
+<td>Adición</td>
+</tr>
+<tr class="even">
+<td align="center"><code>-</code></td>
+<td>Sustracción</td>
+</tr>
+<tr class="odd">
+<td align="center"><code>*</code></td>
+<td>Multiplicación</td>
+</tr>
+<tr class="even">
+<td align="center"><code>/</code></td>
+<td>División real</td>
+</tr>
+<tr class="odd">
+<td align="center"><code>**</code> o <code>^</code></td>
+<td>Potencia</td>
+</tr>
+<tr class="even">
+<td align="center"><code>()</code></td>
+<td>Para priorizar operaciones al interior de los paréntesis</td>
+</tr>
+</tbody>
+</table>
 <p>Podemos ver cómo lucen los operadores en funcionamiento al usarlos en R.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">(((<span class="dv">1</span><span class="op">+</span><span class="dv">2</span>)<span class="op">*</span><span class="dv">3</span>)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">3</span></a></code></pre></div>
 <pre><code>## [1] 27</code></pre>
 <p>R primero opera el <code>1+2</code> al ser el nivel más profundo, obteniendo como resultado 3. Inmediatamente después, R realiza la operación <code>3*3</code> y obtiene 9. Después de esto, R opera el <code>9**2</code>obteniedo 81, y finaliza con la operación <code>81/3</code>, obteniedo 27 como resultado. Hasta este punto, R está siendo utilizado como una simple calculadora, pero podemos exigirle mucho más.</p>
-<p>Pero antes de pasar a ello es importante conocer a otro operador fundamental, el de asignamiento. Está compuesto por el signo “menor que” <code>&lt;</code> y el signo de resta <code>-</code>, que al juntarse lucen como una flecha que apunta hacia la izquierda <code>&lt;-</code>. Este operador sirve para asignar un nombre a cualquier objeto o valor, de tal modo podamos acceder a él con mayor facilidad. Por ejemplo, podemos asignarle el nombre “result” al resultado de la operación que realizamos anteriormente.</p>
+<p>Pero antes de pasar a ello es importante conocer a otro operador fundamental, el de asignamiento. Está compuesto por el signo “menor que” (<code>&lt;</code>) y el signo de resta (<code>-</code>), que al juntarse lucen como una flecha que apunta hacia la izquierda (<code>&lt;-</code>). Este operador sirve para asignar un nombre a cualquier objeto o valor, de tal modo podamos acceder a él con mayor facilidad. Por ejemplo, podemos asignarle el nombre “result” al resultado de la operación que realizamos anteriormente.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">result &lt;-<span class="st"> </span>(((<span class="dv">1</span><span class="op">+</span><span class="dv">2</span>)<span class="op">*</span><span class="dv">3</span>)<span class="op">**</span><span class="dv">2</span>)<span class="op">/</span><span class="dv">3</span></a></code></pre></div>
 <p>A simple vista, nada ha cambiado<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>, pero cuando accedemos al objeto <code>result</code> ahora obtenemos inmediatamente la respuesta de nuestra operación.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">result</a></code></pre></div>
 <pre><code>## [1] 27</code></pre>
+<p>Si por algún motivo necesitamos actualizar el valor asignado a nuestro objeto, basta con volver a asignar el mismo nombre a otro valor. Incluso se puede hacer referencia al valor anterior para modificarlo. No hay un límite de veces que el valor de un objeto puede ser modificado. En el siguiente ejemplo, sumaremos 3 a <code>result</code> para obtener 30.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">result &lt;-<span class="st"> </span>result <span class="op">+</span><span class="st"> </span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">result</a></code></pre></div>
+<pre><code>## [1] 30</code></pre>
 <p>Hemos visto que podemos usar el operador <code>**</code> para elevar un número a cualquier potencia, pero no tenemos un operador para obtener la raíz. Podemos solucionar esto haciendo uso de funciones.</p>
 </div>
 <div id="funciones" class="section level2">
 <h2><span class="header-section-number">2.2</span> Funciones</h2>
 <p>Las funciones nos permiten aplicar transformaciones a los valores u objetos que ingresemos en ellas. Para crear una función, debemos asignarle un nombre, argumentos y código que será utilizado para la transformación. Su forma general en R es la siguiente:</p>
-<pre><code>nombredefuncion &lt;- function(argumento_1, argumento_2, argumento_n){
-
-código
-
-}</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">nombredefuncion &lt;-<span class="st"> </span><span class="cf">function</span>(argumento_<span class="dv">1</span>, argumento_<span class="dv">2</span>, argumento_n){</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">código</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">}</a></code></pre></div>
 <p>Para que sea más entendible, haremos nuestra función para hallar la raíz cuadrada de cualquier número<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> y la llamaremos <code>raiz_cuadrada</code>. Siempre es importante asignar un nombre significativo y que dé una buena idea del funcionamiento de la función.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">raiz_cuadrada &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">  x<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">}</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">raiz_cuadrada &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">  x<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">}</a></code></pre></div>
 <p>Como vemos en el cuerpo de la función, esta obtiene un número “x” y calcula su raíz cuadrada. Probemos su funcionamiento.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">raiz_cuadrada</span>(<span class="dv">25</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">raiz_cuadrada</span>(<span class="dv">25</span>)</a></code></pre></div>
 <pre><code>## [1] 5</code></pre>
 <p>R ha calculado de manera correcta que la raíz cuadrada de 25 es 5. También podemos hacer una función para determinar la raíz cúbica de un número “x” de la misma manera.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">raiz_cubica &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">  x<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw">raiz_cubica</span>(<span class="dv">27</span>)</a></code></pre></div>
-<pre><code>## [1] 3</code></pre>
-<p>Al probar su funcionamiento vemos que nos arroja el cálculo correcto. Podríamos hacer una función de raíz para cada número, pero como las funciones pueden tener más de un argumento, podemos usar eso para nuestra ventaja y hacer una función que aplique una raiz “n” a cualquier número “x”.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">raiz_n &lt;-<span class="st"> </span><span class="cf">function</span>(x, n){</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  x<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span>n)</a>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">raiz_cubica &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">  x<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">3</span>)</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3">}</a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="kw">raiz_n</span>(<span class="dv">1024</span>, <span class="dv">10</span>)</a></code></pre></div>
-<pre><code>## [1] 2</code></pre>
-<p>Ese es el poder de las funciones, nos permiten hacer nuestras transformaciones de manera generalizada. Incluso podemos usar funciones en el cuerpo y argumento de otras funciones. En el siguiente ejemplo, usaremos la función predefinida <code>paste()</code>, que nos permite pegar textos para formar una oración.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">texto_raiz &lt;-<span class="st"> </span><span class="cf">function</span>(x, n){</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="kw">paste</span>(<span class="st">&quot;La raiz &quot;</span>, n, <span class="st">&quot; de&quot;</span>, x, <span class="st">&quot;es &quot;</span>, <span class="kw">raiz_n</span>(x, n))</a>
+<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="kw">raiz_cubica</span>(<span class="dv">27</span>)</a></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<p>Al probar su funcionamiento vemos que nos arroja el cálculo correcto. Podríamos hacer una función de raíz para cada número, pero como las funciones pueden tener más de un argumento, podemos usar eso para nuestra ventaja y hacer una función que aplique una raiz “n” a cualquier número “x”.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">raiz_n &lt;-<span class="st"> </span><span class="cf">function</span>(x, n){</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">  x<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span>n)</a>
 <a class="sourceLine" id="cb14-3" data-line-number="3">}</a>
 <a class="sourceLine" id="cb14-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="kw">texto_raiz</span>(<span class="dv">1024</span>, <span class="dv">10</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="kw">raiz_n</span>(<span class="dv">1024</span>, <span class="dv">10</span>)</a></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<p>Ese es el poder de las funciones, nos permiten hacer nuestras transformaciones de manera generalizada. Incluso podemos usar funciones en el cuerpo y argumento de otras funciones. En el siguiente ejemplo, usaremos la función predefinida <code>paste()</code>, que nos permite pegar textos para formar una oración.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">texto_raiz &lt;-<span class="st"> </span><span class="cf">function</span>(x, n){</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2">  <span class="kw">paste</span>(<span class="st">&quot;La raiz &quot;</span>, n, <span class="st">&quot; de&quot;</span>, x, <span class="st">&quot;es &quot;</span>, <span class="kw">raiz_n</span>(x, n))</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="kw">texto_raiz</span>(<span class="dv">1024</span>, <span class="dv">10</span>)</a></code></pre></div>
 <pre><code>## [1] &quot;La raiz  10  de 1024 es  2&quot;</code></pre>
+<p>Los argumentos de una función no necesitan ir en la misma línea de código. Para una más fácil lectura, es posible separarlos por líneas (respetando las comas entre argumentos) siempre y cuando sigan dentro del mismo paréntesis de la función. Utilizaremos la función <code>paste()</code> para ejemplificar.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">paste</span>(<span class="st">&quot;Un&quot;</span>, <span class="st">&quot;texto&quot;</span>, <span class="st">&quot;largo&quot;</span>, <span class="st">&quot;se&quot;</span>, <span class="st">&quot;imprime&quot;</span>)</a></code></pre></div>
+<pre><code>## [1] &quot;Un texto largo se imprime&quot;</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">paste</span>(<span class="st">&quot;Un&quot;</span>, </a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">      <span class="st">&quot;texto&quot;</span>, </a>
+<a class="sourceLine" id="cb20-3" data-line-number="3">      <span class="st">&quot;largo&quot;</span>, </a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">      <span class="st">&quot;se&quot;</span>, </a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">      <span class="st">&quot;imprime&quot;</span>)</a></code></pre></div>
+<pre><code>## [1] &quot;Un texto largo se imprime&quot;</code></pre>
 <p>Una vez que hemos entendido cómo usar funciones, estamos listos para conocer los paquetes.</p>
 </div>
 <div id="usando-paquetes" class="section level2">
@@ -539,20 +579,108 @@ código
 <p>Es en este punto que entran en juego los paquetes, una colección de funciones y datos que los usuarios de R comparten entre sí para facilitar el trabajo a los demás y evitar la repetición innecesaria de creación de funciones de uso común o de alta utilidad<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>. Hay paquetes de todo tipo, desde los que te permiten realizar una función muy específica (como <code>clipr</code> que es usado para copiar y pegar información contenida en el portapapeles del sistema) hasta los que te permiten expandir los límites de lo que R es capaz de hacer (como <code>reticulate</code>, que te permite ejecutar código del lenguaje de programación Python en tu entorno R).</p>
 <p>Cuando inicias <strong>R</strong> se activa un grupo base de paquetes. Estos han sido desarrollados por el R Core Team y son la pieza fundamental de su funcionalidad.</p>
 <p>Puedes instalar paquetes usando la función <code>install.packages()</code> y poniendo como argumento el nombre del paquete entre comillas <code>&quot;&quot;</code>. Este procedimiento sólo será necesario una vez, ya que después de instalados, los paquetes son conservados en la memoria de la computadora. Aquí puedes ver algunos ejemplos:</p>
-<pre><code>install.packages(&quot;ggplot2&quot;)
-install.packages(&quot;DT&quot;)
-install.packages(&quot;RColorBrewer&quot;)</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;ggplot2&quot;</span>)</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw">install.packages</span>(<span class="st">&quot;DT&quot;</span>)</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="kw">install.packages</span>(<span class="st">&quot;RColorBrewer&quot;</span>)</a></code></pre></div>
 <p>Pero tenerlos instalados no es suficiente. Cada vez que necesitas usar un paquete lo puedes llamar con <code>library(paquete)</code>. Esto hará que sus funciones y objetos estén disponibles para el uso. Te darás cuenta que no has llamado al paquete si corres un código y el resultado es un error como este:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">glue</span>(<span class="st">&quot;texto&quot;</span>, <span class="st">&quot;de&quot;</span>, <span class="st">&quot;ejemplo&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">glue</span>(<span class="st">&quot;texto&quot;</span>, <span class="st">&quot;de&quot;</span>, <span class="st">&quot;ejemplo&quot;</span>)</a></code></pre></div>
 <pre><code>## Error in glue(&quot;texto&quot;, &quot;de&quot;, &quot;ejemplo&quot;): could not find function &quot;glue&quot;</code></pre>
 <p>Esto significa que no has llamado al paquete necesario usando <code>library()</code>. En cambio, si al llamar al paquete te da como resultado un error de este tipo:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">library</span>(testpackage)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">library</span>(testpackage)</a></code></pre></div>
 <pre><code>## Error in library(testpackage): there is no package called &#39;testpackage&#39;</code></pre>
 <p>Significa que necesitas instalarlo. No hay que asustarse al obtener un mensaje de error alguna vez, por lo general suelen ser bastante explicativos respecto a por qué son causados y nos permiten corregir aquello en lo que nos equivocamos.</p>
 </div>
 </div>
-<div id="vectores" class="section level1">
-<h1><span class="header-section-number">3</span> Vectores <a name= "T2"></a></h1>
+<div id="T2" class="section level1">
+<h1><span class="header-section-number">3</span> Vectores</h1>
+<p>Los siguientes objetos fundamentales para el manejo de R son los vectores. Estos pueden ser de dos tipos: atómicos y listas. La diferencia entre ellos radica en el tipo de información que pueden contener. Para efectos de estos tutoriales, consideraremos las listas como vectores “especiales” junto a otros que explicaremos más adelante.</p>
+<div id="vectores-atómicos" class="section level2">
+<h2><span class="header-section-number">3.1</span> Vectores atómicos</h2>
+<p>Los cuatro principales tipos de vectores atómicos son: <em>logical</em>, <em>double</em>, <em>integer</em> y <em>character</em><a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a>. Los vectores de tipo <em>logical</em> pueden asumir dos valores: <code>TRUE</code> o <code>FALSE</code>(o en su forma abreviada <code>T</code> o <code>F</code>). Los de tipo <em>double</em> e <em>integer</em> asumen valores numéricos, los <em>double</em> pueden asumir valores racionales y los <em>integer</em> sólo valores enteros. Los vectores de tipo <em>character</em> asumen cualquier cadena de texto. En el siguiente recuadro de código podemos ver un ejemplo de cada uno:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">v_logical &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">v_double &lt;-<span class="st"> </span><span class="fl">3.1416</span></a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">v_integer &lt;-<span class="st"> </span>5L</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">v_character &lt;-<span class="st"> &quot;Hola mundo&quot;</span></a></code></pre></div>
+<p>Si estamos atentos, vemos que el <em>integer</em> va acompañado de una “L” al final. Esto es necesario porque R interpreta por defecto cualquier número como <em>double</em>. Tanto los <em>double</em> como los <em>integer</em> pertenecen a la categoría de vectores numéricos. Los <em>character</em> siempre estarán rodeados de comillas (<code>&quot;&quot;</code>). Para comprobar si nuestro vector es de un tipo determinado utilizamos una función de forma <code>is.XXX()</code> reemplazando el “XXX” por el tipo que queremos comprobar.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">is.logical</span>(v_logical)</a></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">is.numeric</span>(v_double)</a></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">is.integer</span>(v_double)</a></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+<p>Podemos ver que por cada consulta obtenemos un valor <em>logical</em> <code>TRUE</code> cuando se cumple la condición y <code>FALSE</code> cuando no se cumple. Es decir, es cierto que <code>v_logical</code>es <em>logical</em>, es cierto que <code>v_double</code> es numérico y es falso que <code>v_double</code> es <em>integer</em>. El valor <em>logical</em> obtenido con cada consulta es un vector en sí mismo.</p>
+<p>Otra manera de verificar el tipo de vector que tenemos es con la función <code>typeof()</code>. Esta nos devuelve un <em>character</em> indicando el tipo de vector que tenemos.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">typeof</span>(v_character)</a></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">typeof</span>(v_integer)</a></code></pre></div>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<div id="vectores-con-más-de-un-elemento-y-operador-de-secuencia-simple" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Vectores con más de un elemento y operador de secuencia simple</h3>
+<p>Hasta el momento hemos visto vectores que contienen un solo elemento. Sin embargo, es sumamente común encontrarse con vectores de mayor longitud. Por ejemplo, el vector <code>letters</code> contiene todas las letras minúsculas del alfabeto. Podemos consultar la longitud de un vector con la función <code>length()</code>. Esto es muy útil cuando sabemos que nuestro vector podría contener una gran cantidad de elementos y no queremos inspeccionarlos todos. El número que vemos rodeado entre corchetes (<code>[]</code>) en nuestro resultado nos indica el índice que el elemento siguiente tiene en el vector. Es por ello que hasta el momento en cada operación que realizábamos hemos obtenido un “[1]” antes de cada resultado.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">length</span>(v_logical)</a></code></pre></div>
+<pre><code>## [1] 1</code></pre>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw">length</span>(letters)</a></code></pre></div>
+<pre><code>## [1] 26</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="kw">print</span>(letters)</a></code></pre></div>
+<pre><code>##  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot;
+## [18] &quot;r&quot; &quot;s&quot; &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot;</code></pre>
+<p>Para formar vectores de longitud mayor a uno se utiliza la función <code>c()</code> agregando como argumentos todos los elementos que queremos.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">mi_vector_largo &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;elemento1&quot;</span>, </a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">                     <span class="st">&quot;elemento2&quot;</span>, </a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">                     <span class="st">&quot;elemento3&quot;</span>, </a>
+<a class="sourceLine" id="cb44-4" data-line-number="4">                     <span class="st">&quot;elemento4&quot;</span>)</a>
+<a class="sourceLine" id="cb44-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb44-6" data-line-number="6"><span class="kw">print</span>(mi_vector_largo)</a></code></pre></div>
+<pre><code>## [1] &quot;elemento1&quot; &quot;elemento2&quot; &quot;elemento3&quot; &quot;elemento4&quot;</code></pre>
+<p>Para vectores numéricos, también es posible utilizar el signo dos puntos (<code>:</code>) como operador para crear una secuencia, que avanza de uno en uno, desde un número a otro. El vector resultado incluirá a los dos números utilizados en la operación.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">mi_vector_numerico1 &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">6</span></a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3"><span class="kw">print</span>(mi_vector_numerico1)</a></code></pre></div>
+<pre><code>## [1] 1 2 3 4 5 6</code></pre>
+<p>Podemos hacer uso de <code>c()</code> nuevamente para seguir haciendo crecer nuestro vector. Incluso podemos usar una operación de secuencia como argumento. Al consultar el tipo de vector que hemos creado, vemos que mantiene el mismo tipo que sus “ancestros”: <em>integer</em>.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">mi_vector_numerico2 &lt;-<span class="st"> </span><span class="dv">11</span><span class="op">:</span><span class="dv">16</span></a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">mi_vector_muy_largo &lt;-<span class="st"> </span><span class="kw">c</span>(mi_vector_numerico1, </a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">                         mi_vector_numerico2, </a>
+<a class="sourceLine" id="cb48-5" data-line-number="5">                         <span class="dv">21</span><span class="op">:</span><span class="dv">26</span>)</a>
+<a class="sourceLine" id="cb48-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb48-7" data-line-number="7"><span class="kw">print</span>(mi_vector_muy_largo)</a></code></pre></div>
+<pre><code>##  [1]  1  2  3  4  5  6 11 12 13 14 15 16 21 22 23 24 25 26</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="kw">typeof</span>(mi_vector_muy_largo)</a></code></pre></div>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+</div>
+<div id="coerción-de-vectores" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Coerción de vectores</h3>
+<p>Crear vectores más largos puede tener efectos inesperados para el usuario que no está atento. Veamos el siguiente ejemplo:</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1">vector_combinado &lt;-<span class="st"> </span><span class="kw">c</span>(mi_vector_muy_largo, <span class="st">&quot;1&quot;</span>)</a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb52-3" data-line-number="3"><span class="kw">typeof</span>(vector_combinado)</a></code></pre></div>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>Al agregar <code>&quot;1&quot;</code> a nuestro vector su tipo ha cambiado a <em>character</em>. ¿Por qué sucede esto? En primer lugar, hay que tener claro que <code>&quot;1&quot;</code> no es lo mismo que <code>1</code>. Recordemos que todo valor que está entre comillas es de tipo <em>character</em>, incluso si se trata de números.</p>
+<p>En segundo lugar, tengamos en cuenta que los vectores atómicos sólo pueden tener un tipo. Esto quiere decir que cuando los tipos de los elementos que se combinan dentro del vector son diferentes, R debe decidir cuál de los tipos de vector mantener, eligiéndo sólo uno. Este procedimiento es llamado <strong>coerción</strong>.</p>
+<table>
+<thead>
+<tr class="header">
+<th>un ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>abajo1</td>
+</tr>
+<tr class="even">
+<td>——–</td>
+</tr>
+<tr class="odd">
+<td>dada</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="vectores-especiales" class="section level2">
+<h2><span class="header-section-number">3.2</span> Vectores especiales</h2>
+</div>
 </div>
 <div class="footnotes">
 <hr />
@@ -562,6 +690,7 @@ install.packages(&quot;RColorBrewer&quot;)</code></pre>
 <li id="fn3"><p>Si estamos usando RStudio podemos ver que en en la sección Values de la pestaña “Environment” ha aparecido nuestro objeto “result” asociado al resultado de la operación.<a href="#fnref3" class="footnote-back">↩</a></p></li>
 <li id="fn4"><p>Teniendo en cuenta que la raíz cuadrada de X puede ser expresada como potencia de X en la forma X<sup>(1/2)</sup><a href="#fnref4" class="footnote-back">↩</a></p></li>
 <li id="fn5"><p>Podemos obtener la mayor parte de paquetes del CRAN (Comprehensive R Archive Network). La función <code>install.packages()</code> busca allí los paquetes que le pedimos que descargue.<a href="#fnref5" class="footnote-back">↩</a></p></li>
+<li id="fn6"><p>No se conoce una traducción oficial al castellano para los tipos de vectores. En la versión en español de “R for data science” son llamados lógicos, dobles, enteros y caracter.<a href="#fnref6" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
 
