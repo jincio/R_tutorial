@@ -254,7 +254,7 @@ vector_combinado <- c(mi_vector_muy_largo, "1")
 typeof(vector_combinado)
 ```
 
-Al agregar `"1"` a nuestro vector su tipo ha cambiado a *character*. ¿Por qué sucede esto? En primer lugar, hay que tener claro que `"1"` no es lo mismo que `1`. Recordemos que todo valor que está entre comillas es de tipo *character*, incluso si se trata de números. 
+Al agregar `"1"` a nuestro vector, su tipo ha cambiado a *character*. ¿Por qué sucede esto? En primer lugar, hay que tener claro que `"1"` no es lo mismo que `1`. Recordemos que todo valor que está entre comillas es de tipo *character*, incluso si se trata de números. 
 
 En segundo lugar, tengamos en cuenta que los vectores atómicos sólo pueden tener un tipo. Esto quiere decir que cuando los tipos de los elementos que se combinan dentro del vector son diferentes, R debe decidir cuál de los tipos de vector mantener, eligiéndo sólo uno. Este procedimiento es llamado **coerción**.
 
@@ -277,8 +277,84 @@ Del mismo modo, sabemos que cualquier número entero también puede ser expresad
 typeof(1L + 3.1416)
 ```
 
+¿Es posible convertir texto a números en R? No[^7]. Es por ello que cuando un vector tipo *character* se combina con cualquier otro tipo de vector, prevalece el tipo *character*, como en el ejemplo que vimos al inicio de esta sección.
 
+### Coerción explícita y valores NA
 
+En todos los casos de coerción que hemos mencionado hasta el momento R ha decidido mediante sus propias reglas qué tipo de vector debe prevalecer, aplicando **coerción implícita**. Este procedimiento puede ocasionar problemas cuando el usuario no tiene suficientemente claras las reglas de coerción.
+
+La **coerción explícita** permite decidir de antemano qué tipo de vector queremos obtener. Para ello se hace uso de una función de la forma `as.XXX()` donde `XXX` representa el tipo deseado.
+
+```{r}
+vector_true_integer <- as.integer(TRUE)
+
+typeof(vector_true_integer)
+
+```
+
+En este ejemplo, hemos usado `as.integer()` para cambiar el tipo de nuestro vector, de *logical* a *integer*. Es posible hacer lo mismo para otros tipos de vectores. Tomemos en cuenta que la transformación se realiza de manera directa, sin respetar el orden de prioridad. 
+
+```{r}
+as.character(TRUE)
+```
+
+Es por ello que `TRUE` se convierte directamente en el *character* `"TRUE"` sin convertirse primero en el *integer* `1L`, luego en el *double* `1` y luego en el *character* `"1"`. De aquí viene el verdadero poder de la coerción explícita, porque nos permite incluso "revertir" el orden de prioridad que R usa en la coerción implícita. Es decir, podemos convertir **cualquier** tipo de vector a otro.
+
+```{r}
+typeof(as.logical("TRUE"))
+typeof(as.integer("10"))
+typeof(as.integer(5.0))
+typeof(as.double("6.108"))
+```
+
+De todos modos, esto se debe usar con precaución. Sabemos que todo *logical* puede convertirse a *integer*, estos a su vez pueden convertirse a *double* y estos a *character* sin perder ninguna información. No sucede lo mismo en el procedimiento reverso. Por ejemplo, esto sucede cuando queremos convertir un *double* con cifras decimales a *integer*.
+
+```{r}
+as.integer(5.4234)
+```
+
+El contenido decimal se pierde, porque R no lo necesita en el *integer*, y no es posible recuperarlo aún retransformando el valor a *double* en la misma línea de código.
+
+```{r}
+as.double(as.integer(5.4234))
+```
+
+Algo similar sucede cuando intentamos convertir a *logical* valores numéricos mayores a 1. 
+
+```{r}
+as.logical(8)
+as.logical(-0.000000135)
+```
+
+R interpreta como `TRUE` todo número diferente a `0`. Es probable que no sea el resultado que esperábamos en esta transformación. Pero todavía hay más. ¿Qué sucederá si intentamos convertir una **palabra** a número?
+
+```{r}
+as.integer("sustantivo")
+```
+
+R no es capaz de asignar un valor numérico a `"sustantivo"` y como resultado nos arroja un advertencia o *warning*: `NAs introduced by coercion`. El valor `NA` representa un valor perdido y no es posible transformarlo. Los valores perdidos pueden aparecer en nuestros datos por diferentes motivos, desde la recolección hasta la transformación de nuestra data. Debemos ser extremadamente cuidadosos al trabajar con ellos, porque pueden generar algunos problemas indeseados. Por ejemplo, si queremos obtener la suma de todos los elementos de un vector, usando la función `sum()`, y resulta que uno de ellos es un `NA`.
+
+```{r}
+vector_con_NA <- c(1, 2, 3, 4, NA, 6, 7)
+
+sum(vector_con_NA)
+```
+
+El resultado obtenido es simplemente `NA`. El mismo problema se extiende al querer obtener un promedio usando la función `mean()`.
+
+```{r}
+mean(vector_con_NA)
+```
+
+Felizmente, estas funciones permiten proporcionar el argumento `na.rm = TRUE` para ignorar los valores `NA` y trabajar sólo con valores válidos.
+
+```{r}
+sum(vector_con_NA, na.rm = TRUE)
+
+mean(vector_con_NA, na.rm = TRUE)
+```
+
+Sin embargo, no necesariamente encontraremos esta herramienta en todas las funciones que trabajan con vectores. Por ello es indispensable estar atentos al trabajar nuestros datos y revisar la documentación de las funciones con las que estamos trabajando.
 
 ## Vectores especiales
 
@@ -288,3 +364,4 @@ typeof(1L + 3.1416)
 [^4]: Teniendo en cuenta que la raíz cuadrada de X puede ser expresada como potencia de X en la forma X^(1/2)^
 [^5]: Podemos obtener la mayor parte de paquetes del CRAN (Comprehensive R Archive Network). La función `install.packages()` busca allí los paquetes que le pedimos que descargue.
 [^6]: No se conoce una traducción oficial al castellano para los tipos de vectores. En la versión en español de "R for data science" son llamados lógicos, dobles, enteros y caracter.
+[^7]: Al menos no de manera automática, como sí se puede en otros lenguajes de programación.
