@@ -460,6 +460,10 @@ div.tocify {
 </div>
 
 
+<style>
+body {
+text-align: justify}
+</style>
 <p><strong>ULTIMA ACTUALIZACIÓN:</strong></p>
 <p>La última actualización de este artículo se realizó el 3 de November del 2019.</p>
 <div id="tabla-de-contenidos" class="section level1">
@@ -656,7 +660,7 @@ div.tocify {
 <a class="sourceLine" id="cb52-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb52-3" data-line-number="3"><span class="kw">typeof</span>(vector_combinado)</a></code></pre></div>
 <pre><code>## [1] &quot;character&quot;</code></pre>
-<p>Al agregar <code>&quot;1&quot;</code> a nuestro vector su tipo ha cambiado a <em>character</em>. ¿Por qué sucede esto? En primer lugar, hay que tener claro que <code>&quot;1&quot;</code> no es lo mismo que <code>1</code>. Recordemos que todo valor que está entre comillas es de tipo <em>character</em>, incluso si se trata de números.</p>
+<p>Al agregar <code>&quot;1&quot;</code> a nuestro vector, su tipo ha cambiado a <em>character</em>. ¿Por qué sucede esto? En primer lugar, hay que tener claro que <code>&quot;1&quot;</code> no es lo mismo que <code>1</code>. Recordemos que todo valor que está entre comillas es de tipo <em>character</em>, incluso si se trata de números.</p>
 <p>En segundo lugar, tengamos en cuenta que los vectores atómicos sólo pueden tener un tipo. Esto quiere decir que cuando los tipos de los elementos que se combinan dentro del vector son diferentes, R debe decidir cuál de los tipos de vector mantener, eligiéndo sólo uno. Este procedimiento es llamado <strong>coerción</strong>.</p>
 <p>Aunque suena complicado, las reglas de coerción son bastante sencillas. R le dará prioridad a mantener el tipo de vector según el siguiente orden:</p>
 <ol style="list-style-type: decimal">
@@ -726,6 +730,54 @@ div.tocify {
 </div>
 <div id="vectores-especiales" class="section level2">
 <h2><span class="header-section-number">3.2</span> Vectores especiales</h2>
+<p>Hasta el momento hemos trabajado con vectores atómicos. Hemos comprendido que hay cuatro tipos de ellos, que podemos agregarles elementos y que pueden ser coercionados implícita y explícitamente a otros tipos.</p>
+<p>Es posible crear vectores que tengan un comportamiento particular al asignarles atributos (<code>attributes</code>). Este es el caso de los factores y los datetimes.</p>
+<p>La función <code>attributes()</code> nos permite consultar los atributos que contiene un objeto. Veamos qué sucede cuando consultamos por los atributos de los vectores que creamos antes.</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">attributes</span>(v_integer)</a></code></pre></div>
+<pre><code>## NULL</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw">attributes</span>(mi_vector_muy_largo)</a></code></pre></div>
+<pre><code>## NULL</code></pre>
+<p>Por defecto, los vectores atómicos no tienen ningún atributo, es por ello que en la consulta nos arroja el resultado <code>NULL</code>. Veremos que con los factores y datetimes no sucede lo mismo.</p>
+<p>No es propósito de este tutorial enseñar a agregar o modificar los atributos de los vectores, sino de dar a conocer algunos de los más utilizados.</p>
+<div id="factores" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Factores</h3>
+<p>Los <em>factor</em> son vectores con un conjunto predefinido de valores. Pueden ser formados a partir de otros vectores con la función <code>factor()</code>, cuyo primer argumento es el vector en cuestión.</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1">numeros &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;uno&quot;</span>, <span class="st">&quot;dos&quot;</span>, <span class="st">&quot;dos&quot;</span>, <span class="st">&quot;uno&quot;</span>, <span class="st">&quot;uno&quot;</span>)</a>
+<a class="sourceLine" id="cb93-2" data-line-number="2">factor_numeros &lt;-<span class="st"> </span><span class="kw">factor</span>(numeros)</a>
+<a class="sourceLine" id="cb93-3" data-line-number="3"><span class="kw">print</span>(factor_numeros)</a></code></pre></div>
+<pre><code>## [1] uno dos dos uno uno
+## Levels: dos uno</code></pre>
+<p>Vemos que al ser impresos se parecen a un vector <em>character</em>. Sin embargo, al consultar por su tipo podemos ver qué son internamente.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="kw">typeof</span>(factor_numeros)</a></code></pre></div>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<p>Consultemos sus <code>attributes()</code> para entender qué está sucediendo con este vector.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="kw">attributes</span>(factor_numeros)</a></code></pre></div>
+<pre><code>## $levels
+## [1] &quot;dos&quot; &quot;uno&quot;
+## 
+## $class
+## [1] &quot;factor&quot;</code></pre>
+<p>Lo primero que debemos notar es el atributo <code>class</code>. Este será una característica común de los vectores especiales. La clase es la que determina el comportamiento que tendrán estos vectores.</p>
+<p>El siguiente es el atributo <code>levels</code>, que nos indica qué valores pueden asumir los elementos que pertenecen a este vector. Este atributo se imprime automáticamente junto al vector. En el caso de <code>factor_numeros</code>, los <code>levels</code> fueron detectados automáticamente por R. Sin embargo, la función <code>factor()</code> nos permite indicar manualmente estos valores.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1">factor_manual &lt;-<span class="st"> </span><span class="kw">factor</span>(numeros, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;uno&quot;</span>, <span class="st">&quot;dos&quot;</span>, <span class="st">&quot;tres&quot;</span>))</a>
+<a class="sourceLine" id="cb99-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb99-3" data-line-number="3"><span class="kw">print</span>(factor_manual)</a></code></pre></div>
+<pre><code>## [1] uno dos dos uno uno
+## Levels: uno dos tres</code></pre>
+<p>Vemos que ahora <code>&quot;tres&quot;</code> forma parte de los <code>levels</code> a pesar de que no existe en nuestro vector.</p>
+<p>Además de ello, los <em>factor</em> son muy útiles como paso intermedio para cambiar de tipo nuestros <em>character</em>. Recordemos que al coercionar explícitamente un <em>character</em> a un valor numérico, R nos arrojaba como resultado un <code>NA</code>. Si transformamos primero nuestro <em>character</em> a un <em>factor</em>, esto sí es posible sin incurrir en un <code>NA</code>.</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="kw">as.integer</span>(factor_manual)</a></code></pre></div>
+<pre><code>## [1] 1 2 2 1 1</code></pre>
+<p>Es por todo ello que los <em>factor</em> son bastante utilizados para tratar con datos categóricos.</p>
+</div>
+<div id="datetimes" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Datetimes</h3>
+<p>Soon…</p>
+</div>
+<div id="listas" class="section level3">
+<h3><span class="header-section-number">3.2.3</span> Listas</h3>
+<p>Soon…</p>
+</div>
 </div>
 </div>
 <div class="footnotes">
