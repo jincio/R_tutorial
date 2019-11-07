@@ -56,7 +56,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -167,7 +167,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -433,6 +432,9 @@ div.tocify {
   <a href="Básicos.html">Básicos</a>
 </li>
 <li>
+  <a href="Manipulando_Data.html">Manipulando Data</a>
+</li>
+<li>
   <a href="Descriptivos.html">Descriptivos</a>
 </li>
 <li>
@@ -458,14 +460,18 @@ div.tocify {
 </div>
 
 
+<style>
+body {
+text-align: justify}
+</style>
 <p><strong>ULTIMA ACTUALIZACIÓN:</strong></p>
-<p>La última actualización de este artículo se realizó el 18 de October del 2019.</p>
-<div id="descriptivos-basicos" class="section level1">
+<p>La última actualización de este artículo se realizó el 3 de noviembre del 2019.</p>
+<div id="descriptivos-básicos" class="section level1">
 <h1><span class="header-section-number">1</span> Descriptivos básicos <a name="T1"></a></h1>
 <p>Reutilizamos la base de datos <code>s2018</code>, con la que hemos venido trabajando en la sección anterior</p>
 <p>Existen funciones que nos pueden dar un vistazo a toda la base de datos. La más útil es <code>summary()</code>. Esta función nos dará el resumen más propicio según el tipo de objeto que usemos como argumento. Por ejemplo, cuando pasamos un <code>data.frame</code> nos da un resumen de cada una de las variables contenidas, pero cuando pasamos una sola variable el resumen es más conciso.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># data.frame con 5 columnas</span></a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">summary</span>(s2018[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co"># data.frame con 5 columnas</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">summary</span>(s2018[,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</a></code></pre></div>
 <pre><code>##      aÑo                mes             nconglome        
 ##  Length:1000        Length:1000        Length:1000       
 ##  Class :character   Class :character   Class :character  
@@ -474,13 +480,13 @@ div.tocify {
 ##  Length:1000        Length:1000       
 ##  Class :character   Class :character  
 ##  Mode  :character   Mode  :character</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># Una sola variable</span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw">summary</span>(s2018<span class="op">$</span>ingreso_bruto)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># Una sola variable</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">summary</span>(s2018<span class="op">$</span>ingreso_bruto)</a></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##       0    7238   17207   26065   33768  200178</code></pre>
 <p>Dentro del paquete <code>Hmisc</code> tenemos la función <code>describe()</code> que también nos brinda un resumen bastante útil de nuestra variable.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;Hmisc&quot;</span>) <span class="co">#Si no lo tienes instalado ya. </span></a></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">Hmisc<span class="op">::</span><span class="kw">describe</span>(s2018<span class="op">$</span>ingreso_bruto)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;Hmisc&quot;</span>) <span class="co">#Si no lo tienes instalado ya. </span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">Hmisc<span class="op">::</span><span class="kw">describe</span>(s2018<span class="op">$</span>ingreso_bruto)</a></code></pre></div>
 <pre><code>## s2018$ingreso_bruto : ingreso monetario (bruto)  Format:%10.0g 
 ##        n  missing distinct     Info     Mean      Gmd      .05      .10 
 ##     1000        0      992        1    26065    26954     1894     3266 
@@ -489,24 +495,24 @@ div.tocify {
 ## 
 ## lowest :      0     60    194    203    241, highest: 179165 186308 193650 198447 200178</code></pre>
 <p>Podemos pedir medidas de centralidad especifícas. Es bueno agregar <code>na.rm = TRUE</code> ya que si tenemos valores perdidos generaría error en el cálculo.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="co"># Media aritmética</span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="kw">mean</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Media aritmética</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">mean</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## [1] 26064.51</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="co"># Mediana</span></a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="kw">median</span>(s2018<span class="op">$</span>ingreso_bruto) </a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># Mediana</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">median</span>(s2018<span class="op">$</span>ingreso_bruto) </a></code></pre></div>
 <pre><code>## [1] 17207</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co"># Desviación estándar</span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="kw">sd</span>(s2018<span class="op">$</span>ingreso_bruto) </a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># Desviación estándar</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw">sd</span>(s2018<span class="op">$</span>ingreso_bruto) </a></code></pre></div>
 <pre><code>## [1] 29193.19</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="co"># Varianza</span></a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="kw">var</span>(s2018<span class="op">$</span>ingreso_bruto) </a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># Varianza</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">var</span>(s2018<span class="op">$</span>ingreso_bruto) </a></code></pre></div>
 <pre><code>## [1] 852242579</code></pre>
 <p>Podemos pedir medidas de posición:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">quantile</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="fl">0.9</span>) <span class="co">#percentil 90</span></a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">quantile</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="fl">0.9</span>) <span class="co">#percentil 90</span></a></code></pre></div>
 <pre><code>##     90% 
 ## 56070.2</code></pre>
 <p>Podemos pedir varios a la vez, combinando funciones. Por ejemplo la función <code>seq(inicio, final, salto)</code></p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">quantile</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="kw">seq</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>,<span class="fl">0.1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">quantile</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="kw">seq</span>(<span class="fl">0.1</span>,<span class="fl">0.9</span>,<span class="fl">0.1</span>))</a></code></pre></div>
 <pre><code>##       10%       20%       30%       40%       50%       60%       70% 
 ##  3265.643  5728.800  9028.194 13116.955 17207.000 22319.400 29505.700 
 ##       80%       90% 
@@ -514,22 +520,22 @@ div.tocify {
 <div id="tablas" class="section level2">
 <h2><span class="header-section-number">1.1</span> Tablas: <a name="T1.1"></a></h2>
 <p>Frequencias.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">table</span>(s2018<span class="op">$</span>estrsocial)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">table</span>(s2018<span class="op">$</span>estrsocial)</a></code></pre></div>
 <pre><code>## 
 ##   1   2   3   4   5   6 
 ##  17  34  81 226 259 383</code></pre>
 <p>Proportion table.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(s2018<span class="op">$</span>estrsocial))</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">prop.table</span>(<span class="kw">table</span>(s2018<span class="op">$</span>estrsocial))</a></code></pre></div>
 <pre><code>## 
 ##     1     2     3     4     5     6 
 ## 0.017 0.034 0.081 0.226 0.259 0.383</code></pre>
 <p>Tablas con Dplyr:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1">s2018 <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb24-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(estrsocial) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb24-3" title="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Frequency=</span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb24-4" title="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Porcentaje=</span>Frequency<span class="op">/</span><span class="kw">sum</span>(Frequency)<span class="op">*</span><span class="dv">100</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb24-5" title="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Estratos=</span><span class="kw">names</span>(<span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb24-6" title="6"><span class="st">  </span><span class="kw">select</span>(Estratos,Frequency,Porcentaje)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">s2018 <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="st">  </span><span class="kw">group_by</span>(estrsocial) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-3" data-line-number="3"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Frequency=</span><span class="kw">n</span>()) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Porcentaje=</span>Frequency<span class="op">/</span><span class="kw">sum</span>(Frequency)<span class="op">*</span><span class="dv">100</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Estratos=</span><span class="kw">names</span>(<span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-6" data-line-number="6"><span class="st">  </span><span class="kw">select</span>(Estratos,Frequency,Porcentaje)</a></code></pre></div>
 <pre><code>## # A tibble: 6 x 3
 ##   Estratos Frequency Porcentaje
 ##   &lt;chr&gt;        &lt;int&gt;      &lt;dbl&gt;
@@ -541,21 +547,21 @@ div.tocify {
 ## 6 rural          383       38.3</code></pre>
 </div>
 </div>
-<div id="graficos-descriptivos" class="section level1">
+<div id="gráficos-descriptivos" class="section level1">
 <h1><span class="header-section-number">2</span> Gráficos Descriptivos: <a name="T2"></a></h1>
 <p>Existen funciones básicas para gráficos en R, pero la versatilidad de R para gráficos va más allá de estas funciones básicas. Paquetes como <strong>ggplot2</strong> han llevado a otro nivel el análisis gráfico de R.</p>
 <p>Aquí trataremos de mostrar ambos.</p>
 <div id="graficos-de-barra-simples-en-r-base" class="section level2">
 <h2><span class="header-section-number">2.1</span> Graficos de Barra simples en R base <a name="T2_1"></a></h2>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">barplot</span>(<span class="kw">table</span>(s2018<span class="op">$</span>estrsocial))</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(s2018<span class="op">$</span>estrsocial))</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>Podemos modificar algunos argumentos:
 - <code>col</code> para especificar el color de las barras
 - <code>names.arg</code> para las etiquetas de las barras
 - <code>main</code> para especificar el texto del título</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">barplot</span>(<span class="kw">table</span>(s2018<span class="op">$</span>estrsocial), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>,</a>
-<a class="sourceLine" id="cb27-2" title="2">        <span class="dt">names.arg =</span> <span class="kw">names</span>(<span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels), </a>
-<a class="sourceLine" id="cb27-3" title="3">        <span class="dt">main=</span><span class="st">&quot;Este es un título&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">barplot</span>(<span class="kw">table</span>(s2018<span class="op">$</span>estrsocial), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>,</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">        <span class="dt">names.arg =</span> <span class="kw">names</span>(<span class="kw">attributes</span>(s2018<span class="op">$</span>estrsocial)<span class="op">$</span>labels), </a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">        <span class="dt">main=</span><span class="st">&quot;Este es un título&quot;</span>)</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div id="graficos-de-barra-simples-en-ggplot2-y-dplyr" class="section level2">
@@ -565,49 +571,49 @@ div.tocify {
 <li><strong>+</strong> vas agregando capas (detalles) al objecto</li>
 <li><code>geom_bar</code> es que crearemos un gráficos de barras</li>
 </ul>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">library</span>(ggplot2) <span class="co"># Recuerda que tienes haberlo instalado antes.</span></a>
-<a class="sourceLine" id="cb28-2" title="2"><span class="kw">library</span>(dplyr)</a>
-<a class="sourceLine" id="cb28-3" title="3">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>estrsocial))<span class="op">+</span></a>
-<a class="sourceLine" id="cb28-4" title="4"><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">bins=</span><span class="dv">20</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">library</span>(ggplot2) <span class="co"># Recuerda que tienes haberlo instalado antes.</span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>estrsocial))<span class="op">+</span></a>
+<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">bins=</span><span class="dv">20</span>)</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <p>Al mismo gráfico le cambiamos el nombre de los ejes con <code>labs</code>, incluso le podemos agregar una “nota”</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" title="1">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>estrsocial))<span class="op">+</span></a>
-<a class="sourceLine" id="cb29-2" title="2"><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">bins=</span><span class="dv">20</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb29-3" title="3"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Estrato Social&quot;</span>,</a>
-<a class="sourceLine" id="cb29-4" title="4">         <span class="dt">caption=</span><span class="st">&quot;(Tomado de....)&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>estrsocial))<span class="op">+</span></a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">bins=</span><span class="dv">20</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb29-3" data-line-number="3"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Estrato Social&quot;</span>,</a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">         <span class="dt">caption=</span><span class="st">&quot;(Tomado de....)&quot;</span>)</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <p>Ahora le cambiamos la etiqueta al eje x!.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>estrsocial))<span class="op">+</span></a>
-<a class="sourceLine" id="cb30-2" title="2"><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">bins=</span><span class="dv">20</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb30-3" title="3"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Estrato Social&quot;</span>,</a>
-<a class="sourceLine" id="cb30-4" title="4">         <span class="dt">caption=</span><span class="st">&quot;(Tomado de....)&quot;</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb30-5" title="5"><span class="st">    </span><span class="kw">scale_x_discrete</span>(<span class="dt">limit=</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,</a>
-<a class="sourceLine" id="cb30-6" title="6">                               <span class="st">&quot;E&quot;</span>,<span class="st">&quot;Rural&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>estrsocial))<span class="op">+</span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="st">    </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">bins=</span><span class="dv">20</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="st">    </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Estrato Social&quot;</span>,</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4">         <span class="dt">caption=</span><span class="st">&quot;(Tomado de....)&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb30-5" data-line-number="5"><span class="st">    </span><span class="kw">scale_x_discrete</span>(<span class="dt">limit=</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,</a>
+<a class="sourceLine" id="cb30-6" data-line-number="6">                               <span class="st">&quot;E&quot;</span>,<span class="st">&quot;Rural&quot;</span>))</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <p>Gráficos con porcentajes</p>
 <ul>
 <li>En este caso manipulamos la data con dplyr para obtener los porcentajes por cada grupo.</li>
 </ul>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" title="1">s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(estrsocial)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb31-2" title="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Frequencia=</span><span class="kw">n</span>())<span class="op">%&gt;%</span><span class="st"> </span><span class="co">## Tabla de frecuencias </span></a>
-<a class="sourceLine" id="cb31-3" title="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Porcentaje=</span>Frequencia<span class="op">/</span><span class="kw">sum</span>(Frequencia)<span class="op">*</span><span class="dv">100</span>)<span class="op">%&gt;%</span><span class="st"> </span><span class="co">##Agregando porcentajes</span></a>
-<a class="sourceLine" id="cb31-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>estrsocial, <span class="dt">y=</span>Porcentaje))<span class="op">+</span></a>
-<a class="sourceLine" id="cb31-5" title="5"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb31-6" title="6"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limit=</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,</a>
-<a class="sourceLine" id="cb31-7" title="7">                               <span class="st">&quot;E&quot;</span>,<span class="st">&quot;Rural&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">s2018<span class="op">%&gt;%</span><span class="kw">group_by</span>(estrsocial)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb31-2" data-line-number="2"><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Frequencia=</span><span class="kw">n</span>())<span class="op">%&gt;%</span><span class="st"> </span><span class="co">## Tabla de frecuencias </span></a>
+<a class="sourceLine" id="cb31-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">Porcentaje=</span>Frequencia<span class="op">/</span><span class="kw">sum</span>(Frequencia)<span class="op">*</span><span class="dv">100</span>)<span class="op">%&gt;%</span><span class="st"> </span><span class="co">##Agregando porcentajes</span></a>
+<a class="sourceLine" id="cb31-4" data-line-number="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>estrsocial, <span class="dt">y=</span>Porcentaje))<span class="op">+</span></a>
+<a class="sourceLine" id="cb31-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb31-6" data-line-number="6"><span class="st">  </span><span class="kw">scale_x_discrete</span>(<span class="dt">limit=</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7">                               <span class="st">&quot;E&quot;</span>,<span class="st">&quot;Rural&quot;</span>))</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 <div id="box-plot-o-diagramas-de-cajas" class="section level2">
 <h2><span class="header-section-number">2.3</span> Box plot o diagramas de cajas</h2>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">boxplot</span>(s2018<span class="op">$</span>estrsocial, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">boxplot</span>(s2018<span class="op">$</span>estrsocial, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" title="1"><span class="kw">boxplot</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">~</span>s2018<span class="op">$</span>estrsocial, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a>
-<a class="sourceLine" id="cb33-2" title="2"><span class="co">## Boxplot by groups </span></a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">boxplot</span>(s2018<span class="op">$</span>ingreso_bruto<span class="op">~</span>s2018<span class="op">$</span>estrsocial, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"><span class="co">## Boxplot by groups </span></a></code></pre></div>
 </div>
 <div id="box-plot-o-diagramas-de-cajas-con-dyplr-y-ggplot2" class="section level2">
 <h2><span class="header-section-number">2.4</span> Box plot o diagramas de cajas con <strong>dyplr</strong> y <strong>ggplot2</strong></h2>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" title="1">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y=</span>estrsocial))<span class="op">+</span></a>
-<a class="sourceLine" id="cb34-2" title="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">y=</span>estrsocial))<span class="op">+</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">col=</span><span class="st">&quot;red&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/test1-1.png" width="672" /></p>
 </div>
 <div id="histogramas" class="section level2">
@@ -615,33 +621,33 @@ div.tocify {
 <ul>
 <li>Hagamos una histograma de la variable ingreso</li>
 </ul>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" title="1"><span class="kw">hist</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="dt">main=</span><span class="st">&quot;Histograma de Ingreso&quot;</span>,</a>
-<a class="sourceLine" id="cb35-2" title="2">     <span class="dt">ylab=</span><span class="st">&quot;TITULO EJE Y&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;FRECUENCIA&quot;</span>,</a>
-<a class="sourceLine" id="cb35-3" title="3">     <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">hist</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="dt">main=</span><span class="st">&quot;Histograma de Ingreso&quot;</span>,</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">     <span class="dt">ylab=</span><span class="st">&quot;TITULO EJE Y&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;FRECUENCIA&quot;</span>,</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">     <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>Podemos agregar una línea que represente la media.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" title="1"><span class="kw">hist</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="dt">main=</span><span class="st">&quot;Histograma de Ingreso&quot;</span>,</a>
-<a class="sourceLine" id="cb36-2" title="2">     <span class="dt">ylab=</span><span class="st">&quot;TITULO EJE Y&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;FRECUENCIA&quot;</span>,</a>
-<a class="sourceLine" id="cb36-3" title="3">     <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a>
-<a class="sourceLine" id="cb36-4" title="4"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(s2018<span class="op">$</span>ingreso_bruto), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">hist</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="dt">main=</span><span class="st">&quot;Histograma de Ingreso&quot;</span>,</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2">     <span class="dt">ylab=</span><span class="st">&quot;TITULO EJE Y&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;FRECUENCIA&quot;</span>,</a>
+<a class="sourceLine" id="cb36-3" data-line-number="3">     <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)</a>
+<a class="sourceLine" id="cb36-4" data-line-number="4"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(s2018<span class="op">$</span>ingreso_bruto), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>Podemos agregar una línea que represente la mediana también y otros detalles.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">hist</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="dt">main=</span><span class="st">&quot;Histograma de Ingreso&quot;</span>,</a>
-<a class="sourceLine" id="cb37-2" title="2">     <span class="dt">ylab=</span><span class="st">&quot;TITULO EJE Y&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;FRECUENCIA&quot;</span>,</a>
-<a class="sourceLine" id="cb37-3" title="3">     <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>) <span class="co">## Histograma básico </span></a>
-<a class="sourceLine" id="cb37-4" title="4"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(s2018<span class="op">$</span>ingreso_bruto), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>) <span class="co">## Agregando media</span></a>
-<a class="sourceLine" id="cb37-5" title="5"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">median</span>(s2018<span class="op">$</span>ingreso_bruto), <span class="dt">col=</span><span class="st">&quot;purple&quot;</span>) <span class="co">## Agregando Mediana</span></a>
-<a class="sourceLine" id="cb37-6" title="6"><span class="kw">text</span>(<span class="kw">median</span>(s2018<span class="op">$</span>ingreso_bruto),<span class="dv">300</span>, <span class="st">&quot;Medana&quot;</span>,<span class="dt">pch =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">hist</span>(s2018<span class="op">$</span>ingreso_bruto, <span class="dt">main=</span><span class="st">&quot;Histograma de Ingreso&quot;</span>,</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">     <span class="dt">ylab=</span><span class="st">&quot;TITULO EJE Y&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;FRECUENCIA&quot;</span>,</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3">     <span class="dt">col=</span><span class="st">&quot;grey&quot;</span>) <span class="co">## Histograma básico </span></a>
+<a class="sourceLine" id="cb37-4" data-line-number="4"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">mean</span>(s2018<span class="op">$</span>ingreso_bruto), <span class="dt">col=</span><span class="st">&quot;red&quot;</span>) <span class="co">## Agregando media</span></a>
+<a class="sourceLine" id="cb37-5" data-line-number="5"><span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">median</span>(s2018<span class="op">$</span>ingreso_bruto), <span class="dt">col=</span><span class="st">&quot;purple&quot;</span>) <span class="co">## Agregando Mediana</span></a>
+<a class="sourceLine" id="cb37-6" data-line-number="6"><span class="kw">text</span>(<span class="kw">median</span>(s2018<span class="op">$</span>ingreso_bruto),<span class="dv">300</span>, <span class="st">&quot;Medana&quot;</span>,<span class="dt">pch =</span> <span class="dv">3</span>)</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 </div>
 <div id="histogramas-con-dplyr-y-ggplot2" class="section level2">
 <h2><span class="header-section-number">2.6</span> Histogramas con <strong>dplyr</strong> y <strong>ggplot2</strong></h2>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" title="1">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>ingreso_bruto))<span class="op">+</span></a>
-<a class="sourceLine" id="cb38-2" title="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins=</span><span class="dv">20</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb38-3" title="3"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span><span class="kw">mean</span>(ingreso_bruto)),</a>
-<a class="sourceLine" id="cb38-4" title="4">             <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span> , <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></a>
-<a class="sourceLine" id="cb38-5" title="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span><span class="kw">median</span>(ingreso_bruto)),</a>
-<a class="sourceLine" id="cb38-6" title="6">             <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span> , <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">s2018<span class="op">%&gt;%</span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span>ingreso_bruto))<span class="op">+</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins=</span><span class="dv">20</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span><span class="kw">mean</span>(ingreso_bruto)),</a>
+<a class="sourceLine" id="cb38-4" data-line-number="4">             <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span> , <span class="dt">col=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></a>
+<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="st">  </span><span class="kw">geom_vline</span>(<span class="kw">aes</span>(<span class="dt">xintercept=</span><span class="kw">median</span>(ingreso_bruto)),</a>
+<a class="sourceLine" id="cb38-6" data-line-number="6">             <span class="dt">linetype=</span><span class="st">&quot;dashed&quot;</span> , <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</a></code></pre></div>
 <p><img src="Descriptivos_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 </div>
 </div>

@@ -2,6 +2,11 @@
 title: "Descriptivos"
 ---
 
+<style>
+body {
+text-align: justify}
+</style>
+
 ```{r setup, include=FALSE}
 library(lubridate)
 fecha <- today(tzone = "America/Lima")

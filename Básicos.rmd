@@ -2,6 +2,11 @@
 title: "Básicos"
 ---
 
+<style>
+body {
+text-align: justify}
+</style>
+
 ```{r setup, include=FALSE}
 library(lubridate)
 fecha <- today(tzone = "America/Lima")
@@ -16,14 +21,10 @@ La última actualización de este artículo se realizó el `r day(fecha)` de  `r
 
 # Tabla de Contenidos
 
-Parte I: 
-
 - [Básicos](#T1)
-- [Subiendo bases de datos](#T2)
-- [Manipular y limpiar base de datos](#T3)
-- [Merge-Join bases](#T3)
+- [Vectores](#T2)
   
-# Básicos. <a name="T1"></a>
+# Básicos {#T1}
 
 R es un entorno y lenguaje de programación con un enfoque al análisis estadístico[^1]. En palabras sencillas, R es un idioma con el que podemos pedirle a nuestra computadora que haga ciertas cosas para nosotros. En estos tutoriales usaremos R a través de RStudio[^2]. 
 
@@ -33,12 +34,14 @@ Debido a que casi todo lo que puedes hacer con R se hace a través de objetos, e
 
 Los operadores, como dice su nombre, nos permiten realizar operaciones entre ciertos valores de manera similar a como lo haríamos con una calculadora. Los siguientes nos permiten realizar operaciones aritméticas básicas:
 
-- `+`: suma
-- `-`: resta
-- `*`: multiplicación
-- `/`: división real
-- `**`: potencia
-- `()`: para priorizar las operaciones al interior de los paréntesis
+|Operador|Operación|
+|:------:|---------|
+| `+`    | Adición    |
+| `-`    | Sustracción|
+| `*`    | Multiplicación|
+| `/`    | División real |
+| `**` o `^`| Potencia |
+| `()`   | Para priorizar operaciones al interior de los paréntesis |
 
 Podemos ver cómo lucen los operadores en funcionamiento al usarlos en R. 
 
@@ -48,7 +51,7 @@ Podemos ver cómo lucen los operadores en funcionamiento al usarlos en R.
 
 R primero opera el `1+2` al ser el nivel más profundo, obteniendo como resultado 3. Inmediatamente después, R realiza la operación `3*3` y obtiene 9. Después de esto, R opera el `9**2`obteniedo 81, y finaliza con la operación `81/3`, obteniedo 27 como resultado. Hasta este punto, R está siendo utilizado como una simple calculadora, pero podemos exigirle mucho más.
 
-Pero antes de pasar a ello es importante conocer a otro operador fundamental, el de asignamiento. Está compuesto por el signo "menor que" `<` y el signo de resta `-`, que al juntarse lucen como una flecha que apunta hacia la izquierda `<-`. Este operador sirve para asignar un nombre a cualquier objeto o valor, de tal modo podamos acceder a él con mayor facilidad. Por ejemplo, podemos asignarle el nombre "result" al resultado de la operación que realizamos anteriormente.
+Pero antes de pasar a ello es importante conocer a otro operador fundamental, el de asignamiento. Está compuesto por el signo "menor que" (`<`) y el signo de resta (`-`), que al juntarse lucen como una flecha que apunta hacia la izquierda (`<-`). Este operador sirve para asignar un nombre a cualquier objeto o valor, de tal modo podamos acceder a él con mayor facilidad. Por ejemplo, podemos asignarle el nombre "result" al resultado de la operación que realizamos anteriormente.
 
 ```{r}
 result <- (((1+2)*3)**2)/3
@@ -60,6 +63,14 @@ A simple vista, nada ha cambiado[^3], pero cuando accedemos al objeto `result` a
 result
 ```
 
+Si por algún motivo necesitamos actualizar el valor asignado a nuestro objeto, basta con volver a asignar el mismo nombre a otro valor. Incluso se puede hacer referencia al valor anterior para modificarlo. No hay un límite de veces que el valor de un objeto puede ser modificado. En el siguiente ejemplo, sumaremos 3 a `result` para obtener 30. 
+
+```{r}
+result <- result + 3
+
+result
+```
+
 Hemos visto que podemos usar el operador `**` para elevar un número a cualquier potencia, pero no tenemos un operador para obtener la raíz. Podemos solucionar esto haciendo uso de funciones.
 
 ## Funciones
@@ -67,7 +78,7 @@ Hemos visto que podemos usar el operador `**` para elevar un número a cualquier
 Las funciones nos permiten aplicar transformaciones a los valores u objetos que ingresemos en ellas. Para crear una función, debemos asignarle un nombre, argumentos y código que será utilizado para la transformación. Su forma general en R es la siguiente:
 
 
-```
+```{r, eval = FALSE}
 nombredefuncion <- function(argumento_1, argumento_2, argumento_n){
 
 código
@@ -119,6 +130,18 @@ texto_raiz <- function(x, n){
 texto_raiz(1024, 10)
 ```
 
+Los argumentos de una función no necesitan ir en la misma línea de código. Para una más fácil lectura, es posible separarlos por líneas (respetando las comas entre argumentos) siempre y cuando sigan dentro del mismo paréntesis de la función. Utilizaremos la función `paste()` para ejemplificar.
+
+```{r}
+paste("Un", "texto", "largo", "se", "imprime")
+
+paste("Un", 
+      "texto", 
+      "largo", 
+      "se", 
+      "imprime")
+```
+
 Una vez que hemos entendido cómo usar funciones, estamos listos para conocer los paquetes.
 
 ## Usando paquetes
@@ -131,7 +154,7 @@ Cuando inicias **R** se activa un grupo base de paquetes. Estos han sido desarro
 
 Puedes instalar paquetes usando la función `install.packages()` y poniendo como argumento el nombre del paquete entre comillas `""`.  Este procedimiento sólo será necesario una vez, ya que después de instalados, los paquetes son conservados en la memoria de la computadora. Aquí puedes ver algunos ejemplos:
 
-```
+```{r, eval = FALSE}
 install.packages("ggplot2")
 install.packages("DT")
 install.packages("RColorBrewer")
@@ -150,279 +173,266 @@ library(testpackage)
 
 Significa que necesitas instalarlo. No hay que asustarse al obtener un mensaje de error alguna vez, por lo general suelen ser bastante explicativos respecto a por qué son causados y nos permiten corregir aquello en lo que nos equivocamos.
 
-# Subiendo una base de datos <a name="T2"></a>
+# Vectores {#T2}
 
-Para subir una base de datos (BD), debes antes haber instalado una serie de paquetes que permiten leer la base de datos sin importar en que formato este. Existen varios paquetes que nos pueden ayudar con eso. En este tutorial trabajaremos con `rio`, que nos permite abrir distintos tipos de base de datos con facilidad. 
+Los siguientes objetos fundamentales para el manejo de R son los vectores. Estos pueden ser de dos tipos: atómicos y listas. La diferencia entre ellos radica en el tipo de información que pueden contener. Para efectos de estos tutoriales, consideraremos las listas como vectores "especiales" junto a otros que explicaremos más adelante. 
 
-```{r, message=FALSE}
-library(rio)
-```
+## Vectores atómicos
 
-Segundo, llamamos a nuestra base de datos.
-
-**IMPORTANTE** antes de interacturar con folders (subir data, grabar resultados, gráficos, etc) tienes que establecer tu directorio de trabajo. La forma más rápida es con la rueda con la etiqueta "more" en el panel derecho. 
-
-```{r echo=FALSE, out.width='80%'}
-knitr::include_graphics('./data_examples/Rstudio_swd.png')
-```
-
-La base de datos debe estar en nuestro espacio de trabajo. 
-
-La Base de Datos que usaremos es una muestra de 1000 casos de la base **sumaria-2018.dta** de ENAHO - PERU (Encuesta Nacional de Hogares del Peru) del 2017. Aquí esta el link de donde pueden [descargarla](http://iinei.inei.gob.pe/iinei/srienaho/descarga/STATA/634-Modulo34.zip) en formato STATA. Tenemos informacion sobre ingresos, y gastos de los hogares en Perú. 
-
-Dado que tenemos el paquete `rio`, no necesitamos decirle a R que nuestra base de datos está en STATA, R lo entiende. 
-
-Vamos a usar la función `import()` y asignarle un nombre a nuestra base de datos. Lo llamaremos `s2018`. Abajo podemos ver las primeras 4 variables y primeras 10 observaciones.
-
-```{r, echo=FALSE, message = FALSE}
-library(dplyr)
-set.seed(100)
-s2018<-import("./data_examples/sumaria-2018.dta")%>%
-  sample_n(1000)
-```
-
-```{r, eval = FALSE}
-s2018<-import("./data_examples/sumaria-2018.dta")
-```
-
-Podemos usar `head()` en nuestra data para ver las primeras seis observaciones. Debido a que esta data cuenta con `r dim(s2018)[2]` columnas, usamos `[,1:5]` para que nos muestre sólo las 5 primeras.
+Los cuatro principales tipos de vectores atómicos son: *logical*, *double*, *integer* y *character*[^6]. Los vectores de tipo *logical* pueden asumir dos valores: `TRUE` o `FALSE`(o en su forma abreviada `T` o `F`). Los de tipo *double* e *integer* asumen valores numéricos, los *double* pueden asumir valores racionales y los *integer* sólo valores enteros. Los vectores de tipo *character* asumen cualquier cadena de texto. En el siguiente recuadro de código podemos ver un ejemplo de cada uno:
 
 ```{r}
-head(s2018)[,1:5]
+v_logical <- TRUE
+v_double <- 3.1416
+v_integer <- 5L
+v_character <- "Hola mundo"
 ```
 
-Siempre es bueno mirar la base de datos con la cual estamos trabajando para darnos una idea mas concreta de que estamos haciendo. Primero debemos saber con que tipo de objeto estamos lidiando. La función `str()` nos brinda informaciòn útil sobre el objeto en cuestión y sus elementos. En el siguiente código, usamos `[,1:6]` para limitar la vista a las 6 primeras variables
+Si estamos atentos, vemos que el *integer*  va acompañado de una "L" al final. Esto es necesario porque R interpreta por defecto cualquier número como *double*. Tanto los *double* como los *integer* pertenecen a la categoría de vectores numéricos. Los *character* siempre estarán rodeados de comillas (`""`). Para comprobar si nuestro vector es de un tipo determinado utilizamos una función de forma `is.XXX()` reemplazando el "XXX" por el tipo que queremos comprobar.
 
 ```{r}
-str(s2018[,1:6]) 
+is.logical(v_logical)
+is.numeric(v_double)
+is.integer(v_double)
 ```
-Vemos que las variables son de tipo 'chr', que quiere decir character o texto.  Asimismo, podemos ver que cada variable cuenta con dos espacios de `attr()`, estos son sus atributos. Más adelante veremos qué son y cómo utilizarlos. También vemos que el objeto `s2018` es un `data.frame`.
 
+Podemos ver que por cada consulta obtenemos un valor *logical* `TRUE` cuando se cumple la condición y `FALSE` cuando no se cumple. Es decir, es cierto que `v_logical`es *logical*, es cierto que `v_double` es numérico y es falso que `v_double` es *integer*. El valor *logical* obtenido con cada consulta es un vector en sí mismo.
+
+Otra manera de verificar el tipo de vector que tenemos es con la función `typeof()`. Esta nos devuelve un  *character* indicando el tipo de vector que tenemos.
 
 ```{r}
-is.data.frame(s2018) ## Es otra forma de comprobarlo.
+typeof(v_character)
+typeof(v_integer)
 ```
 
-En este caso `s2018` es un objeto de tipo `data.frame`, por lo que tiene dos dimensiones, saber esto es importante por que así podemos manipularlas. La función `dim()` nos permite ver ambas. El primer número se refiere a la cantidad de observaciones o casos (las filas) y el segundo a la cantidad de variables (las columnas).
+
+### Vectores con más de un elemento y operador de secuencia simple
+
+Hasta el momento hemos visto vectores que contienen un solo elemento. Sin embargo, es sumamente común encontrarse con vectores de mayor longitud. Por ejemplo, el vector `letters` contiene todas las letras minúsculas del alfabeto. Podemos consultar la longitud de un vector con la función `length()`. Esto es muy útil cuando sabemos que nuestro vector podría contener una gran cantidad de elementos y no queremos inspeccionarlos todos. El número que vemos rodeado entre corchetes (`[]`) en nuestro resultado nos indica el índice que el elemento siguiente tiene en el vector. Es por ello que hasta el momento en cada operación que realizábamos hemos obtenido un "[1]" antes de cada resultado.
 
 ```{r}
-dim(s2018)
+length(v_logical)
+length(letters)
+print(letters)
 ```
 
-En el código debajo estamos seleccionando los 20 primeros casos (1:20), y las tres primeras variables (1:3). Conocer las dimensiones es útil para luego filtrar la base de datos. 
+Para formar vectores de longitud mayor a uno se utiliza la función `c()` agregando como argumentos todos los elementos que queremos.
 
 ```{r}
-s2018[1:20,1:3]
+mi_vector_largo <- c("elemento1", 
+                     "elemento2", 
+                     "elemento3", 
+                     "elemento4")
+
+print(mi_vector_largo)
 ```
 
-Si eres ansioso y quieres ver toda la base de datos puedes usar el siguiente código:
-
-```{r, eval=FALSE}
-View(s2018)
-```
-
-Podriamos mirar una muestra de nuestra base de datos con la opcion head. Abajo, le pedimos que nos puestre las 300 primeras observaciones. 
-
-```{r, eval=FALSE}
-View(head(s2018,300))
-```
-
-La función `import()` de rio permite subir archivos en distintos formatos. Existen otros paquetes como `foreign` que también hacen lo mismo. Pero `rio` me parece más conveniente.
-
-# Manipular y limpiar base de datos <a name="T3"></a>
-
-En esta secciones aprenderemos algunas de los pasos mas frecuentes que hacemos al encontrarnos con una nueva base de datos: limpiar y manipular algunas variables para que pueda analizarse. Debemos limpiar nuestra base de datos por muchas razones; quizas para calcular las variables que queremos, para desacernos de grupos de observaciones que no nos interesan o para hacer mas fácil el juntar nuestra base de datos con otras.
-
-## Re-nombrar y etiquetar variables
-
-Podemos llamar nuestras variables en la BD con la función `names()` o también `ls()`
+Para vectores numéricos, también es posible utilizar el signo dos puntos (`:`) como operador para crear una secuencia, que avanza de uno en uno, desde un número a otro. El vector resultado incluirá a los dos números utilizados en la operación. 
 
 ```{r}
-names(s2018)## Te los da en el orden en que estan en la base de datos. 
+mi_vector_numerico1 <- 1:6
+
+print(mi_vector_numerico1)
 ```
 
-```{r, message=FALSE}
-ls(s2018) ## Este comando te las da en nombre alfabetico
-```
-
-Por ejemplo la variable `inghog1d` (posición 141) es el ingreso bruto anual queremos cambiar el nombre a "ingreso_bruto".  
-
-La forma más rápida es: 
+Podemos hacer uso de `c()` nuevamente para seguir haciendo crecer nuestro vector. Incluso podemos usar una operación de secuencia como argumento. Al consultar el tipo de vector que hemos creado, vemos que mantiene el mismo tipo que sus "ancestros": *integer*.
 
 ```{r}
-names(s2018)[141]<-"ingreso_bruto"
+mi_vector_numerico2 <- 11:16
+
+mi_vector_muy_largo <- c(mi_vector_numerico1, 
+                         mi_vector_numerico2, 
+                         21:26)
+
+print(mi_vector_muy_largo)
+
+typeof(mi_vector_muy_largo)
 ```
 
-Si no tenemos la ubicación, quizás son miles de variables, podemos también usar 
+### Coerción de vectores
 
-```{r, eval=FALSE}
-names(s2018[names(s2018) == "inghog1d"]) <-"ingreso_bruto"
-
-# Si ya corriste el código anterior este te va a dar error, ya que 
-# está buscando un nombre que no existe ;)
-```
-
-Pedimos el nombre de variables denuevo 
-```{r}
-names(s2018)[140:145] 
-# Exacto! podemos indexar para no ver todas las variables nuevamente 
-```
-
-**Etiquetas**
-
-Si subimos la base de datos desde STATA, estas pueden tener etiquetas. 
-
-Por ejemplo, veamos la etiqueta de nuestra variables "ingreso_bruto" 
+Crear vectores más largos puede tener efectos inesperados para el usuario que no está atento. Veamos el siguiente ejemplo:
 
 ```{r}
-attributes(s2018$ingreso_bruto)$label
+vector_combinado <- c(mi_vector_muy_largo, "1")
+
+typeof(vector_combinado)
 ```
 
-Queremos cambiarla a "ingreso monetario (bruto) anual"
+Al agregar `"1"` a nuestro vector, su tipo ha cambiado a *character*. ¿Por qué sucede esto? En primer lugar, hay que tener claro que `"1"` no es lo mismo que `1`. Recordemos que todo valor que está entre comillas es de tipo *character*, incluso si se trata de números. 
+
+En segundo lugar, tengamos en cuenta que los vectores atómicos sólo pueden tener un tipo. Esto quiere decir que cuando los tipos de los elementos que se combinan dentro del vector son diferentes, R debe decidir cuál de los tipos de vector mantener, eligiéndo sólo uno. Este procedimiento es llamado **coerción**.
+
+Aunque suena complicado, las reglas de coerción son bastante sencillas. R le dará prioridad a mantener el tipo de vector según el siguiente orden:
+
+1. Character
+2. Double
+3. Integer
+4. Logical
+
+Es decir, ante cualquier conflicto en el tipo de vectores a combinar se preservará el tipo que tenga más alta prioridad. Si nos detenemos a analizar por qué sucede, es bastante evidente. Los valores *logical* son en realidad leídos por la computadora como `1` cuando son `TRUE` y como `0` cuando son `FALSE`. Es por ello que la siguiente operación no nos arroja un error.
 
 ```{r}
-attributes(s2018$ingreso_bruto)$label<-"ingreso monetario (bruto) anual"
-
-#Veamos el cambio!
-attributes(s2018$ingreso_bruto)$label 
+1L + TRUE
 ```
 
-## Recodificar variables
-
-Ahora recodificaremos los valores de la variable con que estamos trabajando.
-
-Usamos la funcion abajo para ver los valores y las etiquetas de la variable que creamos.
+Del mismo modo, sabemos que cualquier número entero también puede ser expresado como número racional. Es por ello que los *integer* son coercionados a *double* cuando hay conflicto entre ellos.
 
 ```{r}
-attributes(s2018$estrsocial)$labels
+typeof(1L + 3.1416)
 ```
 
-Queremos recodificar los valores de **rural** de 6 a 0. 
+¿Es posible convertir texto a números en R? No[^7]. Es por ello que cuando un vector tipo *character* se combina con cualquier otro tipo de vector, prevalece el tipo *character*, como en el ejemplo que vimos al inicio de esta sección.
+
+### Coerción explícita y valores NA
+
+En todos los casos de coerción que hemos mencionado hasta el momento R ha decidido mediante sus propias reglas qué tipo de vector debe prevalecer, aplicando **coerción implícita**. Este procedimiento puede ocasionar problemas cuando el usuario no tiene suficientemente claras las reglas de coerción.
+
+La **coerción explícita** permite decidir de antemano qué tipo de vector queremos obtener. Para ello se hace uso de una función de la forma `as.XXX()` donde `XXX` representa el tipo deseado.
 
 ```{r}
-s2018[s2018$estrsocial==6,]$estrsocial<-0
+vector_true_integer <- as.integer(TRUE)
+
+typeof(vector_true_integer)
+
 ```
 
-Si pedimos una tabla vemos que el cambio se realizo:
+En este ejemplo, hemos usado `as.integer()` para cambiar el tipo de nuestro vector, de *logical* a *integer*. Es posible hacer lo mismo para otros tipos de vectores. Tomemos en cuenta que la transformación se realiza de manera directa, sin respetar el orden de prioridad. 
 
 ```{r}
-table(s2018$estrsocial)
+as.character(TRUE)
 ```
 
-Pero las etiquetas siguen mostrando el orden anterior
+Es por ello que `TRUE` se convierte directamente en el *character* `"TRUE"` sin convertirse primero en el *integer* `1L`, luego en el *double* `1` y luego en el *character* `"1"`. De aquí viene el verdadero poder de la coerción explícita, porque nos permite incluso "revertir" el orden de prioridad que R usa en la coerción implícita. Es decir, podemos convertir **cualquier** tipo de vector a otro.
 
 ```{r}
-attributes(s2018$estrsocial)$labels
+typeof(as.logical("TRUE"))
+typeof(as.integer("10"))
+typeof(as.integer(5.0))
+typeof(as.double("6.108"))
 ```
+
+De todos modos, esto se debe usar con precaución. Sabemos que todo *logical* puede convertirse a *integer*, estos a su vez pueden convertirse a *double* y estos a *character* sin perder ninguna información. No sucede lo mismo en el procedimiento reverso. Por ejemplo, esto sucede cuando queremos convertir un *double* con cifras decimales a *integer*.
 
 ```{r}
-attributes(s2018$estrsocial)$labels[[1]]<-0
-attributes(s2018$estrsocial)$labels
+as.integer(5.4234)
 ```
 
-## Generar variables (categorica, dicotomica, average de grupo)
-
-Ahora vamos a generar distintos tipos de variables. Empecemos con una variable dicotomica. Vamos a usar informacion sobre el ingreso reportado
-
-## Variable categóricas
-
-Generemos una variable que toma el valor de 1 si es que el informante gana más de 800 soles y 0 si es menos o igual. Creamos una variable vacia y le incluimos los argumentos:
-
-- Forma 1:
+El contenido decimal se pierde, porque R no lo necesita en el *integer*, y no es posible recuperarlo aún retransformando el valor a *double* en la misma línea de código.
 
 ```{r}
-s2018$minimo<-NA
-s2018[s2018$ingreso_bruto<=800,]$minimo<-0
-s2018[s2018$ingreso_bruto>800,]$minimo<-1
-table(s2018$minimo)
+as.double(as.integer(5.4234))
 ```
 
-- Forma 2:
+Algo similar sucede cuando intentamos convertir a *logical* valores numéricos mayores a 1. 
 
 ```{r}
-s2018$minimo<-NA
-s2018$minimo<-ifelse(s2018$ingreso_bruto<=800,0,1)
-table(s2018$minimo)
+as.logical(8)
+as.logical(-0.000000135)
 ```
 
-- Forma 3: **USANDO DPLYR para crear nuevas variables**
-
-Dplyr es un paquete que es muy útil para manipular data, es relativamente nuevo y cada vez está siendo más usado. 
-
-Dplyr y Tydir son muy populares, así que es bueno ir familiarizandose con ellos. 
-
-Lo especial de Dplyr es que tiene sus propias funciones y además que conecta funciones usando **%>%**. De esa manera puede ser más eficiente con el espacio de trabajo, evitando crear muchos objetos. 
-
-En este caso la función es **mutate** 
+R interpreta como `TRUE` todo número diferente a `0`. Es probable que no sea el resultado que esperábamos en esta transformación. Pero todavía hay más. ¿Qué sucederá si intentamos convertir una **palabra** a número?
 
 ```{r}
-s2018<-s2018%>%mutate(minimo=ifelse(s2018$ingreso_bruto<=800,0,1))
-table(s2018$minimo)
+as.integer("sustantivo")
 ```
 
-## Medidas por grupo. 
-
-Por ejemplo queremos calcular el promedio de cada grupo. 
-Usaremos **dplyr** para calcular el promedio de ingreso y la desviación estandar por cada ubigeo (municipalidad)
-
-- Podemos concatenar funciones. Primero hemos "agrupado" la base de datos, luego hemos calculado el promedio, y la desviación estandard en base a la variable de agrupación.
-- `arrange()` es para ordernar los ubigeos
-- `select()` para quedarnos con algunas variables (son más de 150)
-- `head()` para pedir los 6 primeros casos.
-
+R no es capaz de asignar un valor numérico a `"sustantivo"` y como resultado nos arroja un advertencia o *warning*: `NAs introduced by coercion`. El valor `NA` representa un valor perdido y no es posible transformarlo. Los valores perdidos pueden aparecer en nuestros datos por diferentes motivos, desde la recolección hasta la transformación de nuestra data. Debemos ser extremadamente cuidadosos al trabajar con ellos, porque pueden generar algunos problemas indeseados. Por ejemplo, si queremos obtener la suma de todos los elementos de un vector, usando la función `sum()`, y resulta que uno de ellos es un `NA`.
 
 ```{r}
-s2018%>%group_by(ubigeo)%>%
-  mutate(promedio=mean(ingreso_bruto),
-         desv=sd(ingreso_bruto))%>%
-  arrange(ubigeo)%>%
-  select(c(1:3,160,161))%>%head()
+vector_con_NA <- c(1, 2, 3, 4, NA, 6, 7)
+
+sum(vector_con_NA)
 ```
 
-Ahora bien los cambios no se han guardado en la base de datos para hacerlo debemos remplazar el objeto o crear uno nuevo. 
-
-```{r, eval=FALSE}
-s2018<-s2018%>%group_by(ubigeo)%>%
-  mutate(promedio=mean(ingreso_bruto),
-         desv=sd(ingreso_bruto))%>%
-  arrange(ubigeo)### Aquí nuestra base ha cambiado ya que tiene dos variables más
-```
-
-
-# Merge y append bases de datos <a name="T4"></a>
-
-- Creemos una base de datos que contenga el ingreso promedio por distrito. Similar a nuestro ejercicio anterior pero ahora la base será un objeto aparte. 
-
+El resultado obtenido es simplemente `NA`. El mismo problema se extiende al querer obtener un promedio usando la función `mean()`.
 
 ```{r}
-resumen<-s2018%>%group_by(ubigeo)%>%
-  summarise(promedio=mean(ingreso_bruto),
-            desv=sd(ingreso_bruto))
-head(resumen)
+mean(vector_con_NA)
 ```
 
-La diferencia aquí es que hemos usado ```summarise``` en lugar de ```mutate```. Ya que no estamos agregando una variable a la base. Estamos creando una nueva base. 
+Felizmente, estas funciones permiten proporcionar el argumento `na.rm = TRUE` para ignorar los valores `NA` y trabajar sólo con valores válidos.
 
 ```{r}
-nrow(resumen)
+sum(vector_con_NA, na.rm = TRUE)
+
+mean(vector_con_NA, na.rm = TRUE)
 ```
 
-Ahora juntemos las bases de datos. El proceso es más conocido como "merge" o "join" 
+Sin embargo, no necesariamente encontraremos esta herramienta en todas las funciones que trabajan con vectores. Por ello es indispensable estar atentos al trabajar nuestros datos y revisar la documentación de las funciones con las que estamos trabajando.
 
+## Vectores especiales
+
+Hasta el momento hemos trabajado con vectores atómicos. Hemos comprendido que hay cuatro tipos de ellos, que podemos agregarles elementos y que pueden ser coercionados implícita y explícitamente a otros tipos.
+
+Es posible crear vectores que tengan un comportamiento particular al asignarles atributos (`attributes`). Este es el caso de los factores y los datetimes.
+
+La función `attributes()` nos permite consultar los atributos que contiene un objeto. Veamos qué sucede cuando consultamos por los atributos de los vectores que creamos antes.
 
 ```{r}
-s2018<-s2018%>%left_join(resumen, by="ubigeo")
-head(s2018[,c(6,159,160)])
+attributes(v_integer)
+
+attributes(mi_vector_muy_largo)
 ```
 
-Existen diferentes tipos de "join" 
+Por defecto, los vectores atómicos no tienen ningún atributo, es por ello que en la consulta nos arroja el resultado `NULL`. Veremos que con los factores y datetimes no sucede lo mismo. 
 
-  - `left_join()`
-  - `rigth_join()`
-  - `inner_join()`
+No es propósito de este tutorial enseñar a agregar o modificar los atributos de los vectores, sino de dar a conocer algunos de los más utilizados. 
+
+### Factores
+
+Los *factor* son vectores con un conjunto predefinido de valores. Pueden ser formados a partir de otros vectores con la función `factor()`, cuyo primer argumento es el vector en cuestión.
+
+```{r}
+numeros <- c("uno", "dos", "dos", "uno", "uno")
+factor_numeros <- factor(numeros)
+print(factor_numeros)
+```
+
+Vemos que al ser impresos se parecen a un vector *character*. Sin embargo, al consultar por su tipo podemos ver qué son internamente.
+
+```{r}
+typeof(factor_numeros)
+```
+
+Consultemos sus `attributes()` para entender qué está sucediendo con este vector.
+
+```{r}
+attributes(factor_numeros)
+```
+
+Lo primero que debemos notar es el atributo `class`. Este será una característica común de los vectores especiales. La clase es la que determina el comportamiento que tendrán estos vectores. 
+
+El siguiente es el atributo `levels`, que nos indica qué valores pueden asumir los elementos que pertenecen a este vector. Este atributo se imprime automáticamente junto al vector. En el caso de `factor_numeros`, los `levels` fueron detectados automáticamente por R. Sin embargo, la función `factor()` nos permite indicar manualmente estos valores.
+
+```{r}
+factor_manual <- factor(numeros, levels = c("uno", "dos", "tres"))
+
+print(factor_manual)
+```
+
+Vemos que ahora `"tres"` forma parte de los `levels` a pesar de que no existe en nuestro vector.  
+
+Además de ello, los *factor* son muy útiles como paso intermedio para cambiar de tipo nuestros *character*. Recordemos que al coercionar explícitamente un *character* a un valor numérico, R nos arrojaba como resultado un `NA`. Si transformamos primero nuestro *character* a un *factor*, esto sí es posible sin incurrir en un `NA`.
+
+```{r}
+as.integer(factor_manual)
+```
+
+Es por todo ello que los *factor* son bastante utilizados para tratar con datos categóricos.
+
+### Datetimes
+
+Soon...
+
+### Listas
+
+Soon...
 
 [^1]: Definición obtenida de https://es.wikipedia.org/wiki/R_(lenguaje_de_programaci%C3%B3n)
 [^2]: RStudio es un Entorno de desarrollo integrado (IDE) para R. Para instalar ambos, recomendamos seguir las instrucciones del punto 1.4.1 y 1.4.2 del siguiente enlace https://es.r4ds.hadley.nz/introducci%C3%B3n.html
 [^3]: Si estamos usando RStudio podemos ver que en en la sección Values de la pestaña "Environment" ha aparecido nuestro objeto "result" asociado al resultado de la operación.
 [^4]: Teniendo en cuenta que la raíz cuadrada de X puede ser expresada como potencia de X en la forma X^(1/2)^
 [^5]: Podemos obtener la mayor parte de paquetes del CRAN (Comprehensive R Archive Network). La función `install.packages()` busca allí los paquetes que le pedimos que descargue.
+[^6]: No se conoce una traducción oficial al castellano para los tipos de vectores. En la versión en español de "R for data science" son llamados lógicos, dobles, enteros y caracter.
+[^7]: Al menos no de manera automática, como sí se puede en otros lenguajes de programación.
