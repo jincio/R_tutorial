@@ -45,6 +45,10 @@ library(sandwich)
 coeftest(m1, vcov = vcovHC(m1, "HC0")) 
 ```
 
+
+En este post damos más detalles de cómo agregar los robust standard errors en el resultados de nuestro modelo. [Aquí]( http://www.joseincio.com/post/como-cambiar-errores-estandards-normales-a-robustos-en-un-modelo/)
+
+
 ## Diagnostico
 
 ### Valores influyentes 
@@ -70,6 +74,8 @@ sqrt(vif(m1)) > 2
 ```
 
 ### Normalidad de los residuos 
+
+Creamos un objeto que contenga los valores residuales del modelo, con la finalidad de probar si los residuos tienen una distribución normal. De no tenerla, sería problemático al momento de inferir. 
 
 ```{r}
 res<-residuals(m1)

@@ -56,7 +56,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -167,6 +167,7 @@ code {
 }
 img {
   max-width:100%;
+  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -466,12 +467,12 @@ text-align: justify}
 </style>
 <p>Seguimos usando la data del artículo:</p>
 <p>Holland, Alisha C., and José Incio. 2018. “Imperfect Recall: The Politics of Subnational Office Removals.” Comparative Political Studies: 0010414018797939.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(rio)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">recall&lt;-<span class="kw">import</span>(<span class="st">&quot;https://github.com/jincio/Imperfect_recall/raw/master/recalldataset.dta&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(rio)</a>
+<a class="sourceLine" id="cb1-2" title="2">recall&lt;-<span class="kw">import</span>(<span class="st">&quot;https://github.com/jincio/Imperfect_recall/raw/master/recalldataset.dta&quot;</span>)</a></code></pre></div>
 <div id="modelo-lineal" class="section level2">
 <h2><span class="header-section-number">0.1</span> Modelo Lineal</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">m1&lt;-<span class="kw">lm</span>(enp<span class="op">~</span>indigenous<span class="op">+</span>execution, <span class="dt">data=</span>recall)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">summary</span>(m1)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">m1&lt;-<span class="kw">lm</span>(enp<span class="op">~</span>indigenous<span class="op">+</span>execution, <span class="dt">data=</span>recall)</a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">summary</span>(m1)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = enp ~ indigenous + execution, data = recall)
@@ -492,8 +493,8 @@ text-align: justify}
 ##   (1680 observations deleted due to missingness)
 ## Multiple R-squared:  0.01875,    Adjusted R-squared:  0.01834 
 ## F-statistic: 46.57 on 2 and 4875 DF,  p-value: &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">m1&lt;-<span class="kw">lm</span>(enp<span class="op">~</span>indigenous<span class="op">+</span>execution<span class="op">*</span>incumbent, <span class="dt">data=</span>recall)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw">summary</span>(m1)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">m1&lt;-<span class="kw">lm</span>(enp<span class="op">~</span>indigenous<span class="op">+</span>execution<span class="op">*</span>incumbent, <span class="dt">data=</span>recall)</a>
+<a class="sourceLine" id="cb4-2" title="2"><span class="kw">summary</span>(m1)</a></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = enp ~ indigenous + execution * incumbent, data = recall)
@@ -519,15 +520,15 @@ text-align: justify}
 </div>
 <div id="robust-estandard-errors" class="section level2">
 <h2><span class="header-section-number">0.2</span> Robust Estandard Errors</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">library</span>(lmtest)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">library</span>(lmtest)</a></code></pre></div>
 <pre><code>## Loading required package: zoo</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;zoo&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     as.Date, as.Date.numeric</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">library</span>(sandwich)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw">coeftest</span>(m1, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(m1, <span class="st">&quot;HC0&quot;</span>)) </a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">library</span>(sandwich)</a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="kw">coeftest</span>(m1, <span class="dt">vcov =</span> <span class="kw">vcovHC</span>(m1, <span class="st">&quot;HC0&quot;</span>)) </a></code></pre></div>
 <pre><code>## 
 ## t test of coefficients:
 ## 
@@ -539,28 +540,29 @@ text-align: justify}
 ## execution:incumbent -0.201720   0.410768 -0.4911 0.6233912    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>En este post damos más detalles de cómo agregar los robust standard errors en el resultados de nuestro modelo. <a href="http://www.joseincio.com/post/como-cambiar-errores-estandards-normales-a-robustos-en-un-modelo/">Aquí</a></p>
 </div>
 <div id="diagnostico" class="section level2">
 <h2><span class="header-section-number">0.3</span> Diagnostico</h2>
 <div id="valores-influyentes" class="section level3">
 <h3><span class="header-section-number">0.3.1</span> Valores influyentes</h3>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">library</span>(car)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">library</span>(car)</a></code></pre></div>
 <pre><code>## Loading required package: carData</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">qqPlot</span>(m1)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">qqPlot</span>(m1)</a></code></pre></div>
 <p><img src="mlineales_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <pre><code>## [1] 3109 4365</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">outlierTest</span>(m1) </a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="kw">outlierTest</span>(m1) </a></code></pre></div>
 <pre><code>##      rstudent unadjusted p-value Bonferroni p
 ## 4365 4.849204         1.2782e-06    0.0062349</code></pre>
 </div>
 <div id="multicolinealidad" class="section level3">
 <h3><span class="header-section-number">0.3.2</span> Multicolinealidad</h3>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">vif</span>(m1)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">vif</span>(m1)</a></code></pre></div>
 <pre><code>##          indigenous           execution           incumbent 
 ##            1.035507            1.264523           47.105976 
 ## execution:incumbent 
 ##           47.641679</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="kw">sqrt</span>(<span class="kw">vif</span>(m1)) <span class="op">&gt;</span><span class="st"> </span><span class="dv">2</span> </a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">sqrt</span>(<span class="kw">vif</span>(m1)) <span class="op">&gt;</span><span class="st"> </span><span class="dv">2</span> </a></code></pre></div>
 <pre><code>##          indigenous           execution           incumbent 
 ##               FALSE               FALSE                TRUE 
 ## execution:incumbent 
@@ -568,15 +570,16 @@ text-align: justify}
 </div>
 <div id="normalidad-de-los-residuos" class="section level3">
 <h3><span class="header-section-number">0.3.3</span> Normalidad de los residuos</h3>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">res&lt;-<span class="kw">residuals</span>(m1)</a></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">library</span>(nortest)</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw">sf.test</span>(res)</a></code></pre></div>
+<p>Creamos un objeto que contenga los valores residuales del modelo, con la finalidad de probar si los residuos tienen una distribución normal. De no tenerla, sería problemático al momento de inferir.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1">res&lt;-<span class="kw">residuals</span>(m1)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1"><span class="kw">library</span>(nortest)</a>
+<a class="sourceLine" id="cb23-2" title="2"><span class="kw">sf.test</span>(res)</a></code></pre></div>
 <pre><code>## 
 ##  Shapiro-Francia normality test
 ## 
 ## data:  res
 ## W = 0.97099, p-value &lt; 2.2e-16</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">ad.test</span>(res)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">ad.test</span>(res)</a></code></pre></div>
 <pre><code>## 
 ##  Anderson-Darling normality test
 ## 
@@ -585,22 +588,22 @@ text-align: justify}
 </div>
 <div id="homocedasticidad" class="section level3">
 <h3><span class="header-section-number">0.3.4</span> Homocedasticidad</h3>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1">fit&lt;-<span class="kw">fitted.values</span>(m1)</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">scatterplot</span>(fit,res)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1">fit&lt;-<span class="kw">fitted.values</span>(m1)</a>
+<a class="sourceLine" id="cb27-2" title="2"><span class="kw">scatterplot</span>(fit,res)</a></code></pre></div>
 <p><img src="mlineales_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">spreadLevelPlot</span>(m1)</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">spreadLevelPlot</span>(m1)</a></code></pre></div>
 <p><img src="mlineales_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <pre><code>## 
 ## Suggested power transformation:  0.09177957</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">library</span>(lmtest)</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">bptest</span>(m1)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" title="1"><span class="kw">library</span>(lmtest)</a>
+<a class="sourceLine" id="cb30-2" title="2"><span class="kw">bptest</span>(m1)</a></code></pre></div>
 <pre><code>## 
 ##  studentized Breusch-Pagan test
 ## 
 ## data:  m1
 ## BP = 28.356, df = 4, p-value = 1.056e-05</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="kw">plot</span>(m1)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" title="1"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb32-2" title="2"><span class="kw">plot</span>(m1)</a></code></pre></div>
 <p><img src="mlineales_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 </div>
 </div>
